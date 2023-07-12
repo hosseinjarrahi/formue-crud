@@ -41,7 +41,7 @@ function init(payload = {}) {
 
   addRoute(payload.mainRoute);
 
-  loadItem(mainKey.value);
+  // loadItem(mainKey.value);
 
   Object.assign(options, getSafe(payload, "options", {}));
   fields.value = getSafe(payload, "fields", []);

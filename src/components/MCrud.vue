@@ -11,48 +11,40 @@
 </template>
 
 <script setup>
-import { onMounted, ref, reactive } from "vue";
-import { useEmitter } from "formue";
-import MDialogForm from "./MDialogForm.vue";
-import MList from "./MList.vue";
-import MShowDialog from "./MShowDialog.vue";
-import MDeleteDialog from "./MDeleteDialog.vue";
+import { onMounted, ref, reactive } from 'vue'
+import { useEmitter } from 'formue'
+import MDialogForm from './MDialogForm.vue'
+import MList from './MList.vue'
+import MShowDialog from './MShowDialog.vue'
+import MDeleteDialog from './MDeleteDialog.vue'
 
-let dialog = ref(false);
-let editItem = reactive({});
-let isEditing = ref(false);
+let dialog = ref(false)
+let editItem = reactive({})
+let isEditing = ref(false)
 
-const { listen, event } = useEmitter();
+const { listen, event } = useEmitter()
 
 function defineListeners() {
-  listen("createBtn", () => {
-    isEditing.value = false;
-    dialog.value = true;
-    editItem = {};
-  });
+  listen('createBtn', () => {
+    isEditing.value = false
+    dialog.value = true
+    Object.assign(editItem, {})
+  })
 
-  listen("editBtn", (editItemParam) => {
-    editItem = editItemParam;
-    isEditing.value = true;
-    dialog.value = true;
-  });
+  listen('editBtn', (data) => {
+    Object.assign(editItem, { ...data })
+    isEditing.value = true
+    dialog.value = true
+  })
 
-  listen("handleDialogForm", (dialogParam) => {
-    dialog.value = dialogParam;
-  });
-
-  //   listen("injectField", ({ field, value }) => {
-  //     $store.commit("dynamic/mergeField", { field, value });
-  //   });
-
-  //   listen("reset", () => {
-  //     $store.commit("dynamic/restoreBackup");
-  //   });
+  listen('handleDialogForm', (dialogParam) => {
+    dialog.value = dialogParam
+  })
 }
 
-defineListeners();
+defineListeners()
 
 onMounted(() => {
-  event("templateMounted");
-});
+  event('McrudMounted')
+})
 </script>

@@ -6,17 +6,17 @@ import { useLoading } from './useLoading'
 import { usePagination } from './usePagination'
 import { useFields } from './useFields'
 import { useFetch } from './useFetch'
+import { useTabulator } from './useTabulator'
 
 const { setPagination } = usePagination()
 const { listen, event } = useEmitter()
 const { loadings } = useLoading()
-const { flatFields, convertToSendForm } = useFields()
 const ft = useFetch()
 
 const items = reactive({})
 const mainKey = ref(false)
 const isEditing = false
-const routes = []
+let routes = {}
 let hiddenActions = reactive([])
 let relationsFetched = false
 
@@ -24,9 +24,13 @@ const mainItem = computed(() => {
   return getSafe(items, mainKey?.value, [])
 })
 
+const mainRoute = computed(() => {
+  return getSafe(routes, mainKey?.value, '')
+})
+
 function reset() {
   Object.assign(items, {})
-  routes.splice(0)
+  routes = {}
   mainKey.value = false
   hiddenActions.splice(0)
   // backup = false
@@ -38,7 +42,7 @@ function addRoute(payload) {
 
   const standardKey = pascalCase(key)
 
-  mainKey.value = mainKey.value ? mainKey.value : standardKey
+  mainKey.value = mainKey.value || standardKey
 
   routes[standardKey] = typeof payload == 'string' ? payload : getSafe(payload, 'route')
 
@@ -56,10 +60,10 @@ function loadItem(key, page = 1, all = false) {
   ft.get(route)
     .then((response) => response.json())
     .then((response) => {
-      setData(key, response[key].data)
+      setData(key, response.data)
       console.log(items)
       if (key === mainKey.value) {
-        setPagination(response[mainKey])
+        setPagination(response)
 
         !relationsFetched && event('readyToFetchRelations')
         relationsFetched = true
@@ -83,18 +87,8 @@ function setData(key, data) {
 }
 
 function addData(payload) {
-  let temp = items[mainKey]
-  temp = [...payload, ...temp]
-  items[mainKey] = [...temp]
-}
-
-function editItem(payload) {
-  let temp = items[mainKey]
-  temp = temp.map((item) => {
-    if (item.id == payload.id) return payload
-    return item
-  })
-  items[mainKey] = [...temp]
+  const { addData: addToTable } = useTabulator()
+  addToTable(payload)
 }
 
 function getItem(key, defaultValue = []) {
@@ -102,65 +96,90 @@ function getItem(key, defaultValue = []) {
 }
 
 function add(payload) {
+  const { flatFields, convertToSendForm } = useFields()
+
   let route = { value: false }
 
-  for (const field of flatFields) {
+  for (const field of flatFields.value) {
     if ('onSave' in field) {
       field.onSave(items[field.rel.model], payload, route)
     }
   }
 
-  loadings[mainKey] = true
+  loadings[mainKey.value] = true
 
-  route = route.value ? route.value : routes[mainKey]
+  route = route.value || routes[mainKey.value]
 
   let sendForm = convertToSendForm(payload)
 
-  let data = { [mainKey]: sendForm }
-
-  ft.post(route, data)
-    .then((response) => {
-      let newItems = Array.isArray(response[mainKey]) ? response[mainKey] : [response[mainKey]]
-
+  ft.post(route, sendForm)
+    .then(async (response) => {
+      let newItems = await response.json()
       addData(newItems)
       event('alert', { text: 'با موفقیت ثبت شد', color: 'green' })
       event('handleDialogForm', false)
     })
     .catch((error) => {
       event('alert', {
-        text: error.response.message,
+        text: getSafe(error, 'response.message'),
         color: 'red'
       })
     })
     .finally(() => {
-      loadings[mainKey] = false
+      loadings[mainKey.value] = false
     })
 }
 
 function edit(payload) {
-  let route = routes[mainKey].split('?')[0]
+  const data = payload.value
+  const { convertToSendForm } = useFields()
+  const { editData } = useTabulator()
 
-  if ('route' in payload) {
-    route = payload.route
-  }
+  let route = routes[mainKey.value].split('?')[0]
 
-  let sendForm = convertToSendForm(payload)
+  let sendForm = convertToSendForm(data)
 
-  let data = { [mainKey]: sendForm }
-
-  ft.patch(route + '/' + payload.id, data)
-    .then((response) => {
-      editItem(response[mainKey])
+  ft.patch(route + '/' + data.id, sendForm)
+    .then(async (response) => {
+      let editedItem = await response.json()
+      editData(editedItem)
       event('alert', { text: 'با موفقیت ویرایش شد', color: 'green' })
       event('handleDialogForm', false)
     })
     .catch((error) => {
       event('alert', {
-        text: error.response.message,
+        text: getSafe(error, 'response.message'),
         color: 'red'
       })
     })
     .finally(() => {})
+}
+
+function remove({ deleteId, indexToRemove }) {
+  const { removeData } = useTabulator()
+
+  const deleteIds = Array.isArray(deleteId) ? deleteId : [deleteId]
+
+  let route = routes[mainKey.value].split('?')[0]
+
+  deleteIds.forEach((item, index) => {
+    ft.remove(route + '/' + item)
+      .then(() => {
+        event('alert', {
+          text: 'با موفقیت حذف شد',
+          color: 'green'
+        })
+        event('handleDeleteDialog', false)
+        removeData(indexToRemove)
+      })
+      .catch((error) => {
+        event('alert', {
+          text: getSafe(error, 'response.data.message'),
+          color: 'red'
+        })
+      })
+      .finally(() => {})
+  })
 }
 
 const useStore = () => {
@@ -169,12 +188,14 @@ const useStore = () => {
     edit,
     reset,
     items,
+    remove,
     routes,
     mainKey,
     getItem,
     addRoute,
     loadItem,
     mainItem,
+    mainRoute,
     isEditing,
     loadRelations,
     hiddenActions

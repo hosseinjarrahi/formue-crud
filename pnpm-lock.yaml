@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   formue:
-    specifier: ^0.0.1
-    version: 0.0.1
+    specifier: ^0.0.8
+    version: 0.0.8
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -1373,8 +1373,8 @@ packages:
       is-callable: 1.2.7
     dev: true
 
-  /formue@0.0.1:
-    resolution: {integrity: sha512-SuRknzNlnJ+6gtHlzY/R3ly/ICdF2UQqMuGX8R/ejWvFpT8o1wDjHivYMa+fwy4kzfEqPsYUg96ViKZn1vJBKw==}
+  /formue@0.0.8:
+    resolution: {integrity: sha512-b3el8bf6rNBLZ1T6EWOuDqz2jt7ypEh0mR73xOEcYI2QEdQqtJygwPZ711Jm5Qoa0mMsxQJcMtlJgVUD1mbR7Q==}
     dependencies:
       lodash: 4.17.21
       mitt: 3.0.0

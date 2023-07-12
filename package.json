@@ -1,7 +1,7 @@
 {
   "name": "formue-crud",
   "version": "0.0.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
@@ -12,7 +12,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "formue": "^0.0.1",
+    "formue": "^0.0.8",
     "lodash": "^4.17.21",
     "tabulator-tables": "^5.5.0",
     "vue": "^3.3.4"
@@ -35,5 +35,17 @@
     "typescript": "~5.0.4",
     "vite": "^4.3.9",
     "vue-tsc": "^1.6.5"
+  },
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/formue-crud.umd.cjs",
+  "module": "./dist/formue-crud.js",
+  "exports": {
+    ".": {
+      "import": "./dist/formue-crud.js",
+      "require": "./dist/formue-crud.umd.cjs"
+    }
   }
 }

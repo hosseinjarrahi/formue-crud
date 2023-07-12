@@ -3,43 +3,24 @@
 </template>
 
 <script setup>
-import MCrud from "./components/MCrud.vue";
-import { useCrud } from "./composables/useMCrud";
+import MCrud from './components/MCrud.vue'
+import { useCrud } from './composables/useMCrud'
+import TextField from '@/components/fields/TextField.vue'
+import './../node_modules/formue/dist/style.css'
 
-const { init } = useCrud();
+const { init } = useCrud()
 
 init({
-  mainRoute: "http://127.0.0.1:8000/api/test",
-  
+  mainRoute: "http://127.0.0.1:8000/api/coordinate-name",
+
   fields: [
     {
-      title: "Name",
-      field: "name",
-      type: "text",
-      placeholder: "Enter name",
+      title: 'name',
+      sendKey:'name',
+      field: 'name',
+      component: TextField,
       isHeader: true,
     },
-    {
-      title: "Email",
-      field: "email",
-      type: "email",
-      placeholder: "Enter email",
-      isHeader: true,
-    },
-    {
-      title: "Phone",
-      field: "phone",
-      type: "number",
-      placeholder: "Enter phone",
-      isHeader: true,
-    },
-    {
-      title: "Address",
-      field: "address",
-      type: "text",
-      placeholder: "Enter address",
-      isHeader: true,
-    },
-  ],
-});
+  ]
+})
 </script>
