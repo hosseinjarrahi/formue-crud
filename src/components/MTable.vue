@@ -14,25 +14,24 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
-
-import { useEmitter } from 'formue'
-import { useStore } from '../composables/useStore'
-import { useFields } from './../composables/useFields'
+import { onMounted, defineProps, ref } from 'vue'
+import { emitter } from 'formue'
 import { useTabulator } from './../composables/useTabulator'
 
-const { event } = useEmitter()
-const { headers } = useFields()
-const { mainItem } = useStore()
+const { event } = emitter
 const { initTable } = useTabulator()
 
 const table = ref(null)
 
+const props = defineProps({
+  store: {}
+})
 onMounted(() => {
   initTable({
+    store: props.store,
     element: table.value,
-    headers: headers.value,
-    data: mainItem.value
+    headers: props.store.headers,
+    data: props.store.mainItems
   })
 })
 </script>

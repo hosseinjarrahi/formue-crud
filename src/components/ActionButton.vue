@@ -1,6 +1,6 @@
 <template>
   <button
-    @click="event('deleteBtn', { data: props.data, index: props.index })"
+    @click="emitter.event('deleteBtn', { data: props.data, index: props.index })"
     class="mx-2 inline-flex items-center justify-center w-5 h-5 rounded-full text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
   >
     <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -11,7 +11,7 @@
     </svg>
   </button>
   <button
-    @click="event('editBtn', props.data)"
+    @click="emitter.event('editBtn', props.data)"
     class="mx-2 inline-flex items-center justify-center w-5 h-5 rounded-full text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
   >
     <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -24,9 +24,7 @@
 </template>
 
 <script setup>
-import { useEmitter } from 'formue'
-
-const { event } = useEmitter()
+import { emitter } from 'formue'
 
 const props = defineProps({
   data: {},

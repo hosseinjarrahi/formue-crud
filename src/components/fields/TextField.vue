@@ -11,7 +11,7 @@
 
 <script setup>
 import { defineProps } from 'vue'
-import { useFieldProps } from 'formue'
+import { propsField } from 'formue'
 
-defineProps(useFieldProps)
+defineProps(propsField)
 </script>

@@ -39,9 +39,6 @@
 
 <script>
 import { MForm } from "formue";
-import { useStore } from "./useStore";
-
-const { isEditing } = useStore();
 
 defineProps({
   valid: {},
@@ -50,4 +47,6 @@ defineProps({
   isEditing: {},
   handleDialog: {},
 });
+
+
 </script>

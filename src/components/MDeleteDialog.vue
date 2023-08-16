@@ -27,10 +27,12 @@
                   خیر
                 </button>
                 <button
-                  @click="remove({ deleteId, indexToRemove })"
+                  :disabled="store.loadings.mainLoading"
                   class="border p-2 mx-1 px-8 rounded-md text-green-400 border-green-400"
+                  @click="store.remove({ deleteId, indexToRemove })"
                 >
-                  بله
+                  <span v-if="!store.loadings.mainLoading">بله</span>
+                  <span v-else>loading</span>
                 </button>
               </div>
             </div>
@@ -42,25 +44,24 @@
 </template>
 
 <script setup>
-import { useEmitter } from 'formue'
 import { ref } from 'vue'
-import { useStore } from '@/composables/useStore.js'
+import { emitter } from 'formue'
 
-const { remove } = useStore()
-
-const { listen } = useEmitter()
+const props = defineProps({
+  store: {}
+})
 
 const dialog = ref(false)
 let deleteId = ''
 let indexToRemove = ''
 
-listen('deleteBtn', ({ data, index }) => {
+emitter.listen('deleteBtn', ({ data, index }) => {
   dialog.value = true
   deleteId = data.id
   indexToRemove = index
 })
 
-listen('handleDeleteDialog', (dialogParam) => {
+emitter.listen('handleDeleteDialog', (dialogParam) => {
   dialog.value = dialogParam
   //   event('multiDelete', false)
 })

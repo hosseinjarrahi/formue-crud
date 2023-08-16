@@ -5,28 +5,28 @@
 </template>
 
 <script setup>
-import { useStore } from "./../composables/useStore";
-import { usePagination } from "./../composables/usePagination";
-import MTable from "./MTable.vue";
+import MTable from './MTable.vue'
 
-const { getItem, mainKey } = useStore();
-const { page } = usePagination();
+const props = defineProps({
+  store: {}
+})
 
 function getField(field) {
-  return "item." + field;
+  return 'item.' + field
 }
 
 function getHeader(header) {
-  return "header." + header;
+  return 'header.' + header
 }
 
 function getIndex(item) {
   return (
-    getItem(mainKey)
+    props.store
+      .getItems(props.store.mainKey)
       .map((i) => i.id)
       .indexOf(item.id) +
     (15 * page - 14)
-  );
+  )
 }
 
 function bind() {
@@ -34,6 +34,7 @@ function bind() {
     getHeader,
     getField,
     getIndex,
-  };
+    store: props.store
+  }
 }
 </script>

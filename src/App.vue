@@ -1,26 +1,21 @@
 <template>
-  <MCrud />
+  <MCrud :fields="fields" route="http://127.0.0.1:8000/api/ship-list" />
+  <AppAlert />
 </template>
 
 <script setup>
-import MCrud from './components/MCrud.vue'
-import { useCrud } from './composables/useMCrud'
-import TextField from '@/components/fields/TextField.vue'
+import { markRaw } from 'vue'
 import './../node_modules/formue/dist/style.css'
+import AppAlert from '@/components/AppAlert.vue'
+import MCrud from './components/MCrud.vue'
+import TextField from '@/components/fields/TextField.vue'
 
-const { init } = useCrud()
-
-init({
-  mainRoute: "http://127.0.0.1:8000/api/coordinate-name",
-
-  fields: [
-    {
-      title: 'name',
-      sendKey:'name',
-      field: 'name',
-      component: TextField,
-      isHeader: true,
-    },
-  ]
-})
+const fields = [
+  {
+    title: 'hull_number',
+    field: 'hull_number',
+    isHeader: true,
+    component: markRaw(TextField)
+  }
+]
 </script>

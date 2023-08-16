@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" appear>
-    <div class="fixed z-10 inset-0 overflow-y-auto" v-if="props.modelValue">
+    <div class="fixed z-10 inset-0 overflow-y-auto" v-if="dialog">
       <div
         class="flex items-center overflow-y justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
       >
@@ -13,30 +13,29 @@
           <div class="bg-card-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div class="flex flex-col text-right">
               <h1 class="mb-4 flex justify-between w-full">
-                <span class="text-primerr-700" v-if="!isEditing">افزودن</span>
+                <span class="text-primerr-700" v-if="store.isEditing">افزودن</span>
                 <span class="text-primerr-700" v-else>ویرایش</span>
-                <i
-                  class="text-primerr-700 fal fa-times cursor-pointer"
-                  @click="$emit('update:modelValue', false)"
-                ></i>
+                <i class="text-primerr-700 fal fa-times cursor-pointer" @click="dialog = false"></i>
               </h1>
 
               <div class="mb-5 flex flex-row flex-wrap">
-                <MForm :fields="fields" v-model="form" :formData="editItem" />
+                <MForm :fields="store.fields" v-model="form" :form-data="editItem" />
               </div>
 
               <div class="flex justify-end">
                 <button
-                  @click="$emit('update:modelValue', false)"
+                  @click="dialog = false"
                   class="border p-2 px-8 rounded-md text-red-400 border-red-400"
                 >
                   لغو
                 </button>
                 <button
+                  :disabled="store.loadings.mainLoading"
                   @click="event('saveForm')"
                   class="border p-2 mx-1 px-8 rounded-md text-green-400 border-green-400"
                 >
-                  ذخیره
+                  <span v-if="!store.loadings.mainLoading">ذخیره</span>
+                  <span v-else>loading</span>
                 </button>
               </div>
             </div>
@@ -49,43 +48,44 @@
 
 <script setup>
 import MForm from 'formue'
-import { useEmitter } from 'formue'
-import { useFields } from './../composables/useFields'
-import { watch, ref } from 'vue'
-import { useStore } from './../composables/useStore'
+import { ref, toRefs } from 'vue'
+import { emitter } from 'formue'
 
-const { add, edit } = useStore()
-const { listen, event } = useEmitter()
-const { fields } = useFields()
+const { event, listen } = emitter
+
+const props = defineProps({
+  store: {}
+})
+
+const store = props.store
 
 const form = ref({})
 
-const props = defineProps({
-  modelValue: {},
-  isEditing: {},
-  editItem: {}
-})
+let dialog = ref(false)
+let editItem = ref({})
 
-const emit = defineEmits(['input'])
+const defineListeners = () => {
+  listen('createBtn', () => {
+    editItem.value = {}
+    store.isEditing = false
+    dialog.value = true
+  })
 
-watch(props.val, (val) => {
-  val && event('dialog', props.isEditing)
-})
+  listen('editBtn', (data) => {
+    editItem.value = { ...data }
+    store.isEditing = true
+    dialog.value = true
+  })
 
-function handleDialog(e) {
-  emit('update:modelValue', e)
-}
+  listen('handleDialogForm', (dialogParam) => {
+    dialog.value = dialogParam
+  })
 
-function defineListeners() {
-  listen('saveForm', (doYouWantToValidate = false) => {
+  listen('saveForm', () => {
     const save = () => {
-      props.isEditing ? edit(form) : add(form)
+      store.isEditing ? store.editItem(form) : store.addItem(form)
     }
-    // if (doYouWantToValidate) {
-    //   return event('validating', (valid) => {
-    //     valid ? save() : ''
-    //   })
-    // }
+
     return save()
   })
 

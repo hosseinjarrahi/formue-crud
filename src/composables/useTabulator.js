@@ -1,22 +1,22 @@
 import { createApp } from 'vue'
 import { TabulatorFull as Tabulator } from 'tabulator-tables' //import Tabulator library
-import { useStore } from './useStore'
 
 let tableInstance
 
 const initTable = (
-  { element, headers, data } = {
+  { store, element, headers, data } = {
+    store: {},
     element: null,
     headers: [],
     data: []
   }
 ) => {
-  const { mainRoute } = useStore()
+  const mainRoute = store.mainRoute
 
   tableInstance = new Tabulator(element, {
     pagination: true,
     paginationMode: 'remote',
-    ajaxURL: mainRoute.value,
+    ajaxURL: mainRoute,
     // ajaxParams: { token: 'ABC123' },
     paginationSize: 5,
     paginationInitialPage: 1,
@@ -70,7 +70,12 @@ export function editData(item) {
 }
 
 export function removeData(itemIds) {
-  tableInstance.deleteRow(itemIds)
+  for (let i = 0; i < 10; i++) {
+    var row = tableInstance.getRow(i)
+  }
+
+  // row.delete()
+  // tableInstance.deleteRow(itemIds)
 }
 
 export function useTabulator() {

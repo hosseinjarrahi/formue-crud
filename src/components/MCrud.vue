@@ -1,50 +1,63 @@
+<script setup>
+import { onMounted, defineProps } from 'vue'
+import MList from './MList.vue'
+import { emitter } from 'formue'
+import MDialogForm from './MDialogForm.vue'
+import MShowDialog from './MShowDialog.vue'
+import MDeleteDialog from './MDeleteDialog.vue'
+import { useDynamicStore } from '@/composables/useDynamicStore'
+import { initFields } from '@/helpers/formue'
+
+const storeName = 'myStore'
+
+const props = defineProps({
+  options: { default: () => ({}) },
+  hiddenActions: { default: () => [] },
+  fields: { default: () => [] },
+  route: { default: 'route' }
+})
+
+function init(storeName) {
+  const store = useDynamicStore(storeName)
+
+  store.fields = props.fields
+
+  // clearEventListeners()
+
+  emitter.event('beforeFormueInit')
+
+  store.addRoute(props.route)
+
+  store.loadItems()
+
+  // loadRelations(getSafe(payload, 'relations', []))
+
+  store.options = props.options
+
+  store.hiddenActions = props.options
+
+  initFields(store.flatFields)
+
+  return store
+}
+
+const store = init(storeName)
+
+onMounted(() => {
+  emitter.event('McrudMounted')
+})
+</script>
+
 <template>
-  <MList />
+  <!-- header buttons - print - create - excel , ....... -->
 
-  <MDialogForm v-model="dialog" :editItem="editItem" :isEditing="isEditing" />
+  <MList :store="store" />
 
-  <MShowDialog />
+  <MDialogForm :store="store" />
 
-  <MDeleteDialog />
+  <MShowDialog :store="store" />
+
+  <MDeleteDialog :store="store" />
 
   <slot name="extra"></slot>
 </template>
-
-<script setup>
-import { onMounted, ref, reactive } from 'vue'
-import { useEmitter } from 'formue'
-import MDialogForm from './MDialogForm.vue'
-import MList from './MList.vue'
-import MShowDialog from './MShowDialog.vue'
-import MDeleteDialog from './MDeleteDialog.vue'
-
-let dialog = ref(false)
-let editItem = reactive({})
-let isEditing = ref(false)
-
-const { listen, event } = useEmitter()
-
-function defineListeners() {
-  listen('createBtn', () => {
-    isEditing.value = false
-    dialog.value = true
-    Object.assign(editItem, {})
-  })
-
-  listen('editBtn', (data) => {
-    Object.assign(editItem, { ...data })
-    isEditing.value = true
-    dialog.value = true
-  })
-
-  listen('handleDialogForm', (dialogParam) => {
-    dialog.value = dialogParam
-  })
-}
-
-defineListeners()
-
-onMounted(() => {
-  event('McrudMounted')
-})
-</script>
