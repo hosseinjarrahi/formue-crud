@@ -43,6 +43,7 @@ export function makeHeaders(flatFields) {
     title: 'Actions',
     sortable: false,
     value: '_actions_',
+    field: '_actions_',
     type: 'text',
     align: 'left',
     formatter: actions,

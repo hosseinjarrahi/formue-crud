@@ -1,6 +1,8 @@
 <template>
-  <MCrud :fields="fields" route="http://127.0.0.1:8000/api/ship-list" />
-  <AppAlert />
+  <div class="w-1/2 mx-auto pt-10">
+    <MCrud :fields="fields" route="http://127.0.0.1:8000/api/ship-list" />
+    <AppAlert />
+  </div>
 </template>
 
 <script setup>
@@ -14,6 +16,7 @@ const fields = [
   {
     title: 'hull_number',
     field: 'hull_number',
+    filter: 'text',
     isHeader: true,
     component: markRaw(TextField)
   }

@@ -18,6 +18,7 @@ const defineDynamicStore = (storeName) => {
       fields: [],
       paginations: {},
       options: [],
+      filters: {},
       hiddenActions: []
     }),
 
@@ -48,6 +49,10 @@ const defineDynamicStore = (storeName) => {
 
       headers() {
         return makeHeaders(this.flatFields)
+      },
+
+      headersWithoutActions() {
+        return this.headers.filter((header) => !['_actions_', '_index_'].includes(header.field))
       }
     },
 
@@ -130,6 +135,8 @@ const defineDynamicStore = (storeName) => {
       },
 
       addItem(data) {
+        data = data.value
+
         const { post } = useFetch()
 
         // let route = { value: false }
@@ -165,11 +172,13 @@ const defineDynamicStore = (storeName) => {
       },
 
       editItem(data) {
+        data = data.value
+
         const { patch } = useFetch()
 
         let route = this.routes[this.mainKey].split('?')[0]
 
-        let sendForm = convertToSendForm(data)
+        let sendForm = convertToSendForm(data, this.flatFields)
 
         this.loadings.mainLoading = true
 

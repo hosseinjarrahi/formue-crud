@@ -1,12 +1,15 @@
 <script setup>
 import { onMounted, defineProps } from 'vue'
-import MList from './MList.vue'
+import { useDynamicStore } from '@/composables/useDynamicStore'
+import { initFields } from '@/helpers/formue'
 import { emitter } from 'formue'
+
+import MList from './MList.vue'
 import MDialogForm from './MDialogForm.vue'
 import MShowDialog from './MShowDialog.vue'
 import MDeleteDialog from './MDeleteDialog.vue'
-import { useDynamicStore } from '@/composables/useDynamicStore'
-import { initFields } from '@/helpers/formue'
+import MHeader from './MHeader.vue'
+import MFilter from './MFilter.vue'
 
 const storeName = 'myStore'
 
@@ -50,6 +53,9 @@ onMounted(() => {
 
 <template>
   <!-- header buttons - print - create - excel , ....... -->
+  <MHeader />
+
+  <MFilter :store="store" />
 
   <MList :store="store" />
 
