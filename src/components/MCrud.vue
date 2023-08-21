@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, defineProps } from 'vue'
+import { onMounted, defineProps, provide } from 'vue'
 import { useDynamicStore } from '@/composables/useDynamicStore'
 import { initFields } from '@/helpers/formue'
 import { emitter } from 'formue'
@@ -11,8 +11,6 @@ import MDeleteDialog from './MDeleteDialog.vue'
 import MHeader from './MHeader.vue'
 import MFilter from './MFilter.vue'
 
-const storeName = 'myStore'
-
 const props = defineProps({
   options: { default: () => ({}) },
   hiddenActions: { default: () => [] },
@@ -20,8 +18,8 @@ const props = defineProps({
   route: { default: 'route' }
 })
 
-function init(storeName) {
-  const store = useDynamicStore(storeName)
+function init() {
+  const store = useDynamicStore()
 
   store.fields = props.fields
 
@@ -44,7 +42,9 @@ function init(storeName) {
   return store
 }
 
-const store = init(storeName)
+const store = init()
+
+provide('store', store)
 
 onMounted(() => {
   emitter.event('McrudMounted')
@@ -55,15 +55,15 @@ onMounted(() => {
   <!-- header buttons - print - create - excel , ....... -->
   <MHeader />
 
-  <MFilter :store="store" />
+  <MFilter />
 
-  <MList :store="store" />
+  <MList />
 
-  <MDialogForm :store="store" />
+  <MDialogForm />
 
-  <MShowDialog :store="store" />
+  <MShowDialog />
 
-  <MDeleteDialog :store="store" />
+  <MDeleteDialog />
 
   <slot name="extra"></slot>
 </template>

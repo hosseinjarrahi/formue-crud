@@ -7,8 +7,8 @@ import { pascalCase } from '@/helpers/common'
 
 const { event } = emitter
 
-const defineDynamicStore = (storeName) => {
-  return defineStore(storeName, {
+const defineDynamicStore = () => {
+  return defineStore('myStore', {
     state: () => ({
       mainKey: '',
       routes: {},
@@ -19,6 +19,7 @@ const defineDynamicStore = (storeName) => {
       paginations: {},
       options: [],
       filters: {},
+      isFiltering: false,
       hiddenActions: []
     }),
 
@@ -112,6 +113,10 @@ const defineDynamicStore = (storeName) => {
 
       paginate(page) {
         this.loadItem(this.mainKey, page)
+      },
+
+      reloadData() {
+        this.isFiltering ? this.getWithFilter() : this.loadItems()
       },
 
       loadItems(key = this.mainKey, page = 1) {

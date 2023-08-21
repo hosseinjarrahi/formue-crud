@@ -3,21 +3,21 @@
 </template>
 
 <script setup>
-import { onMounted, defineProps, ref } from 'vue'
-import { useTabulator } from './../composables/useTabulator'
-const { initTable } = useTabulator()
+import { onMounted, inject, ref } from 'vue'
+import { initTable } from '@/helpers/tabulator'
+import { adaptor } from '@/helpers/tabulatorAdaptor'
 
 const table = ref(null)
 
-const props = defineProps({
-  store: {}
-})
+const store = inject('store')
+
+adaptor(store)
+
 onMounted(() => {
   initTable({
-    store: props.store,
     element: table.value,
-    headers: props.store.headers,
-    data: props.store.mainItems
+    headers: store.headers,
+    data: store.mainItems
   })
 })
 </script>

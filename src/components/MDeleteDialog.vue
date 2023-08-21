@@ -44,12 +44,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import { emitter } from 'formue'
 
-const props = defineProps({
-  store: {}
-})
+const store = inject('store')
 
 const dialog = ref(false)
 let deleteId = ''

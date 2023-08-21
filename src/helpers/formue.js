@@ -1,6 +1,4 @@
 import { has } from 'lodash'
-import { updateRowNumber, actions } from '@/composables/useTabulator'
-import ActionButton from '@/components/ActionButton.vue'
 
 export function convertToSendForm(form, fields) {
   let out = {}
@@ -45,11 +43,7 @@ export function makeHeaders(flatFields) {
     value: '_actions_',
     field: '_actions_',
     type: 'text',
-    align: 'left',
-    formatter: actions,
-    formatterParams: {
-      component: ActionButton
-    }
+    align: 'left'
   })
   temp.unshift({
     title: '#',
@@ -57,8 +51,7 @@ export function makeHeaders(flatFields) {
     value: '_index_',
     field: '_index_',
     align: 'center',
-    sortable: false,
-    formatter: updateRowNumber
+    sortable: false
   })
   return temp
 }

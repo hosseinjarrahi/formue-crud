@@ -1,22 +1,33 @@
 import { createApp } from 'vue'
 import { TabulatorFull as Tabulator } from 'tabulator-tables' //import Tabulator library
+import ActionButton from '@/components/ActionButton.vue'
 
 let tableInstance
 
-const initTable = (
-  { store, element, headers, data } = {
-    store: {},
+export const initTable = (
+  { element, headers, data } = {
     element: null,
     headers: [],
     data: []
   }
 ) => {
-  const mainRoute = store.mainRoute
+  const mapHeader = {
+    _actions_: {
+      formatter: actions,
+      formatterParams: {
+        component: ActionButton
+      }
+    },
+    _index_: {
+      formatter: updateRowNumber
+    }
+  }
 
+  // const mainRoute = store.mainRoute
   tableInstance = new Tabulator(element, {
     pagination: true,
     paginationMode: 'remote',
-    ajaxURL: mainRoute,
+    // ajaxURL: mainRoute,
     // ajaxParams: { token: 'ABC123' },
     paginationSize: 5,
     paginationInitialPage: 1,
@@ -26,7 +37,7 @@ const initTable = (
       "<div style='display:inline-block; border:4px solid #333; border-radius:10px; background:#fff; font-weight:bold; font-size:16px; color:#000; padding:10px 20px;'>Loading Data</div>",
 
     data,
-    columns: headers
+    columns: headers.map((h) => (h.field in mapHeader ? { ...h, ...mapHeader[h.field] } : h))
   })
 
   setTimeout(() => {
@@ -65,6 +76,10 @@ export function addData(items) {
     })
 }
 
+export function setData(items) {
+  tableInstance.setData(items)
+}
+
 export function editData(item) {
   tableInstance.updateData([item])
 }
@@ -76,15 +91,4 @@ export function removeData(itemIds) {
 
   // row.delete()
   // tableInstance.deleteRow(itemIds)
-}
-
-export function useTabulator() {
-  return {
-    initTable,
-    tableInstance,
-    addData,
-    actions,
-    editData,
-    removeData
-  }
 }

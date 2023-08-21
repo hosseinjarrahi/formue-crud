@@ -4,7 +4,7 @@
     :value="getSafe(props.modelValue, 'type')"
     @input="(event) => updateType(event.target.value)"
   >
-    <option disabled selected>select type</option>
+    <option disabled>select type</option>
     <option value="=">equal to</option>
     <option value="!=">not equal to</option>
     <option value=">">grater than</option>

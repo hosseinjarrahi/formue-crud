@@ -48,19 +48,14 @@
 
 <script setup>
 import MForm from 'formue'
-import { ref, toRefs } from 'vue'
+import { ref, inject } from 'vue'
 import { emitter } from 'formue'
 
 const { event, listen } = emitter
 
-const props = defineProps({
-  store: {}
-})
-
-const store = props.store
+const store = inject('store')
 
 const form = ref({})
-
 let dialog = ref(false)
 let editItem = ref({})
 

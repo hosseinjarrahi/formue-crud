@@ -5,11 +5,10 @@
 </template>
 
 <script setup>
+import { inject } from 'vue'
 import MTable from './MTable.vue'
 
-const props = defineProps({
-  store: {}
-})
+const store = inject('store')
 
 function getField(field) {
   return 'item.' + field
@@ -21,8 +20,8 @@ function getHeader(header) {
 
 function getIndex(item) {
   return (
-    props.store
-      .getItems(props.store.mainKey)
+    store
+      .getItems(store.mainKey)
       .map((i) => i.id)
       .indexOf(item.id) +
     (15 * page - 14)
@@ -33,8 +32,7 @@ function bind() {
   return {
     getHeader,
     getField,
-    getIndex,
-    store: props.store
+    getIndex
   }
 }
 </script>

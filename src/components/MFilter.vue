@@ -27,10 +27,9 @@
       >
         <button
           class="text-white font-bold py-1 px-2 rounded ml-2 bg-blue-500 hover:bg-blue-700"
-          @click="props.store.getWithFilter()"
+          @click="makeFilters"
         >
-          <span v-if="store.loadings['filter']">loading</span>
-          <span v-else>filter</span>
+          filter
         </button>
         <button
           class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-2"
@@ -58,7 +57,7 @@
 <script setup>
 import { emitter } from 'formue'
 import { get as getSafe } from 'lodash'
-import { defineProps, ref, defineAsyncComponent } from 'vue'
+import { inject, ref, defineAsyncComponent } from 'vue'
 
 const { listen } = emitter
 
@@ -66,13 +65,10 @@ const showFilter = ref(false)
 
 listen('showFilter', () => {
   showFilter.value = !showFilter.value
+  selectedFilter.value = false
 })
 
-const props = defineProps({
-  store: {}
-})
-
-const store = props.store
+const store = inject('store')
 const filters = store.filters
 
 const selectedFilter = ref(false)
@@ -119,8 +115,15 @@ function getComponent() {
 }
 
 function clearFilters() {
+  store.isFiltering = false
   for (const key in filters) {
     filters[key] = {}
   }
+  store.reloadData()
+}
+
+function makeFilters() {
+  store.isFiltering = true
+  store.getWithFilter()
 }
 </script>
