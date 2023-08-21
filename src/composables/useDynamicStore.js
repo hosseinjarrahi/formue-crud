@@ -134,6 +134,28 @@ const defineDynamicStore = (storeName) => {
           })
       },
 
+      getWithFilter(page = 1, itemPerPage = 15) {
+        const { post } = useFetch()
+
+        const filterURL = 'http://127.0.0.1:8000/api/filter'
+
+        this.loadings.filter = true
+
+        post(`${filterURL}?page=${page}`, {
+          model: this.mainKey,
+          itemPerPage: itemPerPage,
+          filters: this.filters
+        })
+          .then((response) => response.json())
+          .then((response) => {
+            this.items[this.mainKey] = response.data
+            this.setPagination(response, this.mainKey)
+          })
+          .finally(() => {
+            this.loadings.filter = false
+          })
+      },
+
       addItem(data) {
         data = data.value
 
