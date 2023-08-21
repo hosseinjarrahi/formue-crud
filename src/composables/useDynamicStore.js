@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { get as getSafe, has } from 'lodash'
 import { useFetch } from './useFetch'
-import { makeHeaders, convertToSendForm } from '@/helpers/formue'
+import { makeHeaders, convertToSendForm } from '@/helpers/formueCrud'
 import { emitter } from 'formue'
 import { pascalCase } from '@/helpers/common'
 

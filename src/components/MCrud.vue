@@ -1,15 +1,12 @@
 <script setup>
-import { onMounted, defineProps, provide } from 'vue'
-import { useDynamicStore } from '@/composables/useDynamicStore'
-import { initFields } from '@/helpers/formue'
-import { emitter } from 'formue'
-
+import { onMounted, defineProps, provide, defineEmits } from 'vue'
+import { init } from '@/helpers/formueCrud'
 import MList from './MList.vue'
+import MHeader from './MHeader.vue'
+import MFilter from './MFilter.vue'
 import MDialogForm from './MDialogForm.vue'
 import MShowDialog from './MShowDialog.vue'
 import MDeleteDialog from './MDeleteDialog.vue'
-import MHeader from './MHeader.vue'
-import MFilter from './MFilter.vue'
 
 const props = defineProps({
   options: { default: () => ({}) },
@@ -18,41 +15,23 @@ const props = defineProps({
   route: { default: 'route' }
 })
 
-function init() {
-  const store = useDynamicStore()
+const emit = defineEmits(['mounted'])
 
-  store.fields = props.fields
-
-  // clearEventListeners()
-
-  emitter.event('beforeFormueInit')
-
-  store.addRoute(props.route)
-
-  store.loadItems()
-
-  // loadRelations(getSafe(payload, 'relations', []))
-
-  store.options = props.options
-
-  store.hiddenActions = props.options
-
-  initFields(store.flatFields)
-
-  return store
-}
-
-const store = init()
+const store = init({
+  fields: props.fields,
+  hiddenActions: props.hiddenActions,
+  options: props.options,
+  route: props.route
+})
 
 provide('store', store)
 
 onMounted(() => {
-  emitter.event('McrudMounted')
+  emit('mounted')
 })
 </script>
 
 <template>
-  <!-- header buttons - print - create - excel , ....... -->
   <MHeader />
 
   <MFilter />

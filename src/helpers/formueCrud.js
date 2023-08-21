@@ -1,4 +1,6 @@
 import { has } from 'lodash'
+import { emitter } from 'formue'
+import { useDynamicStore } from '@/composables/useDynamicStore'
 
 export function convertToSendForm(form, fields) {
   let out = {}
@@ -66,4 +68,28 @@ export function initFields(fields) {
       field.init()
     }
   }
+}
+
+export function init({ fields, hiddenActions, options, route }) {
+  const store = useDynamicStore()
+
+  store.fields = fields
+
+  // clearEventListeners()
+
+  emitter.event('beforeFormueInit')
+
+  store.addRoute(route)
+
+  store.loadItems()
+
+  // loadRelations(getSafe(payload, 'relations', []))
+
+  store.options = options
+
+  store.hiddenActions = hiddenActions
+
+  initFields(store.flatFields)
+
+  return store
 }

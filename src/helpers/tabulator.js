@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import { TabulatorFull as Tabulator } from 'tabulator-tables' //import Tabulator library
 import ActionButton from '@/components/ActionButton.vue'
 
-let tableInstance
+export let tableInstance
 
 export const initTable = (
   { element, headers, data } = {
