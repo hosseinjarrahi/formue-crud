@@ -1,11 +1,13 @@
 <template>
   <div ref="table" class="mt-2"></div>
+  <MTablePagination />
 </template>
 
 <script setup>
 import { onMounted, inject, ref } from 'vue'
 import { initTable } from '@/helpers/tabulator'
 import { adaptor } from '@/helpers/tabulatorAdaptor'
+import MTablePagination from './MTablePagination.vue'
 
 const table = ref(null)
 
