@@ -1,4 +1,4 @@
 import MCrud from './components/MCrud.vue'
-import { useCrud } from './composables/useMCrud'
+import './assets/main.css'
 
-export { MCrud, useCrud }
+export { MCrud }
