@@ -227,7 +227,7 @@ const defineDynamicStore = () => {
           })
       },
 
-      remove({ deleteId, indexToRemove }) {
+      remove(deleteId) {
         const { remove } = useFetch()
 
         const deleteIds = Array.isArray(deleteId) ? deleteId : [deleteId]
@@ -244,7 +244,7 @@ const defineDynamicStore = () => {
                 color: 'green'
               })
               event('handleDeleteDialog', false)
-              this.removeData(indexToRemove)
+              this.removeData(deleteId)
             })
             .catch((error) => {
               event('alert', {

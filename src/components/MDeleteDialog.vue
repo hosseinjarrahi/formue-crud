@@ -53,10 +53,9 @@ const dialog = ref(false)
 let deleteId = ''
 let indexToRemove = ''
 
-emitter.listen('deleteBtn', ({ data, index }) => {
+emitter.listen('deleteBtn', (data) => {
   dialog.value = true
   deleteId = data.id
-  indexToRemove = index
 })
 
 emitter.listen('handleDeleteDialog', (dialogParam) => {

@@ -93,3 +93,7 @@ export function init({ fields, hiddenActions, options, route }) {
 
   return store
 }
+
+export function defineFields(fields) {
+  return fields
+}

@@ -11,8 +11,9 @@ import './../node_modules/formue/dist/style.css'
 import AppAlert from '@/components/AppAlert.vue'
 import MCrud from './components/MCrud.vue'
 import TextField from '@/components/fields/TextField.vue'
+import { defineFields } from '@/helpers/formueCrud'
 
-const fields = [
+const fields = defineFields([
   {
     title: 'firstname',
     field: 'firstname',
@@ -27,5 +28,5 @@ const fields = [
     filter: 'text',
     component: markRaw(TextField)
   }
-]
+])
 </script>

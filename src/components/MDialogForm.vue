@@ -13,8 +13,8 @@
           <div class="bg-card-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div class="flex flex-col text-right">
               <h1 class="mb-4 flex justify-between w-full">
-                <span class="text-primerr-700" v-if="store.isEditing">افزودن</span>
-                <span class="text-primerr-700" v-else>ویرایش</span>
+                <span class="text-primerr-700" v-if="store.isEditing">Edit</span>
+                <span class="text-primerr-700" v-else>Add</span>
                 <i class="text-primerr-700 fal fa-times cursor-pointer" @click="dialog = false"></i>
               </h1>
 

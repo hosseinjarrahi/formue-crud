@@ -1,5 +1,5 @@
 <template>
-  <div ref="table"></div>
+  <div ref="table" class="mt-2"></div>
 </template>
 
 <script setup>

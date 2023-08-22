@@ -27,6 +27,8 @@ export const initTable = (
   tableInstance = new Tabulator(element, {
     pagination: true,
     paginationMode: 'remote',
+    layout:"fitDataStretch",
+    resizableColumnFit:true,
     // ajaxURL: mainRoute,
     // ajaxParams: { token: 'ABC123' },
     paginationSize: 5,
