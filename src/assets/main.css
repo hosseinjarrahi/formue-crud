@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.fm-header-icon-btn {
+  @apply mx-2 inline-block items-center justify-center w-5 h-5 rounded-full text-gray-500 relative;
+}
+.fm-header {
+  @apply w-full bg-[#f9fafb] border border-[rgba(34,36,38,.1)] rounded p-2 flex;
+}
+.fm-header-Separator {
+  @apply rounded-lg w-[2px] my-[-4px] bg-[rgba(34,36,38,.1)] mx-2;
+}
+.scale-transition-enter-active {
+  transition-duration: 0.3s !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.scale-transition-leave-active {
+  transition-duration: 0.3s !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.scale-transition-move {
+  transition-duration: 0.5s !important;
+  transition-property: transform !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.scale-transition-leave-to {
+  opacity: 0;
+}
+.scale-transition-leave-active {
+  transition-duration: 100ms !important;
+}
+.scale-transition-enter-from {
+  opacity: 0;
+  transform: scale(0);
+}
+.scale-transition-enter-active,
+.scale-transition-leave-active {
+  transition-property: transform, opacity !important;
+}
+

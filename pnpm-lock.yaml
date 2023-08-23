@@ -6,20 +6,23 @@ settings:
 
 dependencies:
   formue:
-    specifier: ^0.0.8
-    version: 0.0.8
+    specifier: ^0.0.11
+    version: 0.0.11
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
   pinia:
-    specifier: ^2.1.4
-    version: 2.1.4(typescript@5.0.4)(vue@3.3.4)
+    specifier: ^2.1.6
+    version: 2.1.6(typescript@5.0.4)(vue@3.3.4)
   tabulator-tables:
     specifier: ^5.5.0
     version: 5.5.0
   vue:
     specifier: ^3.3.4
     version: 3.3.4
+  vuetify:
+    specifier: ^3.3.14
+    version: 3.3.14(typescript@5.0.4)(vue@3.3.4)
 
 devDependencies:
   '@rushstack/eslint-patch':
@@ -58,6 +61,9 @@ devDependencies:
   postcss:
     specifier: ^8.4.24
     version: 8.4.24
+  postcss-import:
+    specifier: ^15.1.0
+    version: 15.1.0(postcss@8.4.24)
   prettier:
     specifier: ^2.8.8
     version: 2.8.8
@@ -1380,8 +1386,8 @@ packages:
       is-callable: 1.2.7
     dev: true
 
-  /formue@0.0.8:
-    resolution: {integrity: sha512-b3el8bf6rNBLZ1T6EWOuDqz2jt7ypEh0mR73xOEcYI2QEdQqtJygwPZ711Jm5Qoa0mMsxQJcMtlJgVUD1mbR7Q==}
+  /formue@0.0.11:
+    resolution: {integrity: sha512-zZ34RyjkBMEeP7shphYAeaWFKRKVI8K8cdsGTXH2jHVHEhNHLWHYSn5j63AM+eXKGvLIsIZdfa0jRM01odXZBA==}
     dependencies:
       lodash: 4.17.21
       mitt: 3.0.0
@@ -2071,8 +2077,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /pinia@2.1.4(typescript@5.0.4)(vue@3.3.4):
-    resolution: {integrity: sha512-vYlnDu+Y/FXxv1ABo1vhjC+IbqvzUdiUC3sfDRrRyY2CQSrqqaa+iiHmqtARFxJVqWQMCJfXx1PBvFs9aJVLXQ==}
+  /pinia@2.1.6(typescript@5.0.4)(vue@3.3.4):
+    resolution: {integrity: sha512-bIU6QuE5qZviMmct5XwCesXelb5VavdOWKWaB17ggk++NUwQWWbP5YnsONTk3b752QkW9sACiR81rorpeOMSvQ==}
     peerDependencies:
       '@vue/composition-api': ^1.4.0
       typescript: '>=4.4.4'
@@ -2670,6 +2676,29 @@ packages:
       '@vue/runtime-dom': 3.3.4
       '@vue/server-renderer': 3.3.4(vue@3.3.4)
       '@vue/shared': 3.3.4
+
+  /vuetify@3.3.14(typescript@5.0.4)(vue@3.3.4):
+    resolution: {integrity: sha512-5kGnahj/cX5989bV9XM432k/BJ11fRdJ3CCdISjo1auCz+rLEeLJdjMeqyCJVd0FZsWcE1Z8799s9sLdLM3Deg==}
+    engines: {node: ^12.20 || >=14.13}
+    peerDependencies:
+      typescript: '>=4.7'
+      vite-plugin-vuetify: ^1.0.0-alpha.12
+      vue: ^3.2.0
+      vue-i18n: ^9.0.0
+      webpack-plugin-vuetify: ^2.0.0-alpha.11
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+      vite-plugin-vuetify:
+        optional: true
+      vue-i18n:
+        optional: true
+      webpack-plugin-vuetify:
+        optional: true
+    dependencies:
+      typescript: 5.0.4
+      vue: 3.3.4
+    dev: false
 
   /which-boxed-primitive@1.0.2:
     resolution: {integrity: sha512-bwZdv0AKLpplFY2KZRX6TvyuN7ojjr7lwkg6ml0roIy9YeuSr7JS372qlNW18UQYzgYK9ziGcerWqZOmEn9VNg==}

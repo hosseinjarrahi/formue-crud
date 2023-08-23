@@ -16,7 +16,8 @@
     "lodash": "^4.17.21",
     "pinia": "^2.1.6",
     "tabulator-tables": "^5.5.0",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "vuetify": "^3.3.14"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
