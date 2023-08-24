@@ -11,18 +11,6 @@ export const initTable = (
     data: []
   }
 ) => {
-  const mapHeader = {
-    _actions_: {
-      formatter: actions,
-      formatterParams: {
-        component: ActionButton
-      }
-    },
-    _index_: {
-      formatter: updateRowNumber
-    }
-  }
-
   // const mainRoute = store.mainRoute
   tableInstance = new Tabulator(element, {
     pagination: false,
@@ -39,7 +27,7 @@ export const initTable = (
       "<div style='display:inline-block; border:4px solid #333; border-radius:10px; background:#fff; font-weight:bold; font-size:16px; color:#000; padding:10px 20px;'>Loading Data</div>",
 
     data,
-    columns: headers.map((h) => (h.field in mapHeader ? { ...h, ...mapHeader[h.field] } : h))
+    columns: makeHeaders(headers)
   })
 
   setTimeout(() => {
@@ -47,6 +35,22 @@ export const initTable = (
   })
 
   return tableInstance
+}
+
+export function makeHeaders(headers) {
+  const mapHeader = {
+    _actions_: {
+      formatter: actions,
+      formatterParams: {
+        component: ActionButton
+      }
+    },
+    _index_: {
+      formatter: updateRowNumber
+    }
+  }
+
+  return headers.map((h) => (h.field in mapHeader ? { ...h, ...mapHeader[h.field] } : h))
 }
 
 export function updateRowNumber(cell) {

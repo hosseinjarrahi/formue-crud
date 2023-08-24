@@ -1,6 +1,7 @@
 <template>
   <template v-if="showFilter">
     <div
+      @click="myMethod"
       class="w-full bg-[#f9fafb] border border-[rgba(34,36,38,.1)] rounded p-2 flex align-center mt-2"
     >
       <div
@@ -29,13 +30,13 @@
           class="text-white font-bold py-1 px-2 rounded ml-2 bg-blue-500 hover:bg-blue-700"
           @click="makeFilters"
         >
-          filter
+          {{ $fcTr('Filter') }}
         </button>
         <button
           class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-2"
           @click="clearFilters"
         >
-          clear all
+          {{ $fcTr('Clear all') }}
         </button>
         <!-- <button
           class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded ml-2"
@@ -57,7 +58,7 @@
 <script setup>
 import { emitter } from 'formue'
 import { get as getSafe } from 'lodash'
-import { inject, ref, defineAsyncComponent } from 'vue'
+import { inject, ref } from 'vue'
 
 const { listen } = emitter
 

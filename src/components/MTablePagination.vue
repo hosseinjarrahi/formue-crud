@@ -3,10 +3,10 @@
     <nav>
       <ul class="pagination">
         <li class="page-item" :class="{ disabled: store.mainPagination.currentPage === 1 }">
-          <a class="page-link" @click="goToFirstPage">First</a>
+          <a class="page-link" @click="goToFirstPage">{{ $fcTr('First') }}</a>
         </li>
         <li class="page-item" :class="{ disabled: store.mainPagination.currentPage === 1 }">
-          <a class="page-link" @click="prevPage">Previous</a>
+          <a class="page-link" @click="prevPage">{{ $fcTr('Previous') }}</a>
         </li>
         <li
           v-for="n in store.mainPagination.lastPage"
@@ -23,13 +23,13 @@
           class="page-item"
           :class="{ disabled: store.mainPagination.currentPage === store.mainPagination.lastPage }"
         >
-          <a class="page-link" @click="nextPage">Next</a>
+          <a class="page-link" @click="nextPage"> {{ $fcTr('Next') }} </a>
         </li>
         <li
           class="page-item"
           :class="{ disabled: store.mainPagination.currentPage === store.mainPagination.lastPage }"
         >
-          <a class="page-link" @click="goToLastPage">Last</a>
+          <a class="page-link" @click="goToLastPage"> {{ $fcTr('Last') }} </a>
         </li>
       </ul>
     </nav>

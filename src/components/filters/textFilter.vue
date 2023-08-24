@@ -1,6 +1,6 @@
 <template>
   <select
-    class="rounded mr-2"
+    class="rounded mx-2"
     :value="getSafe(props.modelValue, 'type')"
     @input="(event) => updateType(event.target.value)"
   >
@@ -18,10 +18,10 @@
     @input="(event) => updateValue(event.target.value)"
   />
   <button
-    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-2"
+    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mx-2"
     @click="clear"
   >
-    clear
+    {{ $fcTr('Clear') }}
   </button>
 </template>
 

@@ -1,5 +1,5 @@
 import { watch } from 'vue'
-import { setData, setColumns } from '@/helpers/tabulator'
+import { setData, setColumns, makeHeaders } from '@/helpers/tabulator'
 
 export function adaptor(store) {
   watch(
@@ -12,7 +12,7 @@ export function adaptor(store) {
   watch(
     () => store.flatFields,
     () => {
-      setColumns(store.headers)
+      setColumns(makeHeaders(store.headers))
     },
     { deep: true }
   )

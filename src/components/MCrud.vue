@@ -13,6 +13,7 @@ const props = defineProps({
   options: { default: () => ({}) },
   hiddenActions: { default: () => [] },
   fields: { default: () => [] },
+  dir: { default: 'ltr' },
   route: { default: 'route' }
 })
 
@@ -33,19 +34,21 @@ onMounted(() => {
 </script>
 
 <template>
-  <MButtonBox />
+  <div :dir="dir">
+    <MButtonBox />
 
-  <MFilter />
+    <MFilter />
 
-  <MHeaderBox />
+    <MHeaderBox />
 
-  <MList />
+    <MList />
 
-  <MDialogForm />
+    <MDialogForm />
 
-  <MShowDialog />
+    <MShowDialog />
 
-  <MDeleteDialog />
+    <MDeleteDialog />
 
-  <slot name="extra"></slot>
+    <slot name="extra"></slot>
+  </div>
 </template>
