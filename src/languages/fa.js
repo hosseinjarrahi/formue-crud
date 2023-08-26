@@ -12,5 +12,6 @@ export default {
   Add: 'افرودن',
   Save: 'ذخیره',
   Edit: 'ویرایش',
-  Cancel: 'لغو'
+  Cancel: 'لغو',
+  'choose filter': 'انتخاب فیلتر'
 }

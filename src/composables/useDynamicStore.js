@@ -20,7 +20,8 @@ const defineDynamicStore = () => {
       options: [],
       filters: {},
       isFiltering: false,
-      hiddenActions: []
+      hiddenActions: [],
+      panelName: false,
     }),
 
     getters: {

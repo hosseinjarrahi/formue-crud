@@ -27,6 +27,7 @@ const store = init({
 })
 
 provide('store', store)
+provide('dir', props.dir)
 
 onMounted(() => {
   emit('mounted')

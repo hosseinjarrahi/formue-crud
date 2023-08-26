@@ -19,14 +19,14 @@ const fields = defineFields([
     field: 'firstname',
     filter: 'text',
     isHeader: true,
-    component: markRaw(TextField)
+    component: markRaw(TextField),
   },
   {
     title: 'lastname',
     field: 'lastname',
     isHeader: true,
     filter: 'text',
-    component: markRaw(TextField)
+    component: markRaw(TextField),
   }
 ])
 </script>

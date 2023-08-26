@@ -5,10 +5,11 @@ import ActionButton from '@/components/ActionButton.vue'
 export let tableInstance
 
 export const initTable = (
-  { element, headers, data } = {
+  { element, headers, data, options } = {
     element: null,
     headers: [],
-    data: []
+    data: [],
+    options: {}
   }
 ) => {
   // const mainRoute = store.mainRoute
@@ -25,9 +26,9 @@ export const initTable = (
     paginationCounter: 'rows',
     ajaxLoaderLoading:
       "<div style='display:inline-block; border:4px solid #333; border-radius:10px; background:#fff; font-weight:bold; font-size:16px; color:#000; padding:10px 20px;'>Loading Data</div>",
-
     data,
-    columns: makeHeaders(headers)
+    columns: makeHeaders(headers),
+    ...options
   })
 
   setTimeout(() => {
