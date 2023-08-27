@@ -1,5 +1,5 @@
 <template>
-  <template v-if="showHeaderBox">
+  <template v-if="store.panel === 'headerBox'">
     <div
       class="w-full bg-[#f9fafb] border border-[rgba(34,36,38,.1)] rounded p-2 flex align-center mt-2"
     >
@@ -19,18 +19,9 @@
 </template>
 
 <script setup>
-import { emitter } from 'formue'
-import { inject, ref } from 'vue'
-
-const { listen } = emitter
-
-const showHeaderBox = ref(false)
+import { inject } from 'vue'
 
 const store = inject('store')
-
-listen('showHeaderBox', () => {
-  showHeaderBox.value = !showHeaderBox.value
-})
 
 function toggleHeader(field) {
   field.isHeader = !field.isHeader

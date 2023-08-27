@@ -5,17 +5,18 @@
     @input="(event) => updateType(event.target.value)"
   >
     <option disabled>{{ $fcTr('select type') }}</option>
+    <option value="<>">{{ $fcTr('range') }}</option>
     <option value="=">{{ $fcTr('equal to') }}</option>
-    <option value="!=">{{ $fcTr('not equal to') }}</option>
     <option value=">">{{ $fcTr('greater than') }}</option>
     <option value="<">{{ $fcTr('less than') }}</option>
-    <option value="LIKE">{{ $fcTr('look like') }}</option>
   </select>
-  <input
+  <DatePicker
+    locale="en,fa"
     class="rounded px-2"
-    :value="getSafe(filterValue, 'value')"
-    :placeholder="$fcTr('search ...')"
-    @input="(event) => updateValue(event.target.value)"
+    :modelValue="getSafe(this.filterValue, 'value')"
+    :range="getSafe(this.filterValue, 'type') === '<>'"
+    simple
+    @update:modelValue="updateValue"
   />
   <button
     class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mx-2"
@@ -28,24 +29,27 @@
 <script>
 import { get as getSafe } from 'lodash'
 import AbstractFilter from './AbstractFilter.vue'
+import Vue3PersianDatetimePicker from 'vue3-persian-datetime-picker'
 
 export default {
   extends: AbstractFilter,
+
+  components: { DatePicker: Vue3PersianDatetimePicker },
 
   methods: {
     updateValue(value) {
       this.updateFilter({
         type: getSafe(this.filterValue, 'type'),
         value,
-        field: 'text'
+        field: 'date'
       })
     },
 
     updateType(type) {
       this.updateFilter({
-        type, 
+        type,
         value: getSafe(this.filterValue, 'value'),
-        field: 'text'
+        field: 'date'
       })
     }
   }

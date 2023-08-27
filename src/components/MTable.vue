@@ -12,11 +12,15 @@ import MTablePagination from './MTablePagination.vue'
 const table = ref(null)
 
 const store = inject('store')
+const dir = inject('dir')
 
 adaptor(store)
 
 onMounted(() => {
   initTable({
+    options: {
+      textDirection: dir
+    },
     element: table.value,
     headers: store.headers,
     data: store.mainItems

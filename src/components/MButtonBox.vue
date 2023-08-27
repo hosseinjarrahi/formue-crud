@@ -102,7 +102,7 @@
 
       <v-tooltip location="bottom" text="filter">
         <template v-slot:activator="{ props }">
-          <button v-bind="props" class="fm-header-icon-btn" @click="event('showFilter')">
+          <button v-bind="props" class="fm-header-icon-btn" @click="store.panel = 'filters'">
             <svg
               width="1em"
               height="1em"
@@ -136,7 +136,7 @@
       </v-tooltip>
       <v-tooltip location="bottom" text="custom column">
         <template v-slot:activator="{ props }">
-          <button v-bind="props" class="fm-header-icon-btn" @click="event('showHeaderBox')">
+          <button v-bind="props" class="fm-header-icon-btn" @click="store.panel = 'headerBox'">
             <svg
               width="1em"
               height="1em"

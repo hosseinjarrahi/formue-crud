@@ -1,8 +1,8 @@
 <template>
   <card>
     <v-card-title class="pl-0 headline white--text py-1 secondary">
-      <h6 v-if="!isEditing">افزودن</h6>
-      <h6 v-else>ویرایش</h6>
+      <h6 v-if="!isEditing">{{ $fcTr('Add') }}</h6>
+      <h6 v-else>{{ $fcTr('Edit') }}</h6>
       <v-spacer />
       <v-btn dark text @click="handleDialog(false)">
         <v-icon>mdi-close</v-icon>
@@ -12,11 +12,7 @@
     <card-text class="py-3">
       <h1 class="text-center"><slot name="title"></slot></h1>
       <form ref="dynamicForm">
-        <MForm
-          :fields="filteredFields(fields)"
-          :form="form"
-          @updateField="updateField"
-        />
+        <MForm :fields="filteredFields(fields)" :form="form" @updateField="updateField" />
       </form>
     </card-text>
 
@@ -30,23 +26,21 @@
         class="px-10"
         @click="event('saveForm')"
       >
-        <span v-if="!isEditing">ثبت</span>
-        <span v-else>ویرایش</span>
+        <span v-if="!isEditing"> {{ $fcTr('Save') }} </span>
+        <span v-else> {{ $fcTr('Edit') }} </span>
       </button>
     </card-actions>
   </card>
 </template>
 
 <script>
-import { MForm } from "formue";
+import { MForm } from 'formue'
 
 defineProps({
   valid: {},
   form: {},
   updateField: {},
   isEditing: {},
-  handleDialog: {},
-});
-
-
+  handleDialog: {}
+})
 </script>
