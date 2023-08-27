@@ -28,8 +28,16 @@ const defineDynamicStore = () => {
         return (key) => getSafe(state.items, key, [])
       },
 
+      getPaginations(state) {
+        return (key) => getSafe(state.paginations, key, [])
+      },
+
       mainItems(state) {
         return getSafe(state.items, state.mainKey, [])
+      },
+
+      mainPagination(state) {
+        return this.getPaginations(state.mainKey)
       },
 
       mainRoute(state) {
@@ -112,7 +120,7 @@ const defineDynamicStore = () => {
       },
 
       paginate(page) {
-        this.loadItem(this.mainKey, page)
+        this.isFiltering ? this.getWithFilter(page) : this.loadItems(this.mainKey, page)
       },
 
       reloadData() {

@@ -84,19 +84,19 @@ const selectFilter = (filter) => {
 function registering() {
   const components = {}
 
-  const registerComponent = async (filePath) => {
+  const registerComponent = async (filePath, comp) => {
     const componentName = filePath
       .split('/')
       .pop()
       .replace(/\.\w+$/, '')
 
-    components[componentName] = defineAsyncComponent(() => import(filePath))
+    components[componentName] = comp.default
   }
 
   const componentsEntry = import.meta.globEager('./filters/*.vue')
 
   for (const filePath in componentsEntry) {
-    registerComponent(filePath)
+    registerComponent(filePath, componentsEntry[filePath])
   }
 
   return components

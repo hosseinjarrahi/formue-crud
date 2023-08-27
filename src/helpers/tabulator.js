@@ -25,10 +25,10 @@ export const initTable = (
 
   // const mainRoute = store.mainRoute
   tableInstance = new Tabulator(element, {
-    pagination: true,
+    pagination: false,
     paginationMode: 'remote',
-    layout:"fitDataStretch",
-    resizableColumnFit:true,
+    layout: 'fitDataStretch',
+    resizableColumnFit: true,
     // ajaxURL: mainRoute,
     // ajaxParams: { token: 'ABC123' },
     paginationSize: 5,
@@ -93,4 +93,8 @@ export function removeData(itemIds) {
 
   // row.delete()
   // tableInstance.deleteRow(itemIds)
+}
+
+export function setColumns(cols) {
+  tableInstance.setColumns(cols)
 }

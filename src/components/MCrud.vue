@@ -2,11 +2,12 @@
 import { onMounted, defineProps, provide, defineEmits } from 'vue'
 import { init } from '@/helpers/formueCrud'
 import MList from './MList.vue'
-import MHeader from './MHeader.vue'
+import MButtonBox from './MButtonBox.vue'
 import MFilter from './MFilter.vue'
 import MDialogForm from './MDialogForm.vue'
 import MShowDialog from './MShowDialog.vue'
 import MDeleteDialog from './MDeleteDialog.vue'
+import MHeaderBox from './MHeaderBox.vue'
 
 const props = defineProps({
   options: { default: () => ({}) },
@@ -32,9 +33,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <MHeader />
+  <MButtonBox />
 
   <MFilter />
+
+  <MHeaderBox />
 
   <MList />
 
