@@ -19,14 +19,37 @@ const fields = defineFields([
     field: 'firstname',
     filter: 'text',
     isHeader: true,
-    component: markRaw(TextField),
+    component: markRaw(TextField)
   },
   {
     title: 'lastname',
     field: 'lastname',
     isHeader: true,
-    filter: 'text',
-    component: markRaw(TextField),
+    filter: 'date',
+    rel: {
+      get: 'http://127.0.0.1:8000/api/student',
+      textKey: 'full_name',
+      valueKey: 'id'
+      // get: {
+      //   immidate:false,
+      //   route:'http://127.0.0.1:8000/api/professor',
+      //   key:''
+      // },
+      // get: {
+      //   immidate:false,
+      //   handler(ft,store){
+      //     ft.get('http://127.0.0.1:8000/api/professor')
+      //     .then(res => store.items[key] = res.data))
+      //   }
+      // },
+      // get: {
+      //   immidate: false,
+      //   handler(ft, set) {
+      //     // fetch bby ft and then set data by set
+      //   }
+      // }
+    },
+    component: markRaw(TextField)
   }
 ])
 </script>

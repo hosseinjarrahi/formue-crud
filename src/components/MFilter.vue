@@ -51,7 +51,11 @@
       v-if="selectedFilter"
       class="flex flex-auto bg-[#f9fafb] border border-[rgba(34,36,38,.1)] rounded p-2 flex align-center mt-2"
     >
-      <component v-model="filters[selectedFilter.field]" :is="getComponent(selectedFilter)" />
+      <component
+        v-model="filters[selectedFilter.field]"
+        :is="getComponent(selectedFilter)"
+        :field="selectedFilter"
+      />
     </div>
 
     <div
@@ -65,9 +69,7 @@
       >
         <span class="px-4">{{ filterName }}</span>
         <button class="mx-2 bg-green-600 px-3" @click="loadFilter(LFilters)">LOAD</button>
-        <button class="mx-2 bg-red-600 px-3" @click.stop="removeFilter(filterName)">
-          DEL
-        </button>
+        <button class="mx-2 bg-red-600 px-3" @click.stop="removeFilter(filterName)">DEL</button>
       </div>
     </div>
   </template>

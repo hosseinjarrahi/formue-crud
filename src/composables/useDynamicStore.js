@@ -21,7 +21,7 @@ const defineDynamicStore = () => {
       filters: {},
       isFiltering: false,
       hiddenActions: [],
-      panelName: false,
+      panelName: false
     }),
 
     getters: {
@@ -103,8 +103,8 @@ const defineDynamicStore = () => {
       addRoute(route) {
         let key = typeof route == 'string' ? route.substr(route.lastIndexOf('/') + 1) : route.key
         this.mainKey = this.mainKey || pascalCase(key)
-
-        return (this.routes[pascalCase(key)] = typeof route == 'string' ? route : route.route)
+        this.routes[pascalCase(key)] = typeof route == 'string' ? route : route.route
+        return pascalCase(key)
       },
 
       setPagination(response, key) {

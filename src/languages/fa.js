@@ -13,5 +13,13 @@ export default {
   Save: 'ذخیره',
   Edit: 'ویرایش',
   Cancel: 'لغو',
-  'choose filter': 'انتخاب فیلتر'
+  'choose filter': 'انتخاب فیلتر',
+  'select type': 'انتخاب کنید',
+  'equal to': 'برابر با',
+  'not equal to': 'نابرابر با',
+  'greater than': 'بزرگتر از',
+  'less than': 'کوچکتر از',
+  'look like': 'مشابه',
+  'search ...': 'جستجو ...',
+  range: 'محدود کردن'
 }
