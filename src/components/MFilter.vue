@@ -2,7 +2,7 @@
   <template v-if="store.panel === 'filters'">
     <div class="flex">
       <div
-        class="flex items-center flex-auto ml-1 bg-[#f9fafb] border border-[rgba(34,36,38,.1)] rounded p-2 flex align-center mt-2"
+        class="flex items-center flex-auto ltr:mr-1 bg-[#f9fafb] border border-[rgba(34,36,38,.1)] rounded p-2 flex align-center mt-2"
       >
         <div
           v-for="header in store.headersWithoutActions"

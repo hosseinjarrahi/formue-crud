@@ -1,6 +1,6 @@
 <template>
   <div class="w-1/2 mx-auto pt-10">
-    <MCrud :fields="fields" route="http://127.0.0.1:8000/api/professor" dir="rtl" />
+    <MCrud :fields="fields" route="http://127.0.0.1:8000/api/professor" />
     <AppAlert />
   </div>
 </template>
@@ -25,10 +25,10 @@ const fields = defineFields([
     title: 'lastname',
     field: 'lastname',
     isHeader: true,
-    filter: 'date',
+    filter: 'select',
     rel: {
-      get: 'http://127.0.0.1:8000/api/student',
-      textKey: 'full_name',
+      get: 'http://127.0.0.1:8000/api/lesson',
+      textKey: 'name',
       valueKey: 'id'
       // get: {
       //   immidate:false,

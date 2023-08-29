@@ -1,14 +1,5 @@
 import MCrud from './components/MCrud.vue'
 import './assets/main.css'
+import install from './install'
 
-import { createVuetify } from 'vuetify'
-
-const vuetify = createVuetify({})
-
-export function install(app) {
-  app.config.globalProperties.$fcTr = () => {
-    
-  }
-}
-
-export { MCrud, vuetify }
+export { MCrud, install }

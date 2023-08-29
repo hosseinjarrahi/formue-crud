@@ -128,6 +128,29 @@ const defineDynamicStore = () => {
         this.isFiltering ? this.getWithFilter() : this.loadItems()
       },
 
+      loadItemsPlus(key = this.mainKey, page = 1, query = '', fn = () => {}, add = true) {
+        const { get } = useFetch()
+
+        let pageQuery = getSafe(this.routes, key, '').indexOf('?') > -1 ? '&page=' : '?page=' // to do : change routes structure
+
+        this.loadings[key] = true
+
+        const route = getSafe(this.routes, key, '') + pageQuery + page + '&' + query
+
+        get(route)
+          .then((response) => response.json())
+          .then((response) => {
+            if (!Array.isArray(this.items[key])) this.items[key] = []
+            if (add) for (const item of response.data) this.items[key].push(item)
+            else this.items[key] = response.data
+            this.setPagination(response, key)
+          })
+          .finally(() => {
+            fn()
+            this.loadings[key] = false
+          })
+      },
+
       loadItems(key = this.mainKey, page = 1) {
         const { get } = useFetch()
 

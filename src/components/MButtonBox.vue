@@ -102,7 +102,7 @@
 
       <v-tooltip location="bottom" text="filter">
         <template v-slot:activator="{ props }">
-          <button v-bind="props" class="fm-header-icon-btn" @click="store.panel = 'filters'">
+          <button v-bind="props" class="fm-header-icon-btn" @click="choose('filters')">
             <svg
               width="1em"
               height="1em"
@@ -136,7 +136,7 @@
       </v-tooltip>
       <v-tooltip location="bottom" text="custom column">
         <template v-slot:activator="{ props }">
-          <button v-bind="props" class="fm-header-icon-btn" @click="store.panel = 'headerBox'">
+          <button v-bind="props" class="fm-header-icon-btn" @click="choose('headerBox')">
             <svg
               width="1em"
               height="1em"
@@ -206,7 +206,13 @@ const items = [
 ]
 const { event } = emitter
 const store = inject('store')
+
+function choose(panel) {
+  if (panel === store.panel) store.panel = ''
+  else store.panel = panel
+}
 </script>
+
 <style scoped>
 .spin {
   animation: spin 0.8s linear infinite;
