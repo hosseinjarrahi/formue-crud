@@ -4,11 +4,11 @@
     :value="getSafe(filterValue, 'type')"
     @input="(event) => updateType(event.target.value)"
   >
-    <option disabled>{{ $fcTr('select type') }}</option>
+    <option disabled>{{ $fcTr('select_type') }}</option>
     <option value="<>">{{ $fcTr('range') }}</option>
-    <option value="=">{{ $fcTr('equal to') }}</option>
-    <option value=">">{{ $fcTr('greater than') }}</option>
-    <option value="<">{{ $fcTr('less than') }}</option>
+    <option value="=">{{ $fcTr('equal_to') }}</option>
+    <option value=">">{{ $fcTr('greater_than') }}</option>
+    <option value="<">{{ $fcTr('less_than') }}</option>
   </select>
   <DatePicker
     locale="en,fa"
@@ -22,7 +22,7 @@
     class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mx-2"
     @click="clear"
   >
-    {{ $fcTr('Clear') }}
+    {{ $fcTr('clear') }}
   </button>
 </template>
 

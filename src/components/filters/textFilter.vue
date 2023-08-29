@@ -4,12 +4,12 @@
     :value="getSafe(filterValue, 'type')"
     @input="(event) => updateType(event.target.value)"
   >
-    <option disabled>{{ $fcTr('select type') }}</option>
-    <option value="=">{{ $fcTr('equal to') }}</option>
-    <option value="!=">{{ $fcTr('not equal to') }}</option>
-    <option value=">">{{ $fcTr('greater than') }}</option>
-    <option value="<">{{ $fcTr('less than') }}</option>
-    <option value="LIKE">{{ $fcTr('look like') }}</option>
+    <option disabled>{{ $fcTr('select_type') }}</option>
+    <option value="=">{{ $fcTr('equal_to') }}</option>
+    <option value="!=">{{ $fcTr('not_equal_to') }}</option>
+    <option value=">">{{ $fcTr('greater_than') }}</option>
+    <option value="<">{{ $fcTr('less_than') }}</option>
+    <option value="LIKE">{{ $fcTr('look_like') }}</option>
   </select>
   <input
     class="rounded px-2"
@@ -21,7 +21,7 @@
     class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mx-2"
     @click="clear"
   >
-    {{ $fcTr('Clear') }}
+    {{ $fcTr('clear') }}
   </button>
 </template>
 
@@ -43,7 +43,7 @@ export default {
 
     updateType(type) {
       this.updateFilter({
-        type, 
+        type,
         value: getSafe(this.filterValue, 'value'),
         field: 'text'
       })

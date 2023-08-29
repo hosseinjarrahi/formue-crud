@@ -13,8 +13,8 @@
           <div class="bg-card-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div class="flex flex-col text-right">
               <h1 class="mb-4 flex justify-between w-full">
-                <span class="text-primerr-700" v-if="store.isEditing"> {{ $fcTr('Edit') }} </span>
-                <span class="text-primerr-700" v-else> {{ $fcTr('Add') }} </span>
+                <span class="text-primerr-700" v-if="store.isEditing"> {{ $fcTr('edit') }} </span>
+                <span class="text-primerr-700" v-else> {{ $fcTr('add') }} </span>
                 <i class="text-primerr-700 fal fa-times cursor-pointer" @click="dialog = false"></i>
               </h1>
 
@@ -27,14 +27,14 @@
                   @click="dialog = false"
                   class="border p-2 px-8 rounded-md text-red-400 border-red-400"
                 >
-                  {{ $fcTr('Cancel') }}
+                  {{ $fcTr('cancel') }}
                 </button>
                 <button
                   :disabled="store.loadings.mainLoading"
                   @click="event('saveForm')"
                   class="border p-2 mx-1 px-8 rounded-md text-green-400 border-green-400"
                 >
-                  <span v-if="!store.loadings.mainLoading"> {{ $fcTr('Save') }} </span>
+                  <span v-if="!store.loadings.mainLoading"> {{ $fcTr('save') }} </span>
                   <span v-else>loading</span>
                 </button>
               </div>

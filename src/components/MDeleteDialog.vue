@@ -17,21 +17,21 @@
                 <i class="text-primerr-700 fal fa-times cursor-pointer" @click="dialog = false"></i>
               </h1>
 
-              <div class="mb-5 flex flex-row flex-wrap">{{ $fcTr('Are you sure to delete?') }}</div>
+              <div class="mb-5 flex flex-row flex-wrap">{{ $fcTr('alert_to_delete') }}</div>
 
               <div class="flex justify-end">
                 <button
                   @click="dialog = false"
                   class="border p-2 px-8 rounded-md text-red-400 border-red-400"
                 >
-                  {{ $fcTr('No') }}
+                  {{ $fcTr('no') }}
                 </button>
                 <button
                   :disabled="store.loadings.mainLoading"
                   class="border p-2 mx-1 px-8 rounded-md text-green-400 border-green-400"
                   @click="store.remove({ deleteId, indexToRemove })"
                 >
-                  <span v-if="!store.loadings.mainLoading"> {{ $fcTr('Yes') }} </span>
+                  <span v-if="!store.loadings.mainLoading"> {{ $fcTr('yes') }} </span>
                   <span v-else>loading</span>
                 </button>
               </div>

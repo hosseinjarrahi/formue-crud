@@ -1,6 +1,6 @@
 <template>
   <input
-    class="border-2 border-indigo-600 rounded"
+    class="border-2 w-full border-indigo-600 rounded"
     :value="value"
     @input="(event) => updateField(event.target.value)"
   />
