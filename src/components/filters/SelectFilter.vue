@@ -1,6 +1,6 @@
 <template>
   <vSelect
-    style="min-width: 89%;"
+    style="min-width: 89%"
     :options="filterOptions"
     :modelValue="getSafe(this.filterValue, 'value')"
     simple
@@ -19,7 +19,7 @@
     class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mx-2"
     @click="clear"
   >
-    {{ $fcTr('Clear') }}
+    {{ $fcTr('clear') }}
   </button>
 </template>
 

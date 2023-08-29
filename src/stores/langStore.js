@@ -4,7 +4,7 @@ import langs from '@/languages/index'
 
 export const useLangsStore = defineStore('formuCrudLangs', {
   state: () => ({
-    lang: 'fa',
+    lang: 'en',
     langs
   }),
 

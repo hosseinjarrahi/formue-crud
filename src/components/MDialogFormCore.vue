@@ -1,8 +1,8 @@
 <template>
   <card>
     <v-card-title class="pl-0 headline white--text py-1 secondary">
-      <h6 v-if="!isEditing">{{ $fcTr('Add') }}</h6>
-      <h6 v-else>{{ $fcTr('Edit') }}</h6>
+      <h6 v-if="!isEditing">{{ $fcTr('add') }}</h6>
+      <h6 v-else>{{ $fcTr('edit') }}</h6>
       <v-spacer />
       <v-btn dark text @click="handleDialog(false)">
         <v-icon>mdi-close</v-icon>
@@ -26,8 +26,8 @@
         class="px-10"
         @click="event('saveForm')"
       >
-        <span v-if="!isEditing"> {{ $fcTr('Save') }} </span>
-        <span v-else> {{ $fcTr('Edit') }} </span>
+        <span v-if="!isEditing"> {{ $fcTr('save') }} </span>
+        <span v-else> {{ $fcTr('edit') }} </span>
       </button>
     </card-actions>
   </card>
