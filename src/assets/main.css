@@ -6,7 +6,7 @@
   direction: rtl;
 }
 .fm-header {
-  @apply mb-6 flex w-full flex-col items-center justify-between gap-4 sm:flex-row;
+  @apply mb-3 flex w-full flex-col items-center justify-between gap-4 sm:flex-row;
 }
 .fm-header-left-sid {
   @apply flex w-full items-center justify-end gap-2 sm:w-auto;
@@ -217,7 +217,6 @@
   color: rgb(var(--color-muted-400) / 1);
   color: rgb(var(--color-muted-400) / var(--tw-text-opacity));
   display: inline-block;
-  font-family: Karla, sans-serif;
   line-height: 1;
 }
 
@@ -244,7 +243,6 @@
 }
 /* is btn */
 .is-button {
-  font-family: Inter, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.25rem;
@@ -257,7 +255,7 @@
 .is-button {
   align-items: center;
   display: inline-flex;
-  height: 2.5rem;
+  height: 38px;
   justify-content: center;
   position: relative;
 }
@@ -331,8 +329,7 @@ user agent stylesheet :focus-visible {
 .focus-within\:outline-primary-400\/70:focus-within {
   outline-color: rgb(var(--color-primary-400) / 0.7);
 }
-.fm-puls-btn {
-  font-family: Inter, sans-serif;
+.fm-plus-btn {
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.25rem;
@@ -343,13 +340,16 @@ user agent stylesheet :focus-visible {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   align-items: center;
   display: inline-flex;
-  height: 2.5rem;
+  height: 38px;
   justify-content: center;
   position: relative;
-  @apply rounded bg-primary-500 dark:bg-primary-500 hover:enabled:bg-primary-400 dark:hover:enabled:bg-primary-400 text-white hover:enabled:shadow-lg hover:enabled:shadow-primary-500/50 dark:hover:enabled:shadow-primary-800/20 focus-visible:outline-primary-400/70 focus-within:outline-primary-400/70 focus-visible:bg-primary-500  dark:focus-visible:outline-primary-400 dark:focus-within:outline-primary-400 dark:focus-visible:bg-primary-500;
+  @apply rounded-full bg-primary-500 dark:bg-primary-500 hover:enabled:bg-primary-400 dark:hover:enabled:bg-primary-400 text-white hover:enabled:shadow-lg hover:enabled:shadow-primary-500/50 dark:hover:enabled:shadow-primary-800/20 focus-visible:outline-primary-400/70 focus-within:outline-primary-400/70 focus-visible:bg-primary-500  dark:focus-visible:outline-primary-400 dark:focus-within:outline-primary-400 dark:focus-visible:bg-primary-500;
+}
+.fm-plus-btn svg {
+  width: 1em;
+  height: 1em;
 }
 .fm-header-icon-btn {
-  font-family: Inter, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.25rem;
@@ -360,10 +360,15 @@ user agent stylesheet :focus-visible {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   align-items: center;
   display: inline-flex;
-  height: 2.5rem;
+  height: 38px;
   justify-content: center;
   position: relative;
-  @apply rounded bg-muted-200 dark:bg-muted-200 hover:enabled:bg-muted-100 dark:hover:enabled:bg-muted-100 text-white hover:enabled:shadow-lg hover:enabled:bg-muted-200/50 dark:hover:enabled:shadow-muted-500/20 focus-visible:outline-muted-100/70 focus-within:outline-muted-100/70 focus-visible:bg-muted-200  dark:focus-visible:outline-muted-200 dark:focus-within:outline-muted-200 dark:focus-visible:bg-muted-200;
+  @apply rounded-full text-muted-400 bg-muted-200 dark:bg-muted-200;
+}
+.fm-header-icon-btn svg {
+  width: 1em;
+  height: 1em;
+  @apply fill-muted-400;
 }
 .is-button-default:enabled:active {
   --tw-bg-opacity: 1;
@@ -413,7 +418,6 @@ user agent stylesheet :focus-visible {
   color: rgb(var(--color-muted-700) / var(--tw-text-opacity));
 }
 .is-button {
-  font-family: Inter, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.25rem;
@@ -422,11 +426,12 @@ user agent stylesheet :focus-visible {
   transition-duration: 0.3s;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  @apply cursor-pointer;
 }
 .is-button {
   align-items: center;
   display: inline-flex;
-  height: 2.5rem;
+  height: 2.3rem;
   justify-content: center;
   position: relative;
 }
@@ -442,7 +447,20 @@ user agent stylesheet :focus-visible {
 }
 .fm-drop-down-btn:focus-within {
   outline: none;
-  border-radius: 0.25rem 0.25rem 0 0;
+  @apply rounded-full;
+  /* border-radius: 0.25rem 0.25rem 0 0; */
+}
+.fm-drop-down-btn::before {
+  content: '';
+  position: absolute;
+  top: 22px;
+  left: 0;
+  background-color: rgb(var(--color-muted-200));
+  width: 100%;
+  height: 100%;
+  outline: none;
+  z-index: -1;
+  /* border-radius: 0.25rem 0.25rem 0 0; */
 }
 .fm-drop-down-btn::after {
   content: '';
@@ -458,6 +476,47 @@ user agent stylesheet :focus-visible {
   transform-origin: 4px 4px;
   transition: transform 300ms, top 150ms;
   z-index: 1;
+}
+.test {
+  border-radius: 50% 50%;
+}
+.test div span::after {
+  content: '';
+  position: absolute;
+  background-image: url(./img/after.svg);
+  bottom: -33px;
+  left: 99%;
+  width: 71%;
+  height: 24px;
+  background-size: 100%;
+  transform: rotate(180deg);
+}
+.test div span::before {
+  content: '';
+  position: absolute;
+  background-image: url(/src/assets/img/after.svg);
+  bottom: -32px;
+  left: -66%;
+  width: 71%;
+  height: 24px;
+  background-size: 100%;
+  transform: rotate(90deg);
+}
+.test div::after {
+  content: '';
+  position: absolute;
+  bottom: -33px;
+  left: 0;
+  background: #fff;
+  width: 100%;
+  height: 17px;
+}
+.test div {
+  position: absolute;
+  width: 100%;
+}
+.change-input-forst input {
+  @apply rounded-full nui-focus border-muted-300 text-muted-600 placeholder:text-muted-300 dark:border-muted-700 dark:bg-muted-900/75 dark:text-muted-200 dark:placeholder:text-muted-500 dark:focus:border-muted-700  w-full border bg-white font-sans transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-75  h-10 py-2 text-sm leading-5 px-3;
 }
 
 :root {
