@@ -25,9 +25,10 @@ const fields = defineFields([
     title: 'lastname',
     field: 'lastname',
     isHeader: true,
-    filter: 'select',
+    filter: 'date',
     rel: {
       get: 'http://127.0.0.1:8000/api/lesson',
+      model: 'Lesson',
       textKey: 'name',
       valueKey: 'id'
       // get: {

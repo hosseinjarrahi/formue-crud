@@ -2,13 +2,13 @@
   <vSelect
     style="min-width: 89%"
     :options="filtered"
-    :modelValue="getSafe(this.filterValue, 'value')"
+    :modelValue="getValues(value)"
     simple
     multiple
-    :label="getSafe(field, 'rel.textKey')"
+    :label="getFromSchema('rel.textKey')"
     :reduce="(item) => valueKey(item)"
-    @update:modelValue="updateValue"
     :filterable="false"
+    @update:modelValue="updateField"
     @open="onOpen"
     @close="onClose"
     @search="doSearch"
@@ -18,40 +18,37 @@
       {{ getSafe(option, getSafe(field, 'rel.textKey')) }}
     </template> -->
     <template #list-footer>
-      <li v-show="hasNextPage" ref="load" class="loader">{{ $fcTr('Loading more options...') }}</li>
+      <li v-show="hasNextPage" ref="load" class="loader">
+        {{ $fcTr('Loading more options...') }}
+      </li>
     </template>
   </vSelect>
-
-  <button
-    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mx-2"
-    @click="clear"
-  >
-    {{ $fcTr('clear') }}
-  </button>
 </template>
 
 <script>
-import { get as getSafe, debounce } from 'lodash'
-import AbstractFilter from './AbstractFilter.vue'
+import { get as getSafe, every, isType, debounce } from 'lodash'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
+import { propsField } from 'formue'
 
 export default {
-  extends: AbstractFilter,
-
   components: { vSelect },
+
+  props: propsField,
 
   inject: ['store'],
 
-  data: () => ({
-    key: '',
-    observer: null,
-    search: ''
-  }),
+  data() {
+    return {
+      model: '',
+      observer: null,
+      search: ''
+    }
+  },
 
   computed: {
     items() {
-      return this.store.getItems(this.key)
+      return this.store.getItems(this.model)
     },
     filtered() {
       if (this.search === '') return this.items
@@ -66,7 +63,7 @@ export default {
       })
     },
     pagination() {
-      return this.store.paginations[this.key] || { total: 0, currentPage: 0 }
+      return this.store.paginations[this.model] || { total: 0, currentPage: 0 }
     },
     hasNextPage() {
       return this.pagination?.total > this.pagination?.currentPage
@@ -74,8 +71,8 @@ export default {
   },
 
   created() {
-    this.key = this.store.addRoute(getSafe(this.field, 'rel.get'))
-    this.store.loadItems(this.key)
+    this.model = this.store.addRoute(this.getFromSchema('rel.get'))
+    this.store.loadItems(this.model)
   },
 
   mounted() {
@@ -84,6 +81,23 @@ export default {
 
   methods: {
     debounce,
+    getSafe,
+    checkGetIsArray() {
+      const get = getFromSchema('rel.get')
+      if (Array.isArray(Object.getPrototypeOf(get))) return true
+      return false
+    },
+    areAllItemsOfType(array, type) {
+      if (!Array.isArray(array)) return false
+
+      return every(array, (item) => isType(item, type))
+    },
+    getValues(values) {
+      if (this.areAllItemsOfType(values, 'object')) {
+        return values.map((value) => value[this.getProp('valueKey', 'value')])
+      }
+      return values
+    },
     doSearch(query) {
       this.search = query
     },
@@ -114,7 +128,7 @@ export default {
         const scrollTop = ul.scrollTop
         const fieldToSearch = getSafe(this.field, 'rel.textKey')
         const query = this.search !== '' ? fieldToSearch + '=' + this.search : ''
-        this.store.loadItemsPlus(this.key, this.pagination.currentPage + 1, query, () => {
+        this.store.loadItemsPlus(this.model, this.pagination.currentPage + 1, query, () => {
           ul.scrollTo({ top: scrollTop, behavior: 'auto' })
         })
       }

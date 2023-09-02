@@ -18,7 +18,7 @@ const defineDynamicStore = () => {
       fields: [],
       paginations: {},
       options: [],
-      filters: {},
+      filters: [],
       isFiltering: false,
       hiddenActions: [],
       panelName: false

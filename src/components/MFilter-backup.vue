@@ -1,11 +1,22 @@
 <template>
-  {{ form }}
   <transition name="scale">
     <div
       class="border-muted-200 dark:border-muted-700 dark:bg-muted-800 relative mb-4 w-full rounded-md border bg-white p-6 transition-all duration-300 z-[0]"
       v-if="store.panel === 'filters'"
     >
       <div class="flex flex-col ml-1 align-center border-b border-[rgba(0,0,0,.1)] pb-4">
+        <!-- <div
+            v-for="header in store.headersWithoutActions"
+            :key="header.field"
+            class="px-1 cursor-pointer divide-y rounded"
+            :class="{
+              underline: getSafe(filters, header.field + '.value'),
+              'bg-red-600 text-white': header.field === selectedFilter.field
+            }"
+            @click="selectFilter(header)"
+          >
+            {{ header.title }}
+          </div> -->
         <div class="flex justify-between mb-4 items-center">
           <h3
             class="font-heading text-base font-semibold leading-tight text-muted-800 dark:text-white"
@@ -13,9 +24,20 @@
             {{ $fcTr('filter_data') }}
           </h3>
           <div class="flex items-center">
-            <button class="is-button rounded is-button-default">
+            <button
+              @click=";[(chooseFilter = true), (selectedFilter = false)]"
+              class="is-button rounded is-button-default"
+            >
               {{ $fcTr('choose_filter') }}
             </button>
+            <!-- <button @click="choose('filters')" class="ml-3 rtl:ml-0 rtl:mr-3">
+              <svg width="1rem" viewBox="0 0 384 512">
+                <path
+                  class="fill-muted-500"
+                  d="M192 233.4L59.5 100.9 36.9 123.5 169.4 256 36.9 388.5l22.6 22.6L192 278.6 324.5 411.1l22.6-22.6L214.6 256 347.1 123.5l-22.6-22.6L192 233.4z"
+                />
+              </svg>
+            </button> -->
           </div>
         </div>
         <div class="flex w-full justify-between">
@@ -93,7 +115,7 @@
 
       <div class="flex w-full gap-x-2 justify-between !items-end">
         <button
-          @click="store.panel = ''"
+          @click="choose('filters')"
           class="is-button text-muted-500 rounded hover:text-red-500 !underline focus-within:!outline-none"
         >
           {{ $fcTr('cancel') }}
@@ -112,42 +134,54 @@
           </div>
         </div>
       </div>
+
+      <div
+        v-if="selectedFilter"
+        class="flex-auto bg-[#f9fafb] border border-[rgba(34,36,38,.1)] rounded p-2 flex align-center mt-2"
+      >
+        <component
+          v-model="filters[selectedFilter.field]"
+          :is="getComponent(selectedFilter)"
+          :field="selectedFilter"
+        />
+      </div>
+
+      <div
+        v-else-if="chooseFilter"
+        class="flex-auto bg-[#f9fafb] border border-[rgba(34,36,38,.1)] rounded p-2 flex align-center mt-2"
+      >
+        <div
+          v-for="(LFilters, filterName) in localFilters"
+          :key="filterName"
+          class="px-1 cursor-pointer divide-y rounded bg-blue-600 mx-1 text-white flex align-items-center"
+        >
+          <span class="px-4">{{ filterName }}</span>
+          <button class="mx-2 bg-green-600 px-3" @click="loadFilter(LFilters)">LOAD</button>
+          <button class="mx-2 bg-red-600 px-3" @click.stop="removeFilter(filterName)">DEL</button>
+        </div>
+      </div>
     </div>
   </transition>
 </template>
 
 <script setup>
-import MForm from 'formue'
 import { get as getSafe, capitalize } from 'lodash'
-import { inject, ref, reactive, markRaw, watch, nextTick } from 'vue'
+import { inject, ref, markRaw } from 'vue'
+import { useStorage } from '@vueuse/core'
+import TextField from '@/components/fields/TextField.vue'
 import SelectField from '@/components/fields/SelectField.vue'
-import filterComps from './filters/index.js'
+
+const chooseFilter = ref(false)
 
 const store = inject('store')
 const filters = store.filters
+const localFilters = getLocalFilters()
 
+const selectedFilter = ref(false)
+
+import MForm from 'formue'
 const form = ref({})
 const formData = ref({})
-
-function getFilterFields(name) {
-  let component
-
-  const filter = capitalize(name)
-
-  const fn = getSafe(filterComps, filter + 'Filter')
-
-  const field = store.flatFields.find((field) => field.filter === name)
-
-  if (typeof fn === 'function') return getSafe(filterComps, filter + 'Filter')(field)
-
-  return false
-
-  // if (typeof selectedFilter.value.filter == 'string')
-  //   component = getSafe(components, filter + 'Filter')
-  // else component = filter
-
-  // return component
-}
 
 const fields = ref([
   {
@@ -157,30 +191,101 @@ const fields = ref([
     isHeader: true,
     groupAttr: { class: 'w-[32.5%]' },
     // parentAttr: { class: 'change-input-forst' },
-    rel: {
-      get: store.headersWithoutActions,
+    items: store.headersWithoutActions,
+    props: {
       textKey: 'title',
-      valueKey: 'filter'
+      valueKey: 'field'
     },
     component: markRaw(SelectField)
   }
 ])
 
-watch(
-  () => form.value.field,
-  (filterName) => {
-    fields.value = [fields.value[0]]
-    const filterFields = getFilterFields(filterName) || []
-    for (const key in form.value) if (key !== 'field') form.value[key] = ''
-    nextTick(() => {
-      for (const field of filterFields) fields.value.push(field)
-    })
-  }
-)
+// const selectFilter = (filter) => {
+//   if (selectedFilter.value.field === filter.field) {
+//     selectedFilter.value = false
+//   } else {
+//     selectedFilter.value = filter
+//   }
+// }
+
+// function registering() {
+//   const components = {}
+
+//   const registerComponent = async (filePath, comp) => {
+//     const componentName = filePath
+//       .split('/')
+//       .pop()
+//       .replace(/\.\w+$/, '')
+
+//     components[componentName] = comp.default
+//   }
+
+//   const componentsEntry = import.meta.globEager('./filters/*.vue')
+
+//   for (const filePath in componentsEntry) {
+//     registerComponent(filePath, componentsEntry[filePath])
+//   }
+
+//   return components
+// }
+
+// const components = registering()
+
+// function getComponent() {
+//   let component
+
+//   const filter = capitalize(selectedFilter.value.filter)
+
+//   if (typeof selectedFilter.value.filter == 'string')
+//     component = getSafe(components, filter + 'Filter')
+//   else component = filter
+
+//   return component
+// }
+
+// function clearFilters() {
+//   store.isFiltering = false
+//   for (const key in filters) {
+//     filters[key] = {}
+//   }
+//   store.reloadData()
+// }
+
+function makeFilters() {
+  store.isFiltering = true
+  store.getWithFilter()
+}
+
+function saveFilter() {
+  let filterName = prompt('نام فیتر')
+
+  if (filterName) localFilters.value[filterName] = { ...filters }
+}
+
+function getLocalFilters() {
+  const storeName = window.location.pathname.replace(/^\/|\/$/g, '') + '-filters'
+
+  return useStorage(storeName, {}, localStorage, { mergeDefaults: true })
+}
+
+function loadFilter(LFilters) {
+  for (const key in filters) delete filters[key]
+  Object.assign(filters, { ...LFilters })
+  makeFilters()
+}
+
+function removeFilter(filterName) {
+  delete localFilters.value[filterName]
+}
 
 function addFilter() {
   filters.push(form)
   Object.assign(form, {})
+}
+
+function choose(panel) {
+  if (panel === store.panel) store.panel = ''
+  else store.panel = panel
 }
 </script>
 
