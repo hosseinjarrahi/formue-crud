@@ -29,5 +29,5 @@ onMounted(() => {
 </script>
 
 <style>
-@import 'https://unpkg.com/tabulator-tables@4.9.3/dist/css/semantic-ui/tabulator_semantic-ui.min.css';
+/* @import 'https://unpkg.com/tabulator-tables@4.9.3/dist/css/semantic-ui/tabulator_semantic-ui.min.css'; */
 </style>

@@ -174,7 +174,7 @@ const defineDynamicStore = () => {
       getWithFilter(page = 1, itemPerPage = 15) {
         const { post } = useFetch()
 
-        const filterURL = 'http://127.0.0.1:8000/api/filter'
+        const filterURL = 'http://192.168.190.10:9090/api/filter'
 
         this.loadings.filter = true
 
