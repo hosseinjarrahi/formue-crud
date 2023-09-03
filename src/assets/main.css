@@ -491,7 +491,7 @@ user agent stylesheet :focus-visible {
   background-size: 100%;
   transform: rotate(180deg);
 }
-.test div span::before {
+.test div ::before {
   content: '';
   position: absolute;
   background-image: url(/src/assets/img/after.svg);
@@ -511,6 +511,16 @@ user agent stylesheet :focus-visible {
   width: 100%;
   height: 17px;
 }
+.test2 div::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 18px;
+  background: #fff;
+  width: 100%;
+  height: 39px;
+  z-index: -1;
+}
 .test div {
   position: absolute;
   width: 100%;
@@ -519,6 +529,111 @@ user agent stylesheet :focus-visible {
   @apply rounded-full nui-focus border-muted-300 text-muted-600 placeholder:text-muted-300 dark:border-muted-700 dark:bg-muted-900/75 dark:text-muted-200 dark:placeholder:text-muted-500 dark:focus:border-muted-700  w-full border bg-white font-sans transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-75  h-10 py-2 text-sm leading-5 px-3;
 }
 
+.text-success-500 {
+  --tw-text-opacity: 1;
+  color: #14b8a6;
+  color: rgb(20 184 166 / var(--tw-text-opacity));
+}
+
+.block label > div.is-opaque {
+  opacity: 0;
+}
+.block label svg {
+  stroke-width: 2;
+  stroke: currentColor;
+  stroke-miterlimit: 10;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 currentColor;
+  color: currentColor;
+  display: block;
+  height: 32px;
+  margin: 0 auto;
+  width: 32px;
+}
+.block input {
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.block label > div {
+  border: 1px solid var(--animated-checkbox-border);
+  border-radius: 50%;
+  height: 32px;
+  left: 0;
+  opacity: 1;
+  position: absolute;
+  top: 0;
+  transition: all 0.2s;
+  width: 32px;
+  z-index: 0;
+}
+.block label > div.is-opaque {
+  opacity: 0;
+}
+
+.block label svg circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: currentColor;
+  fill: none;
+  height: 32px;
+  width: 32px;
+}
+.block.is-unchecked label svg path {
+  animation: reverseCheck 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.1s both;
+}
+.block.is-checked label svg path {
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s both;
+}
+
+.block.is-unchecked label svg circle {
+  animation: reverseCircle 0.6s cubic-bezier(0.65, 0, 0.45, 1) 0.2s both;
+}
+.block.is-checked label svg circle {
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) both;
+}
+.block label svg path {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke: currentColor;
+  transform-origin: 50% 50%;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes reverseCheck {
+  0% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 48;
+  }
+}
+@keyframes reverseCircle {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 166;
+  }
+}
+
+.block label {
+  height: 32px;
+  position: relative;
+  width: 32px;
+}
 :root {
   --color-primary-50: 245 243 255;
   --color-primary-100: 237 233 254;
@@ -542,6 +657,7 @@ user agent stylesheet :focus-visible {
   --color-muted-800: 30 41 59;
   --color-muted-900: 15 23 42;
   --color-muted-950: 2 6 23;
+  --animated-checkbox-border: #cfcfcf;
 }
 body {
   min-height: 100vh;
