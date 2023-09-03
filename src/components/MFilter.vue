@@ -12,19 +12,36 @@
             {{ $fcTr('filter_data') }}
           </h3>
           <div class="flex items-center">
-            <button class="is-button rounded is-button-default">
-              {{ $fcTr('choose_filter') }}
+            <button
+              class="is-button rounded is-button-default"
+              :class="{ '!pr-0': showChooseFilter }"
+              @click="showChooseFilter = !showChooseFilter"
+            >
+              <span v-if="showChooseFilter">
+                {{ $fcTr('close_filter') }}
+              </span>
+              <span v-else>
+                {{ $fcTr('choose_filter') }}
+              </span>
+              <div
+                class="transitionX-inp"
+                :class="showChooseFilter ? 'opacity-1  w-auto ml-3' : 'opacity-0 w-[0px]'"
+              >
+                <span
+                  v-for="(filter, key) in localFilters"
+                  :key="key"
+                  class="border-l border-1 px-2 py-2 transition ease-in-out hover:bg-blue-100"
+                  @click.stop="store.filters = Object.values(filter)"
+                >
+                  {{ key }}
+                </span>
+              </div>
             </button>
           </div>
         </div>
         <div class="flex w-full justify-between">
-          <MForm
-            class="w-[75%] justify-between"
-            :fields="fields"
-            v-model="form"
-            :form-data="formData"
-          />
-          <div class="w-[24%]">
+          <MForm class="w-[75%] justify-between" :fields="fields" v-model="form" />
+          <div class="w-[20%]">
             <button
               v-if="!isEditing"
               class="!border-dashed is-button-default is-button w-full rounded-full font-bold py-1 px-2 !border-green-400 !text-green-400 hover:!bg-green-50"
@@ -114,8 +131,38 @@
         </button>
         <div class="pt-4 md:pt-6">
           <div class="flex gap-x-2">
-            <button @click="saveFilter" class="is-button rounded is-button-default">
+            <button
+              @click.self="saveFilter"
+              class="is-button rounded is-button-default"
+              :class="{ '!pr-1': showSaveFilter }"
+            >
               {{ $fcTr('save') }}
+              <input
+                v-model="filterName"
+                class="transitionX-inp py-1 border border-1 rounded"
+                :class="
+                  showSaveFilter ? 'w-[170px] opacity-1 flex ml-3 pl-3' : 'flex opacity-0 w-[0px]'
+                "
+                :placeholder="$fcTr('filter_save_placeholder')"
+                ref="filterNameInp"
+              />
+              <span v-if="showSaveFilter" class="px-2" @click="showSaveFilter = false">
+                <svg
+                  data-v-74b3417a=""
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  class="h-4 w-4 text-primary-500"
+                >
+                  <path
+                    data-v-74b3417a=""
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M18 6 6 18M6 6l12 12"
+                  ></path>
+                </svg>
+              </span>
             </button>
             <button
               @click="makeFilters"
@@ -136,13 +183,18 @@ import { get as getSafe, capitalize } from 'lodash'
 import { inject, ref, markRaw, watch, nextTick } from 'vue'
 import SelectField from '@/components/fields/SelectField.vue'
 import filterComps from './filters/index.js'
+import { useStorage } from '@vueuse/core'
 
 const store = inject('store')
 
 let indexToEdit = -1
 const isEditing = ref(false)
 const form = ref({})
-const formData = ref({})
+const showSaveFilter = ref(false)
+const filterName = ref('')
+const localFilters = getLocalFilters()
+const filterNameInp = ref(null)
+const showChooseFilter = ref(false)
 
 function getFilterFields(name) {
   let component
@@ -201,6 +253,12 @@ watch(
   }
 )
 
+function getLocalFilters() {
+  const storeName = window.location.pathname.replace(/^\/|\/$/g, '') + '-filters'
+
+  return useStorage(storeName, {}, localStorage, { mergeDefaults: true })
+}
+
 function addFilter() {
   store.filters.push(form.value)
   form.value = {}
@@ -231,6 +289,25 @@ function removeFilter(filter) {
 function clearFilters() {
   store.filters = []
 }
+
+function saveFilter() {
+  if (!showSaveFilter.value) {
+    showSaveFilter.value = true
+    return filterNameInp.value.focus()
+  }
+  if (!filterName.value) return
+
+  localFilters.value[filterName.value] = { ...store.filters }
+
+  showSaveFilter.value = false
+  filterName.value = ''
+  filterNameInp.value.blur()
+}
+
+function makeFilters() {
+  store.isFiltering = true
+  store.getWithFilter()
+}
 </script>
 
 <style scoped>
@@ -245,5 +322,9 @@ function clearFilters() {
   transform: translate(0px, -50%) scale(0.001);
   /* transform: scale(0.5);
   transform: translate(0px, -100%); */
+}
+
+.transitionX-inp {
+  transition: all 1s ease-in-out;
 }
 </style>
