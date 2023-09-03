@@ -1,5 +1,5 @@
 <template>
-  <transition name="scale">
+  <div :class="store.panel === 'filters' ? 'accordion-content' : 'x'">
     <div
       class="border-muted-200 dark:border-muted-700 dark:bg-muted-800 relative mb-4 w-full rounded-md border bg-white p-6 transition-all duration-300"
       v-if="store.panel === 'filters'"
@@ -174,7 +174,7 @@
         </div>
       </div>
     </div>
-  </transition>
+  </div>
 </template>
 
 <script setup>
@@ -313,15 +313,24 @@ function makeFilters() {
 <style scoped>
 .scale-enter-active,
 .scale-leave-active {
-  transition: transform 0.3s cubic-bezier(0.5, 0, 0.5, 1), opacity 0.3s linear;
+  transition: transform 11.3s cubic-bezier(0.5, 0, 0.5, 1), opacity 11.3s linear;
 }
 .scale-enter-from,
 .scale-enter,
 .scale-leave-to {
+  height: 0;
   opacity: 0;
-  transform: translate(0px, -50%) scale(0.001);
-  /* transform: scale(0.5);
-  transform: translate(0px, -100%); */
+}
+.accordion-content {
+  max-height: 600px;
+  overflow: hidden;
+
+  transition: max-height 1s;
+}
+.x {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 1s;
 }
 
 .transitionX-inp {
