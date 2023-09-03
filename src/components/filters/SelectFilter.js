@@ -11,7 +11,9 @@ export default (field) => [
       get: [
         { value: '=', text: 'equal_to' },
         { value: '!=', text: 'not_equal_to' }
-      ]
+      ],
+      valueKey: 'value',
+      textKey: 'text'
     },
     component: markRaw(SelectField)
   },

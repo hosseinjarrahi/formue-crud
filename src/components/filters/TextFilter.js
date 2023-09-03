@@ -14,7 +14,9 @@ export default () => [
         { value: '>', text: 'greater_than' },
         { value: '<', text: 'less_than' },
         { value: 'LIKE', text: 'look_like' }
-      ]
+      ],
+      textKey: 'text',
+      valueKey: 'value'
     },
     component: markRaw(SelectField)
   },

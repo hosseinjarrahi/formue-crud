@@ -1,8 +1,12 @@
 <template>
   <vSelect
     v-bind="{ ...defaultProps, ...getFromSchema('props', {}) }"
-    v-on="{ ...defaultEvents, ...getFromSchema('events', {}) }"
+    v-on="getFromSchema('events', {})"
+    class="w-full"
+    :label="getFromSchema('rel.textKey', 'text')"
     :options="options"
+    :modelValue="getValues(props.value)"
+    @update:modelValue="updateField"
   />
 </template>
 
@@ -65,14 +69,9 @@ const options = computed(() => {
   return withChange ? withChange(items) : items
 })
 
-let defaultProps = {
-  class: 'w-full',
-  label: getFromSchema('rel.textKey', 'text'),
-  modelValue: getValues(props.value),
-  reduce: (item) => getSafe(item, getFromSchema('rel.valueKey', 'value'))
-}
-
-let defaultEvents = {
-  'update:modelValue': updateField
+const defaultProps = {
+  reduce: getFromSchema('rel.valueKey')
+    ? (item) => getSafe(item, getFromSchema('rel.valueKey', 'value'))
+    : (item) => item
 }
 </script>
