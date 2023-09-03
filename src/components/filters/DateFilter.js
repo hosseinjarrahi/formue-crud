@@ -13,7 +13,8 @@ export default () => [
         { value: '<>', text: 'range' },
         { value: '>', text: 'greater_than' },
         { value: '<', text: 'less_than' }
-      ]
+      ],
+      valueKey: 'value'
     },
     component: markRaw(SelectField)
   },

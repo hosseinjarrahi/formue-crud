@@ -17,7 +17,7 @@ const fields = defineFields([
   {
     title: 'firstname',
     field: 'firstname',
-    filter: 'text',
+    filter: 'date',
     isHeader: true,
     component: markRaw(TextField)
   },
@@ -25,7 +25,7 @@ const fields = defineFields([
     title: 'lastname',
     field: 'lastname',
     isHeader: true,
-    filter: 'date',
+    filter: 'select',
     rel: {
       get: 'http://127.0.0.1:8000/api/lesson',
       model: 'Lesson',
@@ -34,13 +34,13 @@ const fields = defineFields([
       // get: {
       //   immidate:false,
       //   route:'http://127.0.0.1:8000/api/professor',
-      //   key:''
+      //   model:'Professor'
       // },
       // get: {
       //   immidate:false,
       //   handler(ft,store){
       //     ft.get('http://127.0.0.1:8000/api/professor')
-      //     .then(res => store.items[key] = res.data))
+      //     .then(res => store.items[model] = res.data))
       //   }
       // },
       // get: {

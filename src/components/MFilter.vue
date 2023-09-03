@@ -1,7 +1,7 @@
 <template>
   <transition name="scale">
     <div
-      class="border-muted-200 dark:border-muted-700 dark:bg-muted-800 relative mb-4 w-full rounded-md border bg-white p-6 transition-all duration-300 z-[0]"
+      class="border-muted-200 dark:border-muted-700 dark:bg-muted-800 relative mb-4 w-full rounded-md border bg-white p-6 transition-all duration-300"
       v-if="store.panel === 'filters'"
     >
       <div class="flex flex-col ml-1 align-center border-b border-[rgba(0,0,0,.1)] pb-4">

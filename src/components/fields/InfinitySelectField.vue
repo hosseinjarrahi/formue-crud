@@ -63,10 +63,10 @@ export default {
       })
     },
     pagination() {
-      return this.store.paginations[this.model] || { total: 0, currentPage: 0 }
+      return this.store.paginations[this.model] || { lastPage: 0, currentPage: 0 }
     },
     hasNextPage() {
-      return this.pagination?.total > this.pagination?.currentPage
+      return this.pagination?.lastPage > this.pagination?.currentPage
     }
   },
 
