@@ -13,7 +13,7 @@ const props = defineProps({
   options: { default: () => ({}) },
   hiddenActions: { default: () => [] },
   fields: { default: () => [] },
-  dir: { default: 'ltr' },
+  dir: { default: 'rtl' },
   route: { default: 'route' }
 })
 
@@ -28,28 +28,28 @@ const store = init({
 
 provide('store', store)
 provide('dir', props.dir)
-
+document.body.setAttribute('dir', props.dir)
 onMounted(() => {
+  document.getElementsByClassName('v-overlay-container')[0].setAttribute('dir', 'ltr')
+
   emit('mounted')
 })
 </script>
 
 <template>
-  <div :dir="dir">
-    <MButtonBox />
+  <MButtonBox />
 
-    <MFilter />
+  <MFilter />
 
-    <MHeaderBox />
+  <MHeaderBox />
 
-    <MList />
+  <MList />
 
-    <MDialogForm />
+  <MDialogForm />
 
-    <MShowDialog />
+  <MShowDialog />
 
-    <MDeleteDialog />
+  <MDeleteDialog />
 
-    <slot name="extra"></slot>
-  </div>
+  <slot name="extra"></slot>
 </template>

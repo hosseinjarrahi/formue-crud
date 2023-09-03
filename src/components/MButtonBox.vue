@@ -1,6 +1,6 @@
 <template>
-  <div class="fm-header ltr:flex-row-reverse">
-    <div class="fm-header-left-sid ltr:flex-row-reverse">
+  <div class="fm-header !flex-row-reverse rtl:test">
+    <div class="fm-header-left-sid flex-row-reverse">
       <v-tooltip location="bottom" :text="$fcTr('add')">
         <template v-slot:activator="{ props }">
           <button v-bind="props" class="fm-plus-btn" @click="event('createBtn')">
@@ -64,13 +64,18 @@
           </button>
         </template>
       </v-tooltip>
-      <v-menu :close-on-content-click="false" location="end">
+      <v-menu :close-on-content-click="false" :location="dir === 'rtl' ? 'start' : 'end'">
         <template v-slot:activator="{ props: menu }">
           <v-tooltip location="bottom">
             <template v-slot:activator="{ props: tooltip }">
-              <button v-bind="{ ...menu, ...tooltip }" class="test2 fm-header-icon-btn"
-                :class="JSON.parse(menu['aria-expanded']) ? '!bg-white' : ''">
-                <div v-if="JSON.parse(menu['aria-expanded'])"></div>
+              <button
+                v-bind="{ ...menu, ...tooltip }"
+                class="fm-header-icon-btn"
+                :class="[
+                  JSON.parse(menu['aria-expanded']) ? '!bg-white' : '',
+                  JSON.parse(menu['aria-expanded']) ? (dir === 'rtl' ? 'test-rtl' : 'test2') : ''
+                ]"
+              >
                 <svg viewBox="0 0 448 512">
                   <path
                     d="M64 448c-17.7 0-32-14.3-32-32V96c0-17.7 14.3-32 32-32H384c17.7 0 32 14.3 32 32V416c0 17.7-14.3 32-32 32H64zM0 416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64C28.7 32 0 60.7 0 96V416zM128 288c8.8 0 16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16V272c0 8.8 7.2 16 16 16zm176 48c0 8.8 7.2 16 16 16s16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16V336zm-80-80c8.8 0 16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16v96c0 8.8 7.2 16 16 16z" />
@@ -80,74 +85,48 @@
             <span>{{ $fcTr('custom_column') }}</span>
           </v-tooltip>
         </template>
-        <div class="bg-white rounded-xl">
+        <div class="bg-white rounded-xl rtl:text-right ltr:text-left">
           <div class="m-3 mt-2">{{ $fcTr('custom_column') }}</div>
 
           <ul class="p-2">
-            <div
-              class="flex items-center gap-3 relative hover:bg-muted-200 rounded-lg px-5 pl-3 pr-9 rtl:pl-8 rtl:pr-5 py-2 duration-300">
-              <div class="nui-focus block focus-within:outline-current rounded-full"
-                :class="JSON.parse(checked) ? 'is-checked' : 'is-unchecked'">
-                <input v-model="checked" type="checkbox" class="peer cursor-pointer disabled:cursor-not-allowed"
-                  true-value="true" false-value="false" /><label for="ninja-input-160"
-                  class="text-success-500 peer-disabled:opacity-75">
-                  <div :class="JSON.parse(checked) ? 'is-opaque' : ''"></div>
-                  <svg aria-hidden="true" viewBox="0 0 52 52" data-v-3e8a7b5f="">
-                    <circle cx="26" cy="26" r="25" fill="none" stroke="currentColor"></circle>
-                    <path fill="none" stroke="currentColor" d="m14.1 27.2 7.1 7.2 16.7-16.8"></path>
-                  </svg>
-                </label>
+            <template v-for="u in 5" :key="u">
+              <div
+                class="flex items-center gap-3 relative hover:bg-muted-200 rounded-lg px-5 pl-3 pr-9 rtl:pl-8 rtl:pr-5 py-2 duration-300 rtl:flex-row-reverse"
+              >
+                <div
+                  class="nui-focus block focus-within:outline-current rounded-full"
+                  :class="JSON.parse(checked) ? 'is-checked' : 'is-unchecked'"
+                >
+                  <input
+                    v-model="checked"
+                    type="checkbox"
+                    class="peer cursor-pointer disabled:cursor-not-allowed"
+                    true-value="true"
+                    false-value="false"
+                  /><label class="text-success-500 peer-disabled:opacity-75"
+                    ><div
+                      class="rtl:left-[auto] rtl:!right-0 ltr:right-[auto] ltr:left-0"
+                      :class="JSON.parse(checked) ? 'is-opaque' : ''"
+                    ></div>
+                    <svg aria-hidden="true" viewBox="0 0 52 52" data-v-3e8a7b5f="">
+                      <circle cx="26" cy="26" r="25" fill="none" stroke="currentColor"></circle>
+                      <path
+                        fill="none"
+                        stroke="currentColor"
+                        d="m14.1 27.2 7.1 7.2 16.7-16.8"
+                      ></path></svg
+                  ></label>
+                </div>
+                <div>
+                  <h6
+                    class="font-heading text-muted-800 text-xs font-semibold leading-tight dark:text-white"
+                  >
+                    firstname
+                  </h6>
+                  <p class="text-muted-400 font-sans text-xs">default</p>
+                </div>
               </div>
-              <div>
-                <h6 class="font-heading text-muted-800 text-xs font-semibold leading-tight dark:text-white">
-                  firstname
-                </h6>
-                <p class="text-muted-400 font-sans text-xs">default</p>
-              </div>
-            </div>
-            <div
-              class="flex items-center gap-3 relative hover:bg-muted-200 rounded-lg px-5 pl-3 pr-9 rtl:pl-8 rtl:pr-5 py-2 duration-300">
-              <div class="nui-focus block focus-within:outline-current rounded-full"
-                :class="JSON.parse(checked2) ? 'is-checked' : 'is-unchecked'">
-                <input v-model="checked2" type="checkbox" class="peer cursor-pointer disabled:cursor-not-allowed"
-                  true-value="true" false-value="false" /><label for="ninja-input-160"
-                  class="text-success-500 peer-disabled:opacity-75">
-                  <div :class="JSON.parse(checked2) ? 'is-opaque' : ''"></div>
-                  <svg aria-hidden="true" viewBox="0 0 52 52" data-v-3e8a7b5f="">
-                    <circle cx="26" cy="26" r="25" fill="none" stroke="currentColor"></circle>
-                    <path fill="none" stroke="currentColor" d="m14.1 27.2 7.1 7.2 16.7-16.8">
-                    </path>
-                  </svg>
-                </label>
-              </div>
-              <div>
-                <h6 class="font-heading text-muted-800 text-xs font-semibold leading-tight dark:text-white">
-                  firstname
-                </h6>
-                <p class="text-muted-400 font-sans text-xs">default</p>
-              </div>
-            </div>
-            <div
-              class="flex items-center gap-3 relative hover:bg-muted-200 rounded-lg px-5 pl-3 pr-9 rtl:pl-8 rtl:pr-5 py-2 duration-300">
-              <div class="nui-focus block focus-within:outline-current rounded-full"
-                :class="JSON.parse(checked1) ? 'is-checked' : 'is-unchecked'">
-                <input v-model="checked1" type="checkbox" class="peer cursor-pointer disabled:cursor-not-allowed"
-                  true-value="true" false-value="false" /><label for="ninja-input-160"
-                  class="text-success-500 peer-disabled:opacity-75">
-                  <div :class="JSON.parse(checked1) ? 'is-opaque' : ''"></div>
-                  <svg aria-hidden="true" viewBox="0 0 52 52" data-v-3e8a7b5f="">
-                    <circle cx="26" cy="26" r="25" fill="none" stroke="currentColor"></circle>
-                    <path fill="none" stroke="currentColor" d="m14.1 27.2 7.1 7.2 16.7-16.8"></path>
-                  </svg>
-                </label>
-              </div>
-              <div>
-                <h6 class="font-heading text-muted-800 text-xs font-semibold leading-tight dark:text-white">
-                  firstname
-                </h6>
-                <p class="text-muted-400 font-sans text-xs">default</p>
-              </div>
-            </div>
+            </template>
           </ul>
         </div>
       </v-menu>
@@ -192,7 +171,7 @@
 import { VTooltip } from 'vuetify/components/VTooltip'
 import { VMenu } from 'vuetify/components/VMenu'
 
-import { inject, ref } from 'vue'
+import { inject, ref, onMounted } from 'vue'
 import { emitter } from 'formue'
 
 const { event } = emitter
@@ -203,8 +182,12 @@ function choose(panel) {
 }
 
 const checked = ref(false)
-const checked1 = ref(false)
-const checked2 = ref(false)
+
+const dir = ref(null)
+onMounted(() => {
+  dir.value = document.body.getAttribute('dir')
+  console.log(dir.value, 'fff')
+})
 </script>
 
 <style scoped>
