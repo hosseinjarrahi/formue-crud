@@ -1,11 +1,15 @@
 <template>
-  <vSelect
+  <VAutocomplete
+    variant="outlined"
+    density="compact"
+    rounded
+    :label="getFromSchema('rel.textKey', 'text')"
+    :items="items"
+    :model-value="getValues(value)"
     v-bind="{ ...defaultProps, ...getFromSchema('props', {}) }"
     v-on="getFromSchema('events', {})"
-    class="w-full"
-    :label="getFromSchema('rel.textKey', 'text')"
-    :options="options"
-    :modelValue="getValues(props.value)"
+    :item-title="getFromSchema('rel.textKey')"
+    :item-value="getFromSchema('rel.valueKey')"
     @update:modelValue="updateField"
   />
 </template>
@@ -14,8 +18,8 @@
 import { get as getSafe, every, isType } from 'lodash'
 import { defineProps, computed, inject } from 'vue'
 import { propsField } from 'formue'
-import vSelect from 'vue-select'
-import 'vue-select/dist/vue-select.css'
+import { VAutocomplete } from 'vuetify/components/VAutocomplete'
+import 'vuetify/styles'
 
 const store = inject('store')
 const props = defineProps(propsField)
@@ -52,7 +56,7 @@ function loadData() {
 
 const key = loadData()
 
-const options = computed(() => {
+const items = computed(() => {
   const get = getFromSchema('rel.get')
   let items = []
   const withChange = getFromSchema('rel.withChange')
@@ -69,9 +73,5 @@ const options = computed(() => {
   return withChange ? withChange(items) : items
 })
 
-const defaultProps = {
-  reduce: getFromSchema('rel.valueKey')
-    ? (item) => getSafe(item, getFromSchema('rel.valueKey', 'value'))
-    : (item) => item
-}
+const defaultProps = {}
 </script>
