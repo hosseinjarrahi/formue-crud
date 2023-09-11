@@ -6,6 +6,7 @@
       <div class="lg:w-3/5 w-full flex items-center justify-between border-t border-gray-200">
         <div class="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer">
           <svg
+            class="ltr:rotate-180"
             width="14"
             height="8"
             viewBox="0 0 14 8"
@@ -34,7 +35,7 @@
               stroke-linejoin="round"
             />
           </svg>
-          <p class="text-sm ml-3 font-medium leading-none" @click="prevPage">
+          <p class="text-sm rtl:mr-3 ltr:ml-3 font-medium leading-none" @click="prevPage">
             {{ $fcTr('previous') }}
           </p>
         </div>
@@ -74,9 +75,12 @@
           </template>
         </div>
         <div class="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer">
-          <p class="text-sm font-medium leading-none mr-3" @click="nextPage">{{ $fcTr('next') }}</p>
+          <p class="text-sm font-medium leading-none rlt:ml-3 ltr:mr-3" @click="nextPage">
+            {{ $fcTr('next') }}
+          </p>
 
           <svg
+            class="ltr:rotate-180"
             width="14"
             height="8"
             viewBox="0 0 14 8"
