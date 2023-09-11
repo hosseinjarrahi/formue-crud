@@ -1,32 +1,21 @@
 <template>
-  <VAutocomplete
-    variant="outlined"
-    density="compact"
-    rounded
-    :label="getFromSchema('rel.textKey', 'text')"
-    :items="items"
-    :model-value="getValues(value)"
-    :item-title="getFromSchema('rel.textKey')"
-    :item-value="getFromSchema('rel.valueKey')"
-    :loading="loading"
+  <vSelect
     v-bind="{ ...defaultProps, ...getFromSchema('props', {}) }"
     v-on="getFromSchema('events', {})"
-    single-line
+    class="w-full"
+    :label="getFromSchema('rel.textKey', 'text')"
+    :options="options"
+    :modelValue="getValues(props.value)"
     @update:modelValue="updateField"
-  >
-    <template #append-item>
-      <div v-if="hasNextPage" v-intersect="endIntersect">{{ $fcTr('loading...') }}</div>
-    </template>
-  </VAutocomplete>
+  />
 </template>
 
 <script setup>
 import { get as getSafe, every, isType } from 'lodash'
 import { defineProps, computed, inject } from 'vue'
 import { propsField } from 'formue'
-import { Intersect as VIntersect } from 'vuetify/directives'
-import { VAutocomplete } from 'vuetify/components/VAutocomplete'
-import 'vuetify/styles'
+import vSelect from 'vue-select'
+import 'vue-select/dist/vue-select.css'
 
 const store = inject('store')
 const props = defineProps(propsField)
@@ -63,7 +52,7 @@ function loadData() {
 
 const key = loadData()
 
-const items = computed(() => {
+const options = computed(() => {
   const get = getFromSchema('rel.get')
   let items = []
   const withChange = getFromSchema('rel.withChange')
@@ -79,33 +68,10 @@ const items = computed(() => {
 
   return withChange ? withChange(items) : items
 })
-// load first
-const model = store.addRoute(getFromSchema('rel.get'))
-// store.loadItems(model)
 
-const pagination = computed(() => {
-  return store.paginations[model] || { lastPage: 0, currentPage: 0 }
-})
-
-const hasNextPage = computed(() => {
-  return pagination.value.lastPage > pagination.value.currentPage
-})
-
-function paginate() {
-  const query = ''
-  store.loadItemsPlus(model, pagination.value.currentPage + 1, query)
+const defaultProps = {
+  reduce: getFromSchema('rel.valueKey')
+    ? (item) => getSafe(item, getFromSchema('rel.valueKey', 'value'))
+    : (item) => item
 }
-
-const loading = computed(() => {
-  return store.loadings[model]
-})
-
-function endIntersect(isIntersecting, entries, observer) {
-  console.log('asldasjd')
-  if (isIntersecting) {
-    paginate()
-  }
-}
-
-const defaultProps = {}
 </script>

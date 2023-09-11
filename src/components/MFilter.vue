@@ -4,8 +4,8 @@
       class="border-muted-200 dark:border-muted-700 dark:bg-muted-800 relative mb-4 w-full rounded-md border bg-white p-6 transition-all duration-300"
       v-if="store.panel === 'filters'"
     >
-      <div class="flex flex-col ml-1 align-center border-b border-[rgba(0,0,0,.1)] pb-4">
-        <div class="flex justify-between mb-4 items-center">
+      <div class="flex flex-col ml-1 border-b border-[rgba(0,0,0,.1)] pb-4">
+        <div class="flex flex-row justify-between mb-4 items-center">
           <h3
             class="font-heading text-base font-semibold leading-tight text-muted-800 dark:text-white"
           >
@@ -227,13 +227,10 @@ const fields = ref([
     rel: {
       get: store.headersWithoutActions,
       textKey: 'title',
-      valueKey: 'filter',
-      withChange(items) {
-        return items.map((item) => ({
-          ...item,
-          filter: { filterType: item.filter, field: item.field, title: item.title }
-        }))
-      }
+      valueKey: 'filter'
+    },
+    props: {
+      'return-object': true
     },
     component: markRaw(SelectField)
   }
@@ -243,7 +240,7 @@ watch(
   () => form.value.field,
   (filter) => {
     fields.value.length = 1
-    const filterFields = getFilterFields(getSafe(filter, 'filterType')) || []
+    const filterFields = getFilterFields(getSafe(filter, 'filter')) || []
     for (const key in form.value) {
       if (key !== 'field') form.value[key] = ''
     }
