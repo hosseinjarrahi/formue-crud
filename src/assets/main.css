@@ -459,7 +459,6 @@ user agent stylesheet :focus-visible {
   width: 100%;
   height: 100%;
   outline: none;
-  z-index: -1;
   /* border-radius: 0.25rem 0.25rem 0 0; */
 }
 .fm-drop-down-btn::after {
@@ -529,7 +528,7 @@ user agent stylesheet :focus-visible {
   background: #fff;
   width: 100%;
   height: 39px;
-  z-index: -1;
+  z-index: 0;
 }
 .test div {
   position: absolute;
@@ -2336,75 +2335,6 @@ video {
 
 [hidden] {
   display: none;
-}
-
-[type='text'],
-[type='email'],
-[type='url'],
-[type='password'],
-[type='number'],
-[type='date'],
-[type='datetime-local'],
-[type='month'],
-[type='search'],
-[type='tel'],
-[type='time'],
-[type='week'],
-[multiple],
-textarea,
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #fff;
-  border-color: #6b7280;
-  border-width: 1px;
-  border-radius: 0;
-  padding: 0.5rem 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  --tw-shadow: 0 0 #0000;
-}
-
-[type='text']:focus,
-[type='email']:focus,
-[type='url']:focus,
-[type='password']:focus,
-[type='number']:focus,
-[type='date']:focus,
-[type='datetime-local']:focus,
-[type='month']:focus,
-[type='search']:focus,
-[type='tel']:focus,
-[type='time']:focus,
-[type='week']:focus,
-[multiple]:focus,
-textarea:focus,
-select:focus {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  --tw-ring-inset: var(--tw-empty);
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: #2563eb;
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width)
-    var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width))
-    var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  border-color: #2563eb;
-}
-
-input::-moz-placeholder,
-textarea::-moz-placeholder {
-  color: #6b7280;
-  opacity: 1;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #6b7280;
-  opacity: 1;
 }
 
 ::-webkit-datetime-edit-fields-wrapper {
@@ -7135,7 +7065,7 @@ select {
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  border-bottom: 1px solid #999;
+  /* border-bottom: 1px solid #999; */
   background-color: #e6e6e6;
   color: #555;
   font-weight: 700;
@@ -7301,7 +7231,8 @@ select {
 
 .tabulator .tabulator-header .tabulator-col.tabulator-sortable.tabulator-col-sorter-element:hover {
   cursor: pointer;
-  background-color: #cdcdcd;
+  background-color: #e2e8f0;
+  border-radius: 4px;
 }
 
 .tabulator
@@ -7472,7 +7403,7 @@ select {
   position: relative;
   width: 100%;
   white-space: nowrap;
-  overflow: auto;
+  /* overflow: auto; */
   -webkit-overflow-scrolling: touch;
 }
 
@@ -7506,7 +7437,7 @@ select {
 .tabulator .tabulator-tableholder .tabulator-table {
   position: relative;
   display: inline-block;
-  background-color: #fff;
+  /* background-color: #fff; */
   white-space: nowrap;
   overflow: visible;
   color: #333;
@@ -7689,10 +7620,13 @@ select {
   box-sizing: border-box;
   min-height: 22px;
   background-color: #fff;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  margin-top: 4px;
 }
 
 .tabulator-row.tabulator-row-even {
-  background-color: #efefef;
+  /* background-color: #efefef; */
 }
 
 .tabulator-row.tabulator-selectable:hover {
@@ -8196,7 +8130,7 @@ select {
   .tabulator-col
   .tabulator-col-content
   .tabulator-col-sorter {
-  left: 8px;
+  left: 0px;
   right: initial;
 }
 
@@ -13513,8 +13447,8 @@ html body {
 .tabulator .tabulator-header {
   font-weight: 500;
   color: currentColor;
-  border-top: 1px solid #e2e8f0;
-  border-bottom: 1px solid #e2e8f0;
+  /* border-top: 1px solid #e2e8f0; */
+  /* border-bottom: 1px solid #e2e8f0; */
   background-color: transparent;
 }
 
@@ -13563,17 +13497,13 @@ html body {
   border-bottom-color: #cbd5e0;
 }
 
-.tabulator .tabulator-row {
-  border-bottom: 1px solid #e2e8f0;
-}
-
 .tabulator .tabulator-row:hover,
 .tabulator .tabulator-row.tabulator-row-even:hover {
   background-color: #e2e8f0;
 }
 
 .tabulator .tabulator-row.tabulator-row-even {
-  background-color: #f1f5f9;
+  /* background-color: #f1f5f9; */
 }
 
 .tabulator .tabulator-row .tabulator-cell {
@@ -13763,8 +13693,8 @@ html body {
 }
 
 .tabulator .tabulator-tableholder {
-  overflow-x: auto;
-  overflow-y: hidden;
+  /* overflow-x: auto; */
+  overflow: hidden;
 }
 
 .tabulator .tabulator-tableholder .tabulator-placeholder {
