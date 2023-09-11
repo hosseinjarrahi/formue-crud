@@ -17,7 +17,7 @@
             v-bind="props"
             class="fm-header-icon-btn fm-drop-down-btn min-w-[130px]"
           >
-            <span>{{ $fcTr('export') }}</span>
+            <span class="z-[1]">{{ $fcTr('export') }}</span>
           </button>
         </template>
         <div class="bg-muted-200 cursor-pointer rounded-b-xl">
@@ -87,7 +87,7 @@
                   JSON.parse(menu['aria-expanded']) ? (dir === 'rtl' ? 'test-rtl' : 'test2') : ''
                 ]"
               >
-                <svg viewBox="0 0 448 512">
+                <svg viewBox="0 0 448 512" class="z-[1]">
                   <path
                     d="M64 448c-17.7 0-32-14.3-32-32V96c0-17.7 14.3-32 32-32H384c17.7 0 32 14.3 32 32V416c0 17.7-14.3 32-32 32H64zM0 416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64C28.7 32 0 60.7 0 96V416zM128 288c8.8 0 16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16V272c0 8.8 7.2 16 16 16zm176 48c0 8.8 7.2 16 16 16s16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16V336zm-80-80c8.8 0 16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16v96c0 8.8 7.2 16 16 16z"
                   />
@@ -200,7 +200,7 @@
 import { VTooltip } from 'vuetify/components/VTooltip'
 import { VMenu } from 'vuetify/components/VMenu'
 
-import { inject, ref, onMounted } from 'vue'
+import { inject, ref, onMounted, computed } from 'vue'
 import { emitter } from 'formue'
 
 const { event } = emitter
@@ -215,7 +215,10 @@ const checked = ref(false)
 const dir = ref(null)
 onMounted(() => {
   dir.value = document.body.getAttribute('dir')
-  console.log(dir.value, 'fff')
+})
+
+const setClass = computed(() => {
+  return author.books.length > 0 ? 'Yes' : 'No'
 })
 </script>
 

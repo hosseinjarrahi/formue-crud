@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full bg-white">
+  <div class="w-full ">
     <component :is="MTable" v-bind="bind()" />
   </div>
 </template>

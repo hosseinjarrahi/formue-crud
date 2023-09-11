@@ -40,12 +40,14 @@ export function filterFieldsByShow(fields, mode = 'create') {
 export function makeHeaders(flatFields) {
   let temp = flatFields.filter((schema) => schema.isHeader)
   temp.push({
-    title: 'Actions',
-    sortable: false,
+    title: '',
     value: '_actions_',
     field: '_actions_',
     type: 'text',
-    align: 'left'
+    align: 'left',
+    headerSort:false,
+    hozAlign:"left",
+    headerHozAlign: "left"
   })
   temp.unshift({
     title: '#',
@@ -53,7 +55,7 @@ export function makeHeaders(flatFields) {
     value: '_index_',
     field: '_index_',
     align: 'center',
-    sortable: false
+    headerSort:false
   })
   return temp
 }
