@@ -57,7 +57,9 @@ function loadData() {
   if (!getFromSchema('rel.get')) return
 
   const key = store.addRoute(getFromSchema('rel.get'))
+
   store.loadItems(key)
+
   return key
 }
 
@@ -101,7 +103,6 @@ const loading = computed(() => {
 })
 
 function endIntersect(isIntersecting, entries, observer) {
-  console.log('asldasjd')
   if (isIntersecting) {
     paginate()
   }

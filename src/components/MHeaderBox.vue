@@ -41,9 +41,6 @@ watch(
   }
 )
 
-function test() {
-  console.log('ssssssssssssssss')
-}
 function toggleHeader(field) {
   field.isHeader = !field.isHeader
 }

@@ -21,6 +21,7 @@ const defineDynamicStore = () => {
       filters: [],
       isFiltering: false,
       hiddenActions: [],
+      selected: [],
       panelName: false
     }),
 
@@ -49,6 +50,14 @@ const defineDynamicStore = () => {
         if (!Array.isArray(state.fields)) {
           return []
         }
+        state.fields.unshift({
+          title: '',
+          type: 'text',
+          value: '_select_',
+          field: '_select_',
+          align: 'center',
+          headerSort: false
+        })
         return state.fields.map((field) => {
           if (has(field, 'groupLabel')) {
             return field.items
@@ -57,12 +66,20 @@ const defineDynamicStore = () => {
         })
       },
 
+      flatFieldsWithoutActions() {
+        return this.flatFields.filter(
+          (field) => !['_actions_', '_index_', '_select_'].includes(field.field)
+        )
+      },
+
       headers() {
         return makeHeaders(this.flatFields)
       },
 
       headersWithoutActions() {
-        return this.headers.filter((header) => !['_actions_', '_index_'].includes(header.field))
+        return this.headers.filter(
+          (header) => !['_actions_', '_index_', '_select_'].includes(header.field)
+        )
       }
     },
 
