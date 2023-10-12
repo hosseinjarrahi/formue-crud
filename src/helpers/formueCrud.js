@@ -113,5 +113,5 @@ const getRegisterField = (field) => {
 }
 
 export function defineFields(fn) {
-  fn(getRegisterField)
+  return fn(getRegisterField)
 }
