@@ -1,25 +1,23 @@
 <template>
   <div class="w-1/2 mx-auto pt-10">
-    <MCrud :fields="fields" route="http://192.168.190.10:9090/api/professor" dir="rtl"/>
+    <MCrud :fields="fields" route="http://192.168.190.10:9090/api/professor" dir="rtl" />
     <AppAlert />
   </div>
 </template>
 
 <script setup>
-import { markRaw } from 'vue'
 import './../node_modules/formue/dist/style.css'
 import AppAlert from '@/components/AppAlert.vue'
 import MCrud from './components/MCrud.vue'
-import TextField from '@/components/fields/TextField.vue'
 import { defineFields } from '@/helpers/formueCrud'
 
-const fields = defineFields([
+const fields = defineFields((_) => [
   {
     title: 'firstname',
     field: 'firstname',
     filter: 'date',
     isHeader: true,
-    component: markRaw(TextField)
+    component: _('text')
   },
   {
     title: 'lastname',
@@ -50,7 +48,7 @@ const fields = defineFields([
       //   }
       // }
     },
-    component: markRaw(TextField)
+    component: _('text')
   }
 ])
 </script>

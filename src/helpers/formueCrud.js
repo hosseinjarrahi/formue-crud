@@ -1,6 +1,7 @@
 import { has, get as getSafe } from 'lodash'
 import { emitter } from 'formue'
 import { useDynamicStore } from '@/composables/useDynamicStore'
+import { markRaw } from 'vue'
 
 export function convertToSendForm(form, fields) {
   let out = {}
@@ -109,7 +110,7 @@ export const registerFields = (fields) => {
 }
 
 const getRegisterField = (field) => {
-  return getSafe(registeredFields, field)
+  return markRaw(getSafe(registeredFields, field))
 }
 
 export function defineFields(fn) {
