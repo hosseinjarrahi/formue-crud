@@ -1,4 +1,4 @@
-import { has } from 'lodash'
+import { has, get as getSafe } from 'lodash'
 import { emitter } from 'formue'
 import { useDynamicStore } from '@/composables/useDynamicStore'
 
@@ -39,7 +39,7 @@ export function filterFieldsByShow(fields, mode = 'create') {
 
 export function makeHeaders(flatFields) {
   let activeHeaders = flatFields.filter((schema) => schema.isHeader)
-  
+
   activeHeaders.push({
     title: '',
     value: '_actions_',
@@ -102,6 +102,16 @@ export function init({ fields, hiddenActions, options, route }) {
   return store
 }
 
-export function defineFields(fields) {
-  return fields
+let registeredFields = {}
+
+export const registerFields = (fields) => {
+  registeredFields = fields
+}
+
+const getRegisterField = (field) => {
+  return getSafe(registeredFields, field)
+}
+
+export function defineFields(fn) {
+  fn(getRegisterField)
 }
