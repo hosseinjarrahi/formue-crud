@@ -1,6 +1,6 @@
 import MCrud from './components/MCrud.vue'
 import './assets/main.css'
 import install from './install'
-import { registerFields } from './helpers/formueCrud'
+import { registerFields, defineFields } from './helpers/formueCrud'
 
-export { MCrud, registerFields, install }
+export { MCrud, registerFields, install, defineFields }
