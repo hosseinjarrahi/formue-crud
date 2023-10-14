@@ -1,6 +1,7 @@
-import { has } from 'lodash'
+import { has, get as getSafe } from 'lodash'
 import { emitter } from 'formue'
 import { useDynamicStore } from '@/composables/useDynamicStore'
+import { markRaw } from 'vue'
 
 export function convertToSendForm(form, fields) {
   let out = {}
@@ -38,26 +39,32 @@ export function filterFieldsByShow(fields, mode = 'create') {
 }
 
 export function makeHeaders(flatFields) {
-  let temp = flatFields.filter((schema) => schema.isHeader)
-  temp.push({
+  let activeHeaders = flatFields.filter((schema) => schema.isHeader)
+
+  activeHeaders.push({
     title: '',
     value: '_actions_',
     field: '_actions_',
     type: 'text',
     align: 'left',
-    headerSort:false,
-    hozAlign:"left",
-    headerHozAlign: "left"
+    headerSort: false,
+    hozAlign: 'left',
+    headerHozAlign: 'left'
   })
-  temp.unshift({
+
+  let indexToPush = 0
+  if (flatFields.find((i) => i.field === '_select_' && i.isHeader)) indexToPush = 1
+
+  activeHeaders.splice(indexToPush, 0, {
     title: '#',
     type: 'text',
     value: '_index_',
     field: '_index_',
     align: 'center',
-    headerSort:false
+    headerSort: false
   })
-  return temp
+
+  return activeHeaders
 }
 
 export function filteredFields(fields, isEditing) {
@@ -96,6 +103,20 @@ export function init({ fields, hiddenActions, options, route }) {
   return store
 }
 
-export function defineFields(fields) {
-  return fields
+let registeredFields = {}
+
+export const registerFields = (fields) => {
+  registeredFields = fields
+}
+
+const getRegisterField = (field) => {
+  const comp = getSafe(registeredFields, field)
+
+  if (!comp) return ''
+  
+  return markRaw(comp)
+}
+
+export function defineFields(fn) {
+  return fn(getRegisterField)
 }

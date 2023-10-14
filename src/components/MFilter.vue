@@ -24,7 +24,7 @@
               </span>
               <div
                 class="transitionX-inp"
-                :class="showChooseFilter ? 'opacity-1  w-auto ml-3' : 'opacity-0 w-[0px]'"
+                :class="showChooseFilter ? 'opacity-1  w-auto ml-3 flex' : 'hidden opacity-0 w-[0px]'"
               >
                 <span
                   v-for="(filter, key) in localFilters"
@@ -274,7 +274,6 @@ function addFilter() {
 }
 
 function editFilter() {
-  console.log(indexToEdit)
   if (indexToEdit !== -1) {
     store.filters.splice(indexToEdit, 1, form.value)
   }
@@ -287,7 +286,7 @@ function fillForm(filter, index) {
   isEditing.value = true
   indexToEdit = index
   nextTick(() => {
-    form.value = filter
+    form.value = { ...filter }
   })
 }
 

@@ -24,7 +24,7 @@ export default {
   look_like: 'مشابه',
   search: 'جستجو ...',
   range: 'محدوده',
-  add: 'اضافه کردن',
+  edit_filter: 'ویرایش فیلتر',
   export: 'خروجی‌گرفتن',
   export_as_pdf: 'PDF خروجی',
   export_as_excel: 'Excel خروجی',

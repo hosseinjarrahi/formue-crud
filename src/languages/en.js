@@ -22,7 +22,7 @@ export default {
   greater_than: 'Greater than',
   less_than: 'Less than',
   look_like: 'Look like',
-  search: 'Rearch ...',
+  search: 'Search ...',
   range: 'Range',
   add: 'Add',
   export: 'Export',

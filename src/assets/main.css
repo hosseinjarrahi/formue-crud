@@ -12780,4 +12780,15 @@ html body {
   50% {
     opacity: 0.5;
   }
+.fm-light-shadow {
+  box-shadow: 0 7px 4px -5px;
+}
+
+.fm-active-btn {
+  color: white !important;
+  background-color: rgb(var(--color-primary-500) / var(--tw-bg-opacity)) !important;
+}
+
+.fm-active-btn svg {
+  fill: white !important;
 }
