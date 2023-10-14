@@ -10,7 +10,7 @@ export const useLangsStore = defineStore('formuCrudLangs', {
 
   getters: {
     currentLang(state) {
-      return getSafe(state.langs, state.lang, 'en')
+      return getSafe(state.langs, state.lang, 'fa')
     }
   },
 

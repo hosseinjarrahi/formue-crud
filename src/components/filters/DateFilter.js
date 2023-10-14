@@ -9,10 +9,10 @@ export default () => [
     groupAttr: { class: 'w-[32.5%]' },
     rel: {
       get: [
-        { value: '=', text: 'equal_to' },
-        { value: '<>', text: 'range' },
-        { value: '>', text: 'greater_than' },
-        { value: '<', text: 'less_than' }
+        { value: '=', text: 'equal_to (=)' },
+        { value: '<>', text: 'range (<>)' },
+        { value: '>', text: 'greater_than (>)' },
+        { value: '<', text: 'less_than (<)' }
       ],
       textKey: 'text',
       valueKey: 'value'
