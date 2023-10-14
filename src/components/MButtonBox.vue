@@ -77,18 +77,14 @@
         <template v-slot:activator="{ props: menu }">
           <v-tooltip location="bottom">
             <template v-slot:activator="{ props: tooltip }">
-              <button
-                v-bind="{ ...menu, ...tooltip }"
-                class="fc-header-icon-btn"
-                :class="[
-                  JSON.parse(menu['aria-expanded']) ? '!bg-white' : '',
-                  JSON.parse(menu['aria-expanded'])
-                    ? dir === 'rtl'
-                      ? 'expanded-rtl'
-                      : 'expanded2'
-                    : ''
-                ]"
-              >
+              <button v-bind="{ ...menu, ...tooltip }" class="fc-header-icon-btn" :class="[
+                JSON.parse(menu['aria-expanded']) ? '!bg-white' : '',
+                JSON.parse(menu['aria-expanded'])
+                  ? dir === 'rtl'
+                    ? 'expanded-rtl'
+                    : 'expanded2'
+                  : ''
+              ]">
                 <svg viewBox="0 0 448 512" class="z-[1]">
                   <path
                     d="M64 448c-17.7 0-32-14.3-32-32V96c0-17.7 14.3-32 32-32H384c17.7 0 32 14.3 32 32V416c0 17.7-14.3 32-32 32H64zM0 416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64C28.7 32 0 60.7 0 96V416zM128 288c8.8 0 16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16V272c0 8.8 7.2 16 16 16zm176 48c0 8.8 7.2 16 16 16s16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16V336zm-80-80c8.8 0 16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16v96c0 8.8 7.2 16 16 16z" />
@@ -134,8 +130,7 @@
           class="nui-focus !pl-4 border-muted-300 text-muted-600 placeholder:text-muted-300 dark:border-muted-700 dark:bg-muted-900/75 dark:text-muted-200 dark:placeholder:text-muted-500 dark:focus:border-muted-700 peer w-full border bg-white font-sans transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-75 px-2 h-10 py-2 text-sm leading-5 pe-4 ps-9 rounded-full"
           :placeholder="$fcTr('search')" />
         <div
-          class="ltr:left-0 text-muted-400 group-focus-within/nui-input:text-primary-500 absolute end-0 rtl:start-0 top-0 flex items-center justify-center transition-colors duration-300 peer-disabled:cursor-not-allowed peer-disabled:opacity-75 h-10 w-10"
-        >
+          class="ltr:left-0 text-muted-400 group-focus-within/nui-input:text-primary-500 absolute end-0 rtl:start-0 top-0 flex items-center justify-center transition-colors duration-300 peer-disabled:cursor-not-allowed peer-disabled:opacity-75 h-10 w-10">
           <svg class="icon h-[1.15rem] w-[1.15rem]" width="1em" height="1em" viewBox="0 0 24 24">
             <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
               <circle cx="11" cy="11" r="8"></circle>
@@ -152,7 +147,7 @@
 import { VTooltip } from 'vuetify/components/VTooltip'
 import { VMenu } from 'vuetify/components/VMenu'
 
-import { inject, ref, onMounted } from 'vue'
+import { inject, ref, onMounted, computed } from 'vue'
 import { emitter } from 'formue'
 
 import SelectColumnItem from '@/components/SelectColumnItem.vue'
@@ -191,27 +186,29 @@ function toggleSelect() {
 .spin {
   animation: spin 0.8s linear infinite;
 }
+
 @keyframes spin {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
 }
+
 /* style for filter palne  */
 .scale-enter-active,
 .scale-leave-active {
   transition: transform 0.3s cubic-bezier(0.5, 0, 0.5, 1), opacity 0.3s linear;
 }
+
 .scale-enter-from,
 .scale-enter,
 .scale-leave-to {
   opacity: 0;
   transform: scale(0.5);
 }
+
 /*  */
-body
-  > div.v-overlay-container
-  > div.v-overlay.v-overlay--absolute.v-overlay--active.v-theme--light.v-locale--is-ltr.v-menu {
+body>div.v-overlay-container>div.v-overlay.v-overlay--absolute.v-overlay--active.v-theme--light.v-locale--is-ltr.v-menu {
   z-index: 2030 !important;
 }
 </style>
