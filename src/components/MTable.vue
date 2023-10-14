@@ -1,10 +1,36 @@
 <template>
   <div ref="table" class="mt-2"></div>
+  <div v-if="store.loadings.Professor" class="mt-[-20px]">
+    <template v-for="n in 10" :key="n">
+      <div
+        :class="{
+          'border-t-0': n === 1,
+          'border-b-0': n === 10,
+          'bg-muted-50': n % 2 === 0,
+          'bg-white': n % 2 === 0
+        }"
+        class="w-full py-4 mx-auto border-b-1"
+      >
+        <div class="flex animate-pulse flex-row items-center h-full justify-center">
+          <div class="w-full flex flex-col items-start rtl:mr-8 ltr:ml-8">
+            <div class="w-[70%] bg-muted-300 h-2.5 rounded-md"></div>
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
+  <div
+    class="padding: 100px; mt-[-20px] rounded-b-xl bg-white text-center p-[100px]"
+    v-if="testcom"
+  >
+    <h2>{{ $tc('not_load_or_existing_data') }}</h2>
+  </div>
+
   <MTablePagination />
 </template>
 
 <script setup>
-import { onMounted, inject, ref } from 'vue'
+import { onMounted, inject, ref, computed } from 'vue'
 import { initTable } from '@/helpers/tabulator'
 import { adaptor } from '@/helpers/tabulatorAdaptor'
 import MTablePagination from './MTablePagination.vue'
@@ -13,6 +39,12 @@ const table = ref(null)
 
 const store = inject('store')
 const dir = inject('dir')
+const testcom = computed(() => {
+  return store.mainItems.length === 0 && !store.loadings.Professor
+})
+function choose() {
+  return store.mainItems.length === 0 && !store.loadings.Professor
+}
 
 adaptor(store)
 
@@ -27,7 +59,4 @@ onMounted(() => {
   })
 })
 </script>
-
-<style>
-/* @import 'https://unpkg.com/tabulator-tables@4.9.3/dist/css/semantic-ui/tabulator_semantic-ui.min.css'; */
-</style>
+<style scoped></style>

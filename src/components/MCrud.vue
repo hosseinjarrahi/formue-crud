@@ -13,7 +13,7 @@ const props = defineProps({
   options: { default: () => ({}) },
   hiddenActions: { default: () => [] },
   fields: { default: () => [] },
-  dir: { default: 'ltr' },
+  dir: { default: 'rtl' },
   route: { default: 'route' }
 })
 

@@ -1,21 +1,25 @@
 <template>
-  <div class="fm-header !flex-row-reverse rtl:test">
-    <div class="fm-header-left-sid flex-row-reverse">
+  <!-- button top of table -->
+  <div class="fc-header">
+    <!-- left sid  -->
+    <div class="fc-header-left-sid">
+      <!-- add boutton -->
       <v-tooltip location="bottom" :text="$fcTr('add')">
         <template v-slot:activator="{ props }">
-          <button v-bind="props" class="fm-plus-btn" @click="event('createBtn')">
-            <svg class="icon h-4 w-4" viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-width="2" d="M5 12h14m-7-7v14"></path>
+          <button v-bind="props" class="fc-plus-btn" @click="event('createBtn')">
+            <svg viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-width="2" d="M5 12h14m-7-7v14" />
             </svg>
           </button>
         </template>
       </v-tooltip>
+      <!-- export menu (excel, pdf, print) -->
       <v-menu>
         <template v-slot:activator="{ props }">
           <button
             :class="!JSON.parse(props['aria-expanded']) ? 'before:hidden' : 'before:block'"
             v-bind="props"
-            class="fm-header-icon-btn fm-drop-down-btn min-w-[130px]"
+            class="fc-header-icon-btn fc-drop-down-btn min-w-[130px]"
           >
             <span class="z-[1]">{{ $fcTr('export') }}</span>
           </button>
@@ -53,9 +57,11 @@
           </a>
         </div>
       </v-menu>
+
+      <!-- reload data of table button -->
       <v-tooltip location="bottom" :text="$fcTr('reload')">
         <template v-slot:activator="{ props }">
-          <button v-bind="props" class="fm-header-icon-btn" @click="store.reloadData">
+          <button v-bind="props" class="fc-header-icon-btn" @click="store.reloadData">
             <svg :class="{ spin: store.loadings.Professor }" viewBox="0 0 512 512">
               <path
                 d="M371.2 122.9C340.3 96.2 300 80 256 80C158.8 80 80 158.8 80 256s78.8 176 176 176c39.7 0 76.2-13.1 105.6-35.2c10.6-8 25.6-5.8 33.6 4.8s5.8 25.6-4.8 33.6C353 463.3 306.4 480 256 480C132.3 480 32 379.7 32 256S132.3 32 256 32c57.3 0 109.6 21.5 149.2 56.9l30.5-30.5c6.6-6.6 15.6-10.3 25-10.3C480.2 48 496 63.8 496 83.3V200c0 13.3-10.7 24-24 24H355.3c-19.5 0-35.3-15.8-35.3-35.3c0-9.4 3.7-18.3 10.3-25l40.8-40.8zm76.8-9L385.9 176H448V113.9z"
@@ -64,9 +70,10 @@
           </button>
         </template>
       </v-tooltip>
+      <!-- button for select rows -->
       <v-tooltip location="bottom" :text="$fcTr('select_row')">
         <template v-slot:activator="{ props }">
-          <button v-bind="props" class="fm-header-icon-btn" @click="event('createBtn')">
+          <button v-bind="props" class="fc-header-icon-btn" @click="event('createBtn')">
             <svg viewBox="0 0 512 512">
               <path
                 d="M384 48c8.8 0 16 7.2 16 16V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16H384zM64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM80 112v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H96c-8.8 0-16 7.2-16 16zM96 352c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H96zm80-224c0 13.3 10.7 24 24 24H344c13.3 0 24-10.7 24-24s-10.7-24-24-24H200c-13.3 0-24 10.7-24 24zm32 128c0 13.3 10.7 24 24 24H344c13.3 0 24-10.7 24-24s-10.7-24-24-24H232c-13.3 0-24 10.7-24 24zM176 384c0 13.3 10.7 24 24 24H344c13.3 0 24-10.7 24-24s-10.7-24-24-24H200c-13.3 0-24 10.7-24 24zm-4.7-140.7c6.2-6.2 6.2-16.4 0-22.6s-16.4-6.2-22.6 0L112 257.4 99.3 244.7c-6.2-6.2-16.4-6.2-22.6 0s-6.2 16.4 0 22.6l24 24c6.2 6.2 16.4 6.2 22.6 0l48-48z"
@@ -75,16 +82,21 @@
           </button>
         </template>
       </v-tooltip>
+      <!-- button and menu for custome column -->
       <v-menu :close-on-content-click="false" :location="dir === 'rtl' ? 'start' : 'end'">
         <template v-slot:activator="{ props: menu }">
           <v-tooltip location="bottom">
             <template v-slot:activator="{ props: tooltip }">
               <button
                 v-bind="{ ...menu, ...tooltip }"
-                class="fm-header-icon-btn"
+                class="fc-header-icon-btn"
                 :class="[
                   JSON.parse(menu['aria-expanded']) ? '!bg-white' : '',
-                  JSON.parse(menu['aria-expanded']) ? (dir === 'rtl' ? 'test-rtl' : 'test2') : ''
+                  JSON.parse(menu['aria-expanded'])
+                    ? dir === 'rtl'
+                      ? 'expanded-rtl'
+                      : 'expanded2'
+                    : ''
                 ]"
               >
                 <svg viewBox="0 0 448 512" class="z-[1]">
@@ -97,7 +109,10 @@
             <span>{{ $fcTr('custom_column') }}</span>
           </v-tooltip>
         </template>
-        <div class="bg-white rounded-xl rtl:text-right ltr:text-left">
+        <div
+          class="bg-white rounded-xl rtl:text-right ltr:text-left"
+          style="box-shadow: 0px 12px 17px -24px"
+        >
           <div class="m-3 mt-2">{{ $fcTr('custom_column') }}</div>
 
           <ul class="p-2">
@@ -143,14 +158,14 @@
         </div>
       </v-menu>
     </div>
-    <div
-      class="fm-header-rigth-sid flex w-full sm:w-auto ltr:flex-row-reverse ltr:justify-end z-10"
-    >
+    <!-- right sid -->
+    <div class="fc-header-rigth-sid">
+      <!-- button for filter -->
       <v-tooltip location="bottom" :text="$fcTr('filter')">
         <template v-slot:activator="{ props }">
           <button
             v-bind="props"
-            class="test fm-header-icon-btn transform transition-all"
+            class="expanded fc-header-icon-btn transform transition-all"
             :class="store.panel === 'filters' ? '!bg-white !rounded-b-none ' : ''"
             @click="choose('filters')"
           >
@@ -171,6 +186,7 @@
           </button>
         </template>
       </v-tooltip>
+      <!-- search input -->
       <div class="group/nui-input relative rtl:">
         <input
           type="text"
@@ -178,7 +194,7 @@
           :placeholder="$fcTr('search')"
         />
         <div
-          class="text-muted-400 group-focus-within/nui-input:text-primary-500 absolute end-0 rtl:start-0 top-0 flex items-center justify-center transition-colors duration-300 peer-disabled:cursor-not-allowed peer-disabled:opacity-75 h-10 w-10"
+          class="ltr:left-0 text-muted-400 group-focus-within/nui-input:text-primary-500 absolute end-0 rtl:start-0 top-0 flex items-center justify-center transition-colors duration-300 peer-disabled:cursor-not-allowed peer-disabled:opacity-75 h-10 w-10"
         >
           <svg class="icon h-[1.15rem] w-[1.15rem]" width="1em" height="1em" viewBox="0 0 24 24">
             <g
@@ -202,7 +218,7 @@
 import { VTooltip } from 'vuetify/components/VTooltip'
 import { VMenu } from 'vuetify/components/VMenu'
 
-import { inject, ref, onMounted, computed } from 'vue'
+import { inject, ref, onMounted } from 'vue'
 import { emitter } from 'formue'
 
 const { event } = emitter
@@ -218,36 +234,32 @@ const dir = ref(null)
 onMounted(() => {
   dir.value = document.body.getAttribute('dir')
 })
-
-const setClass = computed(() => {
-  return author.books.length > 0 ? 'Yes' : 'No'
-})
 </script>
 
 <style scoped>
+/* style for reload data  */
 .spin {
   animation: spin 0.8s linear infinite;
 }
-
 @keyframes spin {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
 }
-
+/*  */
+/* style for filter palne  */
 .scale-enter-active,
 .scale-leave-active {
   transition: transform 0.3s cubic-bezier(0.5, 0, 0.5, 1), opacity 0.3s linear;
 }
-
 .scale-enter-from,
 .scale-enter,
 .scale-leave-to {
   opacity: 0;
   transform: scale(0.5);
 }
-
+/*  */
 body
   > div.v-overlay-container
   > div.v-overlay.v-overlay--absolute.v-overlay--active.v-theme--light.v-locale--is-ltr.v-menu {
