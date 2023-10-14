@@ -33,5 +33,6 @@ export default {
   select_row: 'انتخاب ردیف',
   custom_column: 'ستون سفارشی',
   filter_data: 'فیلترکردن ',
-  active_filter: 'فیلترهای فعال'
+  active_filter: 'فیلترهای فعال',
+  not_load_or_existing_data: 'دیتایی وجود ندارد :('
 }

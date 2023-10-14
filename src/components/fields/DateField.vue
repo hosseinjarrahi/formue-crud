@@ -1,8 +1,6 @@
 <template>
-  <div></div>
   <!-- <Vue3PersianDatetimePicker
     locale="en,fa"
-    class="rounded px-2"
     :modelValue="value"
     :range="value === '<>'"
     simple

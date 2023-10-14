@@ -2,7 +2,6 @@
   <div :class="store.panel === 'filters' ? 'accordion-content' : 'x'">
     <div
       class="border-muted-200 dark:border-muted-700 dark:bg-muted-800 relative mb-4 w-full rounded-md border bg-white p-6 transition-all duration-300"
-      v-if="store.panel === 'filters'"
     >
       <div class="flex flex-col ml-1 border-b border-[rgba(0,0,0,.1)] pb-4">
         <div class="flex flex-row justify-between mb-4 items-center">
@@ -13,7 +12,7 @@
           </h3>
           <div class="flex items-center">
             <button
-              class="is-button rounded is-button-default"
+              class="transitionX-inp is-button rounded is-button-default"
               :class="{ '!pr-0': showChooseFilter }"
               @click="showChooseFilter = !showChooseFilter"
             >
@@ -40,11 +39,11 @@
           </div>
         </div>
         <div class="flex w-full justify-between">
-          <MForm v-model="form" :fields="fields" class="w-[75%] justify-between" />
-          <div class="w-[20%]">
+          <MForm class="w-[75%] justify-between" :fields="fields" v-model="form" />
+          <div class="w-[23%] flex justify-center items-center">
             <button
               v-if="!isEditing"
-              class="!border-dashed is-button-default is-button w-full rounded-full font-bold py-1 px-2 !border-green-400 !text-green-400 hover:!bg-green-50"
+              class="!border-dashed !h-[86%] is-button-default is-button w-full rounded-full font-bold py-1 px-2 !border-green-400 !text-green-400 hover:!bg-green-50"
               @click="addFilter"
             >
               {{ $fcTr('add_filter') }}
@@ -117,7 +116,12 @@
                 </button>
               </span>
             </div>
-            <span class="flex items-center mx-2 text-[0.75rem]">{{ $fcTr('&') }}</span>
+
+            <span
+              v-if="store.filters.length - 1 !== index"
+              class="flex items-center mx-2 text-[0.75rem]"
+              >{{ $fcTr('&') }}</span
+            >
           </template>
         </div>
       </div>
@@ -133,35 +137,43 @@
           <div class="flex gap-x-2">
             <button
               @click.self="saveFilter"
-              class="is-button rounded is-button-default"
-              :class="{ '!pr-1': showSaveFilter }"
+              :class="showSaveFilter ? '!bg-muted-100 ltr:pr-1' : ''"
+              class="transitionX-inp is-button rounded is-button-default"
             >
-              {{ $fcTr('save') }}
-              <input
-                v-model="filterName"
-                class="transitionX-inp py-1 border border-1 rounded"
-                :class="
-                  showSaveFilter ? 'w-[170px] opacity-1 flex ml-3 pl-3' : 'flex opacity-0 w-[0px]'
-                "
-                :placeholder="$fcTr('filter_save_placeholder')"
-                ref="filterNameInp"
-              />
-              <span v-if="showSaveFilter" class="px-2" @click="showSaveFilter = false">
-                <svg
-                  data-v-74b3417a=""
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  class="h-4 w-4 text-primary-500"
-                >
-                  <path
+              <span
+                @click.self="saveFilter"
+                :class="showSaveFilter ? ' bg-green-500 px-2 py-1 rounded text-muted-50' : ''"
+              >
+                {{ $fcTr('save') }}
+              </span>
+              <span
+                class="transitionX-inp overflow-hidden flex items-center"
+                :class="showSaveFilter ? 'w-[221px] opacity-1 pl-3' : 'opacity-0 w-[0px]'"
+              >
+                <input
+                  v-model="filterName"
+                  class="fc-focus py-1 rounded px-2"
+                  :class="showSaveFilter ? ' border border-1' : 'flex  '"
+                  :placeholder="$fcTr('filter_save_placeholder')"
+                  ref="filterNameInp"
+                />
+                <span class="px-2" @click="showSaveFilter = false">
+                  <svg
                     data-v-74b3417a=""
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M18 6 6 18M6 6l12 12"
-                  ></path>
-                </svg>
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    class="h-4 w-4 text-primary-500"
+                  >
+                    <path
+                      data-v-74b3417a=""
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M18 6 6 18M6 6l12 12"
+                    ></path>
+                  </svg>
+                </span>
               </span>
             </button>
             <button
@@ -307,16 +319,6 @@ function makeFilters() {
 </script>
 
 <style scoped>
-.scale-enter-active,
-.scale-leave-active {
-  transition: transform 11.3s cubic-bezier(0.5, 0, 0.5, 1), opacity 11.3s linear;
-}
-.scale-enter-from,
-.scale-enter,
-.scale-leave-to {
-  height: 0;
-  opacity: 0;
-}
 .accordion-content {
   max-height: 600px;
   overflow: hidden;

@@ -1,4 +1,7 @@
 import './assets/main.css'
+import './assets/vuetifyForm.css'
+
+import './assets/tabulator.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 import { createPinia } from 'pinia'

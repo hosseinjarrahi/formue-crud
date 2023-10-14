@@ -15,7 +15,7 @@ import { defineProps, computed, inject } from 'vue'
 import { propsField } from 'formue'
 import { Intersect as VIntersect } from 'vuetify/directives'
 import { VAutocomplete } from 'vuetify/components/VAutocomplete'
-import 'vuetify/styles'
+// import 'vuetify/styles'
 
 const store = inject('store')
 const props = defineProps(propsField)

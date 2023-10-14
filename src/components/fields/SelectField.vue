@@ -3,6 +3,7 @@
     variant="outlined"
     density="compact"
     rounded
+    hide-details="auto"
     :label="getFromSchema('rel.textKey', 'text')"
     :items="items"
     :model-value="getValues(value)"
@@ -19,7 +20,7 @@ import { get as getSafe, every, isType } from 'lodash'
 import { defineProps, computed, inject } from 'vue'
 import { propsField } from 'formue'
 import { VAutocomplete } from 'vuetify/components/VAutocomplete'
-import 'vuetify/styles'
+// import 'vuetify/styles'
 
 const store = inject('store')
 const props = defineProps(propsField)
