@@ -110,7 +110,11 @@ export const registerFields = (fields) => {
 }
 
 const getRegisterField = (field) => {
-  return markRaw(getSafe(registeredFields, field))
+  const comp = getSafe(registeredFields, field)
+
+  if (!comp) return ''
+  
+  return markRaw(comp)
 }
 
 export function defineFields(fn) {
