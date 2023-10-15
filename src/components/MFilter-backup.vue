@@ -193,7 +193,7 @@ const fields = ref([
     // parentAttr: { class: 'change-input-forst' },
     items: store.headersWithoutActions,
     props: {
-      textKey: 'title',
+      textKey: 'titles',
       valueKey: 'field'
     },
     component: markRaw(SelectField)

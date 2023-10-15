@@ -6,8 +6,8 @@
         :class="{
           'border-t-0': n === 1,
           'border-b-0': n === 10,
-          'bg-muted-50': n % 2 === 0,
-          'bg-white': n % 2 === 0
+          'bg-muted-50 dark:bg-muted-600': n % 2 === 0,
+          'bg-white dark:bg-muted-800': n % 2 !== 0
         }"
         class="w-full py-4 mx-auto border-b-1"
       >
