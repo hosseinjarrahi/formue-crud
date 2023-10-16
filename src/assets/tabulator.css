@@ -1570,9 +1570,9 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
   border-color: rgb(var(--color-darkmode-400) / 1);
 }
 
-.dark .tabulator .tabulator-header .tabulator-headers .tabulator-col:hover {
+/* .dark .tabulator .tabulator-header .tabulator-headers .tabulator-col:hover {
   background-color: rgb(var(--color-darkmode-300) / 1);
-}
+} */
 
 .dark .tabulator .tabulator-table {
   background-color: transparent;
