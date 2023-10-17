@@ -19,7 +19,7 @@
           <button
             :class="!JSON.parse(props['aria-expanded']) ? 'before:hidden' : 'before:block'"
             v-bind="props"
-            class="fm-header-icon-btn fm-drop-down-btn min-w-[130px]"
+            class="fc-header-icon-btn fc-drop-down-btn min-w-[130px]"
           >
             <span class="z-[1]">{{ $fcTr('export') }}</span>
           </button>
@@ -75,7 +75,7 @@
         <template v-slot:activator="{ props }">
           <button
             v-bind="props"
-            class="fm-header-icon-btn"
+            class="fc-header-icon-btn"
             :class="{ 'fm-active-btn': isSelectActive }"
             @click="toggleSelect"
           >
@@ -136,7 +136,7 @@
         <template v-slot:activator="{ props }">
           <button
             v-bind="props"
-            class="test fm-header-icon-btn transform transition-all"
+            class="test fc-header-icon-btn transform transition-all"
             :class="store.panel === 'filters' ? '!bg-white !rounded-b-none ' : ''"
             @click="choose('filters')"
           >
