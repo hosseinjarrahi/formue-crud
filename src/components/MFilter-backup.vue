@@ -70,7 +70,7 @@
           </h3>
           <button
             @click="clearFilters"
-            class="is-button group hover:text-red-500 hover:border-red-500 w-fit text-muted-500 !text-xs border !px-3 !py-0 !h-[1.5rem] mx-2 !rounded-full"
+            class="is-button group hover:text-red-500 hover:border-red-500 w-fit text-muted-500 dark:text-muted-200 !text-xs border !px-3 !py-0 !h-[1.5rem] mx-2 !rounded-full"
           >
             <span class="group-hover:text-red-500">
               {{ $fcTr('clear_all') }}
@@ -79,7 +79,7 @@
               stroke="currentColor"
               width="1em"
               height="1em"
-              class="ml-1 rtl:ml-1 rtl:mr-1 group-hover:fill-red-500"
+              class="ml-1 rtl:ml-1 rtl:mr-1 group-hover:fill-red-500 dark:fill-muted-200"
               viewBox="0 0 512 512"
             >
               <path

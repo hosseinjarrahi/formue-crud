@@ -9,7 +9,7 @@ export default {
   last: 'آخرین',
   apply_filter: 'اعمال فیلتر',
   filter: 'فیلتر',
-  add_filter: 'اضاقه‌کردن فیلتر',
+  add_filter: 'اضافه‌کردن فیلتر',
   clear_all: 'حذف فیلترها',
   add: 'افرودن',
   save: 'ذخیره',
@@ -34,5 +34,7 @@ export default {
   custom_column: 'ستون سفارشی',
   filter_data: 'فیلترکردن ',
   active_filter: 'فیلترهای فعال',
-  not_load_or_existing_data: 'دیتایی وجود ندارد :('
+  not_load_or_existing_data: 'دیتایی وجود ندارد :(',
+  filter_save_placeholder: 'اسم فیلتر',
+  not_filter_create_yes: 'هنوز فیلتری ایجاد نشده است'
 }

@@ -11,39 +11,54 @@
             {{ $fcTr('filter_data') }}
           </h3>
           <div class="flex items-center">
-            <button
-              class="transitionX-inp is-button rounded is-button-default"
-              :class="{ '!pr-0': showChooseFilter }"
-              @click="showChooseFilter = !showChooseFilter"
-            >
-              <span v-if="showChooseFilter">
-                {{ $fcTr('close_filter') }}
-              </span>
-              <span v-else>
-                {{ $fcTr('choose_filter') }}
-              </span>
-              <div
-                class="transitionX-inp"
-                :class="showChooseFilter ? 'opacity-1  w-auto ml-3 flex' : 'hidden opacity-0 w-[0px]'"
-              >
-                <span
+            <v-menu transition="scale-transition">
+              <template v-slot:activator="{ props }">
+                <button
+                  :class="!JSON.parse(props['aria-expanded']) ? 'before:hidden' : 'before:block'"
+                  v-bind="props"
+                  class="fc-filter-choose is-button rounded is-button-default min-w-[130px]"
+                >
+                  <span class="z-[1]"> {{ $fcTr('choose_filter') }}</span>
+                </button>
+              </template>
+              <div class="fc-drop-down-content">
+                <p class="p-2 text-center" v-if="Object.keys(localFilters).length === 0">
+                  {{ $fcTr('not_filter_create_yes') }}
+                </p>
+                <a
+                  class="group flex w-full items-center py-3 text-sm duration-300 text-muted-500 hover:bg-muted-100 justify-between rtl:pl-4 rtl:pr-5"
                   v-for="(filter, key) in localFilters"
                   :key="key"
-                  class="border-l border-1 px-2 py-2 transition ease-in-out hover:bg-blue-100"
                   @click.stop="store.filters = Object.values(filter)"
                 >
-                  {{ key }}
-                </span>
+                  <svg
+                    data-v-74b3417a=""
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    class="h-4 w-4 text-muted-500"
+                  >
+                    <path
+                      data-v-74b3417a=""
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M18 6 6 18M6 6l12 12"
+                    ></path>
+                  </svg>
+                  <p class="text-muted-400 font-sans text-sm">{{ key }}</p>
+                </a>
               </div>
-            </button>
+            </v-menu>
           </div>
         </div>
         <div class="flex w-full justify-between">
           <MForm class="w-[75%] justify-between" :fields="fields" v-model="form" />
           <div class="w-[23%] flex justify-center items-center">
             <button
+              :disabled="!form.field"
               v-if="!isEditing"
-              class="!border-dashed !h-[86%] is-button-default is-button w-full rounded-full font-bold py-1 px-2 !border-green-400 !text-green-400 hover:!bg-green-50"
+              class="disabled:cursor-not-allowed disabled:hover:bg-transparent !border-dashed !h-[86%] is-button-default is-button w-full rounded-full font-bold py-1 px-2 !border-green-400 !text-green-400 dark:active:hover:bg-muted-600 active:hover:!bg-green-50"
               @click="addFilter"
             >
               {{ $fcTr('add_filter') }}
@@ -99,7 +114,7 @@
                 class="flex px-3 font-sans transition-shadow duration-300 py-1 text-[0.75rem] rounded-full bg-primary-100 text-primary-500 border-primary-100 dark:border-primary-500 dark:text-primary-500 border dark:bg-transparent"
                 @click="fillForm(filter, index)"
               >
-                <span class="mb-[2px]"> {{ getSafe(filter, 'field.title') }} </span>
+                <span class="mt-[0px]"> {{ getSafe(filter, 'field.title') }} </span>
                 <button
                   class="text-white font-bold rounded px-1"
                   @click.stop="removeFilter(filter)"
@@ -136,23 +151,32 @@
         <div class="pt-4 md:pt-6">
           <div class="flex gap-x-2">
             <button
-              @click.self="saveFilter"
-              :class="showSaveFilter ? '!bg-muted-100 ltr:pr-1' : ''"
+              @click.self="Object.keys(store.filters).length !== 0 ? saveFilter() : ''"
+              :class="{
+                '!bg-muted-100 dark:!bg-muted-700 ltr:pr-1': showSaveFilter,
+                '  focus:outline-none !cursor-not-allowed': Object.keys(store.filters).length === 0
+              }"
               class="transitionX-inp is-button rounded is-button-default"
             >
               <span
-                @click.self="saveFilter"
-                :class="showSaveFilter ? ' bg-green-500 px-2 py-1 rounded text-muted-50' : ''"
+                @click.self="Object.keys(store.filters).length !== 0 ? saveFilter() : ''"
+                :class="{
+                  ' bg-green-500 px-2 py-1 rounded text-muted-50': showSaveFilter,
+                  '  focus:outline-none !cursor-not-allowed':
+                    Object.keys(store.filters).length === 0
+                }"
               >
                 {{ $fcTr('save') }}
               </span>
               <span
-                class="transitionX-inp overflow-hidden flex items-center"
-                :class="showSaveFilter ? 'w-[221px] opacity-1 pl-3' : 'opacity-0 w-[0px]'"
+                class="transitionX-inp overflow-hidden flex items-center justify-between"
+                :class="
+                  showSaveFilter ? 'w-[221px] opacity-1 ltr:pl-3 rtl:mr-3' : 'opacity-0 w-[0px]'
+                "
               >
                 <input
                   v-model="filterName"
-                  class="fc-focus py-1 rounded px-2"
+                  class="fc-focus py-1 rounded px-2 dark:bg-muted-800"
                   :class="showSaveFilter ? ' border border-1' : 'flex  '"
                   :placeholder="$fcTr('filter_save_placeholder')"
                   ref="filterNameInp"
@@ -196,7 +220,7 @@ import { inject, ref, markRaw, watch, nextTick } from 'vue'
 import SelectField from '@/components/fields/SelectField.vue'
 import filterComps from './filters/index.js'
 import { useStorage } from '@vueuse/core'
-
+import { VMenu } from 'vuetify/components/VMenu'
 const store = inject('store')
 
 let indexToEdit = -1
