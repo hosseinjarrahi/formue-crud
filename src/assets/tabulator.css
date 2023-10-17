@@ -28,7 +28,6 @@
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  background-color: #e6e6e6;
   color: #555;
   font-weight: 700;
   white-space: nowrap;
@@ -422,7 +421,6 @@
 
 .tabulator .tabulator-footer {
   border-top: 1px solid #999;
-  background-color: #e6e6e6;
   color: #555;
   font-weight: 700;
   white-space: nowrap;
@@ -1295,16 +1293,6 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
   overflow: hidden;
   border: 0;
   background-color: transparent;
-}
-
-.tabulator .tabulator-header {
-  font-weight: 500;
-  color: currentColor;
-
-  background-color: transparent;
-  background: white;
-  border-radius: 20px 20px 0px 0px;
-  padding: 2px;
 }
 
 .tabulator .tabulator-header .tabulator-headers .tabulator-col {
