@@ -88,7 +88,9 @@ export function init({ fields, hiddenActions, options, route }) {
 
   emitter.event('beforeFormueInit')
 
-  store.addRoute(route)
+  const key = store.getModelKey(route)
+
+  store.routes[key] = typeof route == 'string' ? route : route?.route
 
   store.loadItems()
 
@@ -113,7 +115,7 @@ const getRegisterField = (field) => {
   const comp = getSafe(registeredFields, field)
 
   if (!comp) return ''
-  
+
   return markRaw(comp)
 }
 

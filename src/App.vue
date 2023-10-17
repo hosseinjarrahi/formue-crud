@@ -26,7 +26,7 @@ const fields = defineFields((_) => [
     filter: 'select',
     rel: {
       get: 'http://192.168.190.10:9090/api/lesson',
-      model: 'Lesson',
+      key: 'Lesson',
       textKey: 'name',
       valueKey: 'id'
       // get: {

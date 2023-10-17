@@ -117,10 +117,9 @@ const defineDynamicStore = () => {
         this.items[this.mainKey] = [...temp]
       },
 
-      addRoute(route) {
+      getModelKey(route) {
         let key = typeof route == 'string' ? route.substr(route.lastIndexOf('/') + 1) : route.key
-        this.mainKey = this.mainKey || pascalCase(key)
-        this.routes[pascalCase(key)] = typeof route == 'string' ? route : route.route
+        this.mainKey = this.mainKey || pascalCase(key) // should remove from here
         return pascalCase(key)
       },
 
@@ -186,6 +185,21 @@ const defineDynamicStore = () => {
           .finally(() => {
             this.loadings[key] = false
           })
+      },
+
+      customLoadItems(key, page = 1, fn = () => ({})) {
+        this.loadings[key] = true
+        fn(
+          (response) => {
+            this.items[key] = response.data
+            this.setPagination(response, key)
+          },
+          () => {},
+          () => {
+            this.loadings[key] = false
+          },
+          page
+        )
       },
 
       getWithFilter(page = 1, itemPerPage = 15) {

@@ -232,7 +232,6 @@ const fields = ref([
   {
     title: 'field',
     field: 'field',
-    filter: 'select',
     isHeader: true,
     groupAttr: { class: 'w-[32.5%]' },
     // parentAttr: { class: 'change-input-forst' },
