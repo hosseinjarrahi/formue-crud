@@ -1553,10 +1553,10 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
   color: rgb(var(--color-danger) / 1);
 }
 
-.dark .tabulator .tabulator-header {
+/* .dark .tabulator .tabulator-header {
   color: #cbd5e1;
   border-color: rgb(var(--color-darkmode-400) / 1);
-}
+} */
 
 /* .dark .tabulator .tabulator-header .tabulator-headers .tabulator-col:hover {
   background-color: rgb(var(--color-darkmode-300) / 1);
@@ -1570,15 +1570,6 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
 .dark .tabulator .tabulator-table .tabulator-row {
   background-color: transparent;
   border-color: transparent;
-}
-
-.dark .tabulator .tabulator-table .tabulator-row:hover,
-.dark .tabulator .tabulator-table .tabulator-row.tabulator-row-even:hover {
-  background-color: rgb(var(--color-darkmode-700) / 1);
-}
-
-.dark .tabulator .tabulator-table .tabulator-row.tabulator-row-even {
-  background-color: rgb(var(--color-darkmode-400) / 1);
 }
 
 .dark .tabulator .tabulator-footer .tabulator-paginator > label {

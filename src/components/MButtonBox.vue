@@ -4,7 +4,7 @@
     <!-- left sid  -->
     <div class="fc-header-left-sid">
       <!-- add boutton -->
-      <v-tooltip location="bottom" :text="$fcTr('add')">
+      <v-tooltip color="#ec4899" location="bottom" :text="$fcTr('add')">
         <template v-slot:activator="{ props }">
           <button v-bind="props" class="fc-plus-btn" @click="event('createBtn')">
             <svg viewBox="0 0 24 24">
@@ -24,9 +24,9 @@
             <span class="z-[1]">{{ $fcTr('export') }}</span>
           </button>
         </template>
-        <div class="bg-muted-200 cursor-pointer rounded-b-xl fm-light-shadow">
+        <div class="bg-muted-200 dark:bg-muted-800 cursor-pointer rounded-b-xl fm-light-shadow">
           <a
-            class="group flex w-full items-center py-3 text-sm duration-300 text-muted-500 hover:bg-muted-300 rounded-xl justify-end"
+            class="group flex w-full items-center py-3 text-sm duration-300 text-muted-500 hover:bg-muted-300 dark:hover:bg-muted-700 rounded-xl justify-end flex-row-reverse"
           >
             <p class="text-muted-400 font-sans text-xs">{{ $fcTr('export_as_pdf') }}</p>
             <svg class="fill-muted-400 w-3.5 mx-2" viewBox="0 0 512 512">
@@ -36,7 +36,7 @@
             </svg>
           </a>
           <a
-            class="group flex w-full items-center py-3 text-sm duration-300 text-muted-500 hover:bg-muted-300 rounded-xl justify-end"
+            class="group flex w-full items-center py-3 text-sm duration-300 text-muted-500 hover:bg-muted-300 dark:hover:bg-muted-700 rounded-xl justify-end flex-row-reverse"
           >
             <p class="text-muted-400 font-sans text-xs">{{ $fcTr('export_as_excel') }}</p>
             <svg class="fill-muted-400 w-3.5 mx-2" viewBox="0 0 512 512">
@@ -46,7 +46,7 @@
             </svg>
           </a>
           <a
-            class="group flex w-full items-center py-3 text-sm duration-300 text-muted-500 hover:bg-muted-300 rounded-xl justify-end"
+            class="group flex w-full items-center py-3 text-sm duration-300 text-muted-500 hover:bg-muted-300 dark:hover:bg-muted-700 rounded-xl justify-end flex-row-reverse"
           >
             <p class="text-muted-400 font-sans text-xs">{{ $fcTr('print') }}</p>
             <svg class="fill-muted-400 w-3.5 mx-2" viewBox="0 0 512 512">
@@ -59,7 +59,7 @@
       </v-menu>
 
       <!-- reload data of table button -->
-      <v-tooltip location="bottom" :text="$fcTr('reload')">
+      <v-tooltip color="#ec4899" location="bottom" :text="$fcTr('reload')">
         <template v-slot:activator="{ props }">
           <button v-bind="props" class="fc-header-icon-btn" @click="store.reloadData">
             <svg :class="{ spin: store.loadings.mainLoading }" viewBox="0 0 512 512">
@@ -71,7 +71,7 @@
         </template>
       </v-tooltip>
       <!-- button for select rows -->
-      <v-tooltip location="bottom" :text="$fcTr('select_row')">
+      <v-tooltip color="#ec4899" location="bottom" :text="$fcTr('select_row')">
         <template v-slot:activator="{ props }">
           <button
             v-bind="props"
@@ -88,9 +88,9 @@
         </template>
       </v-tooltip>
       <!-- button and menu for custome column -->
-      <v-menu :close-on-content-click="false" :location="dir === 'rtl' ? 'start' : 'end'">
+      <v-menu :close-on-content-click="false" :location="dir === 'rtl' ? 'end' : 'start'">
         <template v-slot:activator="{ props: menu }">
-          <v-tooltip location="bottom">
+          <v-tooltip color="#ec4899" location="bottom">
             <template v-slot:activator="{ props: tooltip }">
               <button
                 v-bind="{ ...menu, ...tooltip }"
@@ -132,12 +132,14 @@
     <div
       class="fm-header-rigth-sid flex w-full sm:w-auto rtl:flex-row-reverse rtl:justify-end z-10"
     >
-      <v-tooltip location="bottom" :text="$fcTr('filter')">
+      <v-tooltip color="#ec4899" location="bottom" :text="$fcTr('filter')">
         <template v-slot:activator="{ props }">
           <button
             v-bind="props"
             class="test fc-header-icon-btn transform transition-all"
-            :class="store.panel === 'filters' ? '!bg-white !rounded-b-none ' : ''"
+            :class="
+              store.panel === 'filters' ? '!bg-white dark:!bg-muted-800 !rounded-b-none ' : ''
+            "
             @click="choose('filters')"
           >
             <transition name="scale">
@@ -146,7 +148,7 @@
               </div>
             </transition>
             <svg
-              :class="store.panel === 'filters' ? '!fill-primary-700' : ''"
+              :class="store.panel === 'filters' ? 'light:!fill-primary-700' : ''"
               stroke="currentColor"
               viewBox="0 0 512 512"
             >
