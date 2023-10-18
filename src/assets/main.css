@@ -12998,25 +12998,3 @@ body {
 .v-input--density-compact .v-field--no-label {
   --v-field-padding-bottom: 0px !important;
 }
-
-
-.scrollbar::-webkit-scrollbar-thumb {
-  background-color: #dcdcdc;
-  border-radius: 100px;
-}
-
-.scrollbar {
-  scrollbar-color: #dcdcdc;
-  scrollbar-width: thin;
-}
-.dark .scrollbar::-webkit-scrollbar {
-  width: 7px;
-  background-color: #1e293b !important;
-  border-radius: 120px;
-  position: absolute;
-  left: 0;
-}
-.dark .scrollbar::-webkit-scrollbar-thumb {
-  background-color: #293445 !important;
-  border-radius: 100px;
-}
