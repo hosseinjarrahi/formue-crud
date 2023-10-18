@@ -173,6 +173,7 @@ const defineDynamicStore = () => {
         let pageQuery = getSafe(this.routes, key, '').indexOf('?') > -1 ? '&page=' : '?page=' // to do : change routes structure
 
         this.loadings[key] = true
+        this.loadings.mainLoading = key === this.mainKey
 
         const route = getSafe(this.routes, key, '') + pageQuery + page
 
@@ -184,6 +185,7 @@ const defineDynamicStore = () => {
           })
           .finally(() => {
             this.loadings[key] = false
+            this.loadings.mainLoading = false
           })
       },
 

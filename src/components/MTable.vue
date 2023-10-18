@@ -1,6 +1,6 @@
 <template>
   <div ref="table" class="mt-2"></div>
-  <div v-if="store.loadings.Professor" class="mt-[-20px]">
+  <div v-if="store.loadings.mainLoading" class="mt-[-20px]">
     <template v-for="n in 10" :key="n">
       <div
         :class="{
@@ -21,7 +21,7 @@
   </div>
   <div
     class="padding: 100px; mt-[-20px] rounded-b-xl bg-white text-center p-[100px] dark:bg-muted-800"
-    v-if="testcom"
+    v-if="hasItems"
   >
     <h2>{{ $fcTr('not_load_or_existing_data') }}</h2>
   </div>
@@ -39,8 +39,8 @@ const table = ref(null)
 const store = inject('store')
 const dir = inject('dir')
 
-const testcom = computed(() => {
-  return store.mainItems.length === 0 && !store.loadings.Professor
+const hasItems = computed(() => {
+  return store.mainItems.length === 0 && !store.loadings.mainLoading
 })
 
 adaptor(store)
