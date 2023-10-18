@@ -23,7 +23,7 @@
     class="padding: 100px; mt-[-20px] rounded-b-xl bg-white text-center p-[100px] dark:bg-muted-800"
     v-if="testcom"
   >
-    <h2>{{ $fcTr('not_load_or_existing_data') }}</h2>
+    <h2 class="dark:text-muted-200 text-muted-600">{{ $fcTr('not_load_or_existing_data') }}</h2>
   </div>
   <MTablePagination />
 </template>

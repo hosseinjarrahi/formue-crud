@@ -23,6 +23,7 @@ export default (field) => {
       field: 'value',
       groupAttr: { class: 'w-[32.5%]' },
       component: markRaw(InfinitySelectField),
+      props: { 'hide-details': 'ture' },
       rel: field.rel
     }
   ]

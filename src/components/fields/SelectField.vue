@@ -2,7 +2,6 @@
   <VAutocomplete
     variant="outlined"
     density="compact"
-    rounded
     hide-details="auto"
     :label="getFromSchema('rel.textKey', 'text')"
     :items="items"

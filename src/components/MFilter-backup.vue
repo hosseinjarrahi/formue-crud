@@ -79,7 +79,7 @@
               stroke="currentColor"
               width="1em"
               height="1em"
-              class="ml-1 rtl:ml-1 rtl:mr-1 group-hover:fill-red-500 dark:fill-muted-200"
+              class="ml-1 rtl:ml-1 rtl:mr-1 group-hover:fill-red-500"
               viewBox="0 0 512 512"
             >
               <path

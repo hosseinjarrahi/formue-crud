@@ -3,7 +3,7 @@
     <div
       class="border-muted-200 dark:border-muted-700 dark:bg-muted-800 relative mb-4 w-full rounded-md border bg-white p-6 transition-all duration-300"
     >
-      <div class="flex flex-col ml-1 border-b border-[rgba(0,0,0,.1)] pb-4">
+      <div class="flex flex-col ml-1 border-[rgba(0,0,0,.1)] pb-4">
         <div class="flex flex-row justify-between mb-4 items-center">
           <h3
             class="font-heading text-base font-semibold leading-tight text-muted-800 dark:text-white"
@@ -58,7 +58,7 @@
             <button
               :disabled="!form.field"
               v-if="!isEditing"
-              class="disabled:cursor-not-allowed disabled:hover:bg-transparent !border-dashed !h-[86%] is-button-default is-button w-full rounded-full font-bold py-1 px-2 !border-green-400 !text-green-400 dark:active:hover:bg-muted-600 active:hover:!bg-green-50"
+              class="disabled:cursor-not-allowed disabled:hover:bg-transparent !border-dashed !h-[86%] is-button-default is-button w-full rounded font-bold py-1 px-2 !border-green-400 !text-green-400 dark:active:hover:bg-muted-600 active:hover:!bg-green-50"
               @click="addFilter"
             >
               {{ $fcTr('add_filter') }}
@@ -79,8 +79,8 @@
           </div>
         </div>
       </div>
-
-      <div class="flex flex-col p-2 mt-2">
+      <!-- :class="store.filters.length > 0 ? 'accordion-content' : 'show-active-filter'" -->
+      <div class="flex border-t flex-col p-2 mt-2" v-show="store.filters.length > 0">
         <div class="flex items-center">
           <h3
             class="font-heading text-base font-semibold leading-tight text-muted-800 dark:text-white"
@@ -89,7 +89,7 @@
           </h3>
           <button
             @click="clearFilters"
-            class="is-button group hover:text-red-500 hover:border-red-500 w-fit text-muted-500 !text-xs border !px-3 !py-0 !h-[1.5rem] mx-2 !rounded-full"
+            class="is-button group hover:text-red-500 hover:border-red-500 w-fit text-muted-600 dark:text-muted-400 !text-xs border !px-3 !py-0 !h-[1.5rem] mx-2 !rounded-full"
           >
             <span class="group-hover:text-red-500">
               {{ $fcTr('clear_all') }}
@@ -98,7 +98,7 @@
               stroke="currentColor"
               width="1em"
               height="1em"
-              class="ml-1 rtl:ml-1 rtl:mr-1 group-hover:fill-red-500"
+              class="ml-1 rtl:ml-1 rtl:mr-1 group-hover:fill-red-500 dark:fill-muted-400 fill-muted-600"
               viewBox="0 0 512 512"
             >
               <path
@@ -107,7 +107,7 @@
             </svg>
           </button>
         </div>
-        <div class="my-2 flex">
+        <div class="my-2 flex overflow-x-auto slimscroll">
           <template v-for="(filter, index) in store.filters" :key="index">
             <div class="flex">
               <span
@@ -140,7 +140,6 @@
           </template>
         </div>
       </div>
-
       <div class="flex w-full gap-x-2 justify-between !items-end">
         <button
           @click="store.panel = ''"
@@ -354,7 +353,13 @@ function makeFilters() {
   overflow: hidden;
   transition: max-height 1s;
 }
-
+.show-active-filter {
+  max-height: 0;
+  padding: 0;
+  border-top: 0;
+  overflow: hidden;
+  transition: max-height 1s;
+}
 .transitionX-inp {
   transition: all 1s ease-in-out;
 }

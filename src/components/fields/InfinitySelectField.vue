@@ -1,8 +1,18 @@
 <template>
-  <VAutocomplete variant="outlined" density="compact" rounded :label="getFromSchema('rel.textKey', 'text')" :items="items"
-    :model-value="getValues(value)" :item-title="getFromSchema('rel.textKey')" :item-value="getFromSchema('rel.valueKey')"
-    :loading="loading" v-bind="{ ...defaultProps, ...getFromSchema('props', {}) }" v-on="getFromSchema('events', {})"
-    single-line @update:modelValue="updateField">
+  <VAutocomplete
+    variant="outlined"
+    density="compact"
+    :label="getFromSchema('rel.textKey', 'text')"
+    :items="items"
+    :model-value="getValues(value)"
+    :item-title="getFromSchema('rel.textKey')"
+    :item-value="getFromSchema('rel.valueKey')"
+    :loading="loading"
+    v-bind="{ ...defaultProps, ...getFromSchema('props', {}) }"
+    v-on="getFromSchema('events', {})"
+    single-line
+    @update:modelValue="updateField"
+  >
     <template #append-item>
       <div v-if="hasNextPage" v-intersect="endIntersect">{{ $fcTr('loading...') }}</div>
     </template>

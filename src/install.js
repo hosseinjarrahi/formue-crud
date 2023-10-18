@@ -3,7 +3,14 @@ import { createVuetify } from 'vuetify'
 import { registerFields } from './helpers/formueCrud'
 
 export default (app, { fields } = { fields: {} }) => {
-  const vuetify = createVuetify({})
+  const vuetify = createVuetify({
+    locale: {
+      locale: 'customLocale',
+      rtl: {
+        customLocale: true
+      }
+    }
+  })
   app.use(vuetify)
 
   const store = useLangsStore()
