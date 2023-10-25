@@ -62,6 +62,8 @@ function getKey(get) {
 }
 
 const initialLoad = (key, get, page) => {
+  if (get === null) return;
+
   if (checkIsArray(get)) {
     store.items[key] = get
   } else if (typeof get == 'function') {
