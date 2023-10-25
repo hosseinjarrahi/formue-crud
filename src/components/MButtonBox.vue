@@ -96,7 +96,7 @@
                 v-bind="{ ...menu, ...tooltip }"
                 class="fc-header-icon-btn"
                 :class="[
-                  JSON.parse(menu['aria-expanded']) ? '!bg-white' : '',
+                  JSON.parse(menu['aria-expanded']) ? 'light:!bg-white dark:bg-muted-800' : '',
                   JSON.parse(menu['aria-expanded'])
                     ? dir === 'rtl'
                       ? 'expanded-rtl'
@@ -114,8 +114,12 @@
             <span>{{ $fcTr('custom_column') }}</span>
           </v-tooltip>
         </template>
-        <div class="bg-white rounded-xl rtl:text-right ltr:text-left fm-light-shadow">
-          <div class="m-3 mt-2">{{ $fcTr('custom_column') }}</div>
+        <div
+          class="bg-white dark:bg-muted-800 rounded-xl rtl:text-right ltr:text-left fm-light-shadow"
+        >
+          <div class="m-3 mt-2 text-muted-600 dark:text-muted-200">
+            {{ $fcTr('custom_column') }}
+          </div>
 
           <ul class="p-2">
             <template v-for="field in store.flatFieldsWithoutActions" :key="field.field">

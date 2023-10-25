@@ -10,7 +10,9 @@
         <div
           class="inline-block max-h-full align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
         >
-          <div class="bg-card-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div
+            class="bg-card-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 dark:bg-muted-700 dark:text-muted-200"
+          >
             <div class="flex flex-col text-right">
               <h1 class="mb-4 flex justify-between w-full">
                 <span class="text-primerr-700" v-if="store.isEditing"> {{ $fcTr('edit') }} </span>
@@ -99,3 +101,18 @@ const defineListeners = () => {
 
 defineListeners()
 </script>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s linear;
+}
+.fade-enter-from,
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-from {
+  transform: translateX(10px);
+  opacity: 0;
+}
+</style>

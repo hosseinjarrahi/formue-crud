@@ -26,11 +26,12 @@
                   {{ $fcTr('not_filter_create_yes') }}
                 </p>
                 <a
-                  class="group flex w-full items-center py-3 text-sm duration-300 text-muted-500 hover:bg-muted-100 justify-between rtl:pl-4 rtl:pr-5"
+                  class="group rounded flex w-full items-center py-3 text-sm duration-300 text-muted-500 hover:bg-muted-100 dark:hover:bg-muted-700 justify-between rtl:pl-4 rtl:pr-5"
                   v-for="(filter, key) in localFilters"
                   :key="key"
                   @click.stop="store.filters = Object.values(filter)"
                 >
+                  <p class="text-muted-400 font-sans text-sm">{{ key }}</p>
                   <svg
                     data-v-74b3417a=""
                     aria-hidden="true"
@@ -46,7 +47,6 @@
                       d="M18 6 6 18M6 6l12 12"
                     ></path>
                   </svg>
-                  <p class="text-muted-400 font-sans text-sm">{{ key }}</p>
                 </a>
               </div>
             </v-menu>
@@ -80,7 +80,10 @@
         </div>
       </div>
       <!-- :class="store.filters.length > 0 ? 'accordion-content' : 'show-active-filter'" -->
-      <div class="flex border-t flex-col p-2 mt-2" v-show="store.filters.length > 0">
+      <div
+        class="flex border-t dark:border-muted-600 flex-col p-2 mt-2"
+        v-show="store.filters.length > 0"
+      >
         <div class="flex items-center">
           <h3
             class="font-heading text-base font-semibold leading-tight text-muted-800 dark:text-white"
