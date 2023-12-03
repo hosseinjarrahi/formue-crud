@@ -1,6 +1,6 @@
 <template>
   <div class="w-1/2 mx-auto pt-10">
-    <MCrud :fields="fields" route="http://192.168.190.27:9090/api/content-req-cat" />
+    <MCrud :fields="fields" route="http://192.168.190.69:9090/api/content-req-cat" />
     <AppAlert />
   </div>
 </template>
@@ -24,7 +24,7 @@ const fields = defineFields(({ get, getSafe }) => ({
     search: true,
     clearOnSearch: true,
     trackBy: ['req_cat'],
-    items: get({ url: 'http://192.168.190.27:9090/api/content-req-main-cat' }),
+    items: get({ url: 'http://192.168.190.69:9090/api/content-req-main-cat' }),
     type: 'select',
     delay: 500,
     object: true,

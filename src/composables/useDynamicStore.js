@@ -4,6 +4,7 @@ import { useFetch } from './useFetch'
 import { makeHeaders, convertToSendForm } from '@/helpers/formueCrud'
 import { emitter } from 'formue'
 import { pascalCase } from '@/helpers/common'
+import axios from 'axios'
 
 function getAllFields(obj) {
   let fields = []
@@ -69,7 +70,7 @@ const defineDynamicStore = () => {
       isEditing: false,
       panelName: false,
       hiddenActions: [],
-      isFiltering: false,
+      isFiltering: false
     }),
 
     getters: {
@@ -105,7 +106,7 @@ const defineDynamicStore = () => {
         })
         return fields
       },
-      
+
       formFields(state) {
         return state.fields
       },
@@ -189,17 +190,17 @@ const defineDynamicStore = () => {
       },
 
       loadItemsPlus(key = this.mainKey, page = 1, query = '', fn = () => {}, add = true) {
-        const { get } = useFetch()
-
         let pageQuery = getSafe(this.routes, key, '').indexOf('?') > -1 ? '&page=' : '?page=' // to do : change routes structure
 
         this.loadings[key] = true
 
         const route = getSafe(this.routes, key, '') + pageQuery + page + '&' + query
 
-        get(route)
-          .then((response) => response.json())
+        axios
+          .get(route)
           .then((response) => {
+            response = getSafe(response, 'data', {})
+
             if (!Array.isArray(this.items[key])) this.items[key] = []
             if (add) for (const item of response.data) this.items[key].push(item)
             else this.items[key] = response.data
@@ -212,8 +213,6 @@ const defineDynamicStore = () => {
       },
 
       loadItems(key = this.mainKey, page = 1) {
-        const { get } = useFetch()
-
         let pageQuery = getSafe(this.routes, key, '').indexOf('?') > -1 ? '&page=' : '?page=' // to do : change routes structure
 
         this.loadings[key] = true
@@ -221,10 +220,11 @@ const defineDynamicStore = () => {
 
         const route = getSafe(this.routes, key, '') + pageQuery + page
 
-        get(route)
-          .then((response) => response.json())
+        axios
+          .get(route)
           .then((response) => {
-            this.items[key] = response.data
+            response = getSafe(response, 'data', {})
+            this.items[key] = getSafe(response, 'data')
             this.setPagination(response, key)
           })
           .finally(() => {
@@ -249,19 +249,18 @@ const defineDynamicStore = () => {
       },
 
       getWithFilter(page = 1, itemPerPage = 15) {
-        const { post } = useFetch()
-
         const filterURL = 'http://192.168.190.10:9090/api/filter'
 
         this.loadings.filter = true
 
-        post(`${filterURL}?page=${page}`, {
+        axios.post(`${filterURL}?page=${page}`, {
           model: this.mainKey,
           itemPerPage: itemPerPage,
           filters: this.filters
         })
-          .then((response) => response.json())
           .then((response) => {
+            response = getSafe(response, 'data', {})
+
             this.items[this.mainKey] = response.data
             this.setPagination(response, this.mainKey)
           })
@@ -271,8 +270,6 @@ const defineDynamicStore = () => {
       },
 
       addItem(data) {
-        const { post } = useFetch()
-
         // let route = { value: false }
 
         // for (const field of flatFields.value) {
@@ -287,8 +284,10 @@ const defineDynamicStore = () => {
 
         let sendForm = convertToSendForm(data, this.flatFields)
 
-        post(route, sendForm)
+        axios.post(route, sendForm)
           .then(async (response) => {
+            response = getSafe(response, 'data', {})
+
             let newItems = await response.json()
             this.addData(newItems)
             event('alert', { text: 'با موفقیت ثبت شد', color: 'green' })
@@ -306,16 +305,16 @@ const defineDynamicStore = () => {
       },
 
       editItem(data) {
-        const { patch } = useFetch()
-
         let route = this.routes[this.mainKey].split('?')[0]
 
         let sendForm = convertToSendForm(data, this.flatFields)
 
         this.loadings.mainLoading = true
 
-        patch(route + '/' + data.id, sendForm)
+        axios.patch(route + '/' + data.id, sendForm)
           .then(async (response) => {
+            response = getSafe(response, 'data', {})
+
             let editedItem = await response.json()
             this.editData(editedItem)
             event('alert', { text: 'با موفقیت ویرایش شد', color: 'green' })
@@ -333,8 +332,6 @@ const defineDynamicStore = () => {
       },
 
       remove(deleteId) {
-        const { remove } = useFetch()
-
         const deleteIds = Array.isArray(deleteId) ? deleteId : [deleteId]
 
         let route = this.routes[this.mainKey].split('?')[0]
@@ -342,7 +339,7 @@ const defineDynamicStore = () => {
         this.loadings.mainLoading = true
 
         deleteIds.forEach((item) => {
-          remove(route + '/' + item)
+          axios.delete(route + '/' + item)
             .then(() => {
               event('alert', {
                 text: 'با موفقیت حذف شد',
