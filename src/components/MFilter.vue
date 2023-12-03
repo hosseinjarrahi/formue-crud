@@ -53,7 +53,13 @@
           </div>
         </div>
         <div class="flex w-full justify-between">
-          <MForm class="w-[75%] justify-between" :fields="fields" v-model="form" />
+          <Vueform
+            v-model="form"
+            :schema="fields"
+            class="w-[75%] justify-between"
+            :columns="{ label: 12 }"
+          />
+
           <div class="w-[23%] flex justify-center items-center">
             <button
               :disabled="!form.field"
@@ -216,10 +222,8 @@
 </template>
 
 <script setup>
-import MForm from 'formue'
 import { get as getSafe, capitalize } from 'lodash'
-import { inject, ref, markRaw, watch, nextTick } from 'vue'
-import SelectField from '@/components/fields/SelectField.vue'
+import { inject, ref, watch, nextTick } from 'vue'
 import filterComps from './filters/index.js'
 import { useStorage } from '@vueuse/core'
 import { VMenu } from 'vuetify/components/VMenu'
@@ -232,7 +236,6 @@ const showSaveFilter = ref(false)
 const filterName = ref('')
 const localFilters = getLocalFilters()
 const filterNameInp = ref(null)
-const showChooseFilter = ref(false)
 
 function getFilterFields(name) {
   let component
@@ -254,36 +257,32 @@ function getFilterFields(name) {
   // return component
 }
 
-const fields = ref([
-  {
-    title: 'field',
-    field: 'field',
-    isHeader: true,
-    groupAttr: { class: 'w-[32.5%]' },
-    // parentAttr: { class: 'change-input-forst' },
-    rel: {
-      get: store.headersWithoutActions,
-      textKey: 'title',
-      valueKey: 'filter'
-    },
-    props: {
-      'return-object': true
-    },
-    component: markRaw(SelectField)
+const initialField = {
+  field: {
+    placeholder: 'field',
+    type: 'select',
+    native: false,
+    items: store.headersWithoutActions,
+    'label-prop': 'name',
+    'value-prop': 'filter',
+    search: true,
+    columns: 4
   }
-])
+}
+
+const fields = ref({
+  ...initialField
+})
 
 watch(
   () => form.value.field,
   (filter) => {
-    fields.value.length = 1
-    const filterFields = getFilterFields(getSafe(filter, 'filter')) || []
+    fields.value = { ...initialField }
+    const filterFields = getFilterFields(filter) || []
     for (const key in form.value) {
       if (key !== 'field') form.value[key] = ''
     }
-    nextTick(() => {
-      for (const field of filterFields) fields.value.push(field)
-    })
+    fields.value = { ...fields.value, ...filterFields }
   }
 )
 

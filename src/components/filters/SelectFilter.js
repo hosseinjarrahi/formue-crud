@@ -1,30 +1,75 @@
-import { markRaw } from 'vue'
-import SelectField from './../fields/SelectField.vue'
-import InfinitySelectField from './../fields/InfinitySelectField.vue'
+const fetchLanguages = async (query) => {
+  // From: https://www.back4app.com/database/paul-datasets/list-of-all-programming-languages/get-started/javascript/rest-api/fetch?objectClassSlug=dataset
+
+  let where = ''
+
+  if (query) {
+    where =
+      '&where=' +
+      encodeURIComponent(
+        JSON.stringify({
+          ProgrammingLanguage: {
+            $regex: `${query}|${query.toUpperCase()}|${query[0].toUpperCase() + query.slice(1)}`
+          }
+        })
+      )
+  }
+
+  const response = await fetch(
+    'https://parseapi.back4app.com/classes/All_Programming_Languages?limit=9999&order=ProgrammingLanguage&keys=ProgrammingLanguage' +
+      where,
+    {
+      headers: {
+        'X-Parse-Application-Id': 'XpRShKqJcxlqE5EQKs4bmSkozac44osKifZvLXCL', // This is the fake app's application id
+        'X-Parse-Master-Key': 'Mr2UIBiCImScFbbCLndBv8qPRUKwBAq27plwXVuv' // This is the fake app's readonly master key
+      }
+    }
+  )
+
+  const data = await response.json() // Here you have the data that you need
+
+  return data.results.map((item) => {
+    return { value: item.ProgrammingLanguage, label: item.ProgrammingLanguage }
+  })
+}
 
 export default (field) => {
-  return [
-    {
-      title: 'operator',
-      field: 'op',
-      groupAttr: { class: 'w-[32.5%]' },
-      rel: {
-        get: [
-          { value: '=', text: 'equal_to' },
-          { value: '!=', text: 'not_equal_to' }
-        ],
-        valueKey: 'value',
-        textKey: 'text'
-      },
-      component: markRaw(SelectField)
+  return {
+    op: {
+      placeholder: 'operator',
+      type: 'select',
+      items: [
+        { value: '=', text: 'equal_to' },
+        { value: '!=', text: 'not_equal_to' }
+      ],
+      'label-prop': 'text',
+      'value-prop': 'value',
+      columns: 4
     },
-    {
-      title: 'select',
-      field: 'value',
-      groupAttr: { class: 'w-[32.5%]' },
-      component: markRaw(InfinitySelectField),
-      props: { 'hide-details': 'ture' },
-      rel: field.rel
+    value: {
+      type: 'tags',
+      placeholder: 'value',
+      items: async (query) => {
+        return await fetchLanguages(query)
+      },
+      search: true,
+      hideSelected: true,
+      closeOnSelect: false,
+      columns: 4,
+      native: false,
+      autocomplete: 'off',
+      filterResults: false,
+      minChars: 0,
+      resolveOnLoad: false,
+      infinite: true,
+      limit: 100,
+      clearOnSearch: true,
+      delay: 0,
+      onOpen: (select$) => {
+        if (select$.noOptions) {
+          select$.resolveOptions()
+        }
+      }
     }
-  ]
+  }
 }

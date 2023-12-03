@@ -13,7 +13,7 @@ const props = defineProps({
   options: { default: () => ({}) },
   hiddenActions: { default: () => [] },
   fields: { default: () => [] },
-  dir: { default: 'rtl' },
+  dir: { default: 'ltr' },
   route: { default: 'route' }
 })
 
@@ -27,11 +27,13 @@ const store = init({
 })
 
 provide('store', store)
+
 provide('dir', props.dir)
+
 document.body.setAttribute('dir', props.dir)
+
 onMounted(() => {
   document.getElementsByClassName('v-overlay-container')[0].setAttribute('dir', 'ltr')
-
   emit('mounted')
 })
 </script>

@@ -1,8 +1,11 @@
 import { useLangsStore } from './stores/langStore'
 import { createVuetify } from 'vuetify'
 import { registerFields } from './helpers/formueCrud'
+import { setDefaults } from './helpers/axios'
 
-export default (app, { fields } = { fields: {} }) => {
+export default (app, { fields, axiosConfig } = { fields: {}, axiosConfig: {} }) => {
+  setDefaults(axiosConfig)
+
   const vuetify = createVuetify({
     locale: {
       locale: 'customLocale',

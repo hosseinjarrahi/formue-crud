@@ -52,21 +52,21 @@ export function makeHeaders(headers) {
       formatterParams: {
         component: ActionButton
       }
-    },
-    _index_: {
-      formatter: updateRowNumber
     }
+    // _index_: {
+    //   formatter: updateRowNumber
+    // }
   }
 
   return headers.map((h) => (h.field in mapHeader ? { ...h, ...mapHeader[h.field] } : h))
 }
 
-export function updateRowNumber(cell) {
-  var pageNumber = tableInstance.getPage()
-  var pageSize = tableInstance.getPageSize()
-  var index = cell.getRow().getPosition(true) + (pageNumber - 1) * pageSize
-  return index
-}
+// export function updateRowNumber(cell) {
+//   var pageNumber = tableInstance.getPage()
+//   var pageSize = tableInstance.getPageSize()
+//   var index = cell.getRow().getPosition(true) + (pageNumber - 1) * pageSize
+//   return index
+// }
 
 export function actions(cell, formatterParams) {
   const data = cell.getRow().getData()

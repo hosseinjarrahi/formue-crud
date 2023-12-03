@@ -1,7 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: 'class',
-  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  content: [
+    './index.html',
+    './src/**/*.{vue,js,ts,jsx,tsx}',
+    './vueform.config.js', // or where `vueform.config.js` is located
+    './node_modules/@vueform/vueform/themes/tailwind/**/*.vue',
+    './node_modules/@vueform/vueform/themes/tailwind/**/*.js'
+  ],
   theme: {
     extend: {
       colors: {
@@ -34,5 +40,5 @@ export default {
       }
     }
   },
-  plugins: []
+  plugins: [require('@vueform/vueform/tailwind')]
 }

@@ -5,24 +5,71 @@ import { makeHeaders, convertToSendForm } from '@/helpers/formueCrud'
 import { emitter } from 'formue'
 import { pascalCase } from '@/helpers/common'
 
+function getAllFields(obj) {
+  let fields = []
+
+  function traverse(obj) {
+    for (let key in obj) {
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+        if (
+          !['schema', 'columns'].includes(key) &&
+          !has(obj[key], 'schema') &&
+          getSafe(obj[key], 'type') != 'group'
+        ) {
+          fields.push({ field: key, ...obj[key] })
+        } else {
+          traverse(obj[key])
+        }
+      }
+    }
+  }
+
+  traverse(obj)
+  return fields
+}
+
+// function addToAllFields(obj, objs) {
+//   let fields = []
+
+//   function traverse(obj) {
+//     for (let key in obj) {
+//       if (typeof obj[key] === 'object' && obj[key] !== null) {
+//         if (
+//           !['schema', 'columns'].includes(key) &&
+//           !has(obj[key], 'schema') &&
+//           getSafe(obj[key], 'type') != 'group'
+//         ) {
+//           fields.push({ field: key, ...obj[key], ...objs })
+//         } else {
+//           traverse(obj[key])
+//         }
+//       }
+//     }
+//   }
+
+//   traverse(obj)
+//   return fields
+// }
+
 const { event } = emitter
 
 const defineDynamicStore = () => {
   return defineStore('myStore', {
     state: () => ({
       mainKey: '',
-      routes: {},
       items: {},
-      loadings: {},
-      isEditing: false,
+      routes: {},
       fields: [],
-      paginations: {},
       options: [],
       filters: [],
-      isFiltering: false,
-      hiddenActions: [],
       selected: [],
-      panelName: false
+      loadings: {},
+      structure: {},
+      paginations: {},
+      isEditing: false,
+      panelName: false,
+      hiddenActions: [],
+      isFiltering: false,
     }),
 
     getters: {
@@ -47,23 +94,20 @@ const defineDynamicStore = () => {
       },
 
       flatFields(state) {
-        if (!Array.isArray(state.fields)) {
-          return []
-        }
-        state.fields.unshift({
+        let fields = getAllFields(state.fields)
+        fields.unshift({
           title: '',
-          type: 'text',
+          type: 'hidden',
           value: '_select_',
           field: '_select_',
           align: 'center',
           headerSort: false
         })
-        return state.fields.map((field) => {
-          if (has(field, 'groupLabel')) {
-            return field.items
-          }
-          return field
-        })
+        return fields
+      },
+      
+      formFields(state) {
+        return state.fields
       },
 
       flatFieldsWithoutActions() {
@@ -227,8 +271,6 @@ const defineDynamicStore = () => {
       },
 
       addItem(data) {
-        data = data.value
-
         const { post } = useFetch()
 
         // let route = { value: false }
@@ -264,8 +306,6 @@ const defineDynamicStore = () => {
       },
 
       editItem(data) {
-        data = data.value
-
         const { patch } = useFetch()
 
         let route = this.routes[this.mainKey].split('?')[0]

@@ -2,16 +2,18 @@ import { has, get as getSafe } from 'lodash'
 import { emitter } from 'formue'
 import { useDynamicStore } from '@/composables/useDynamicStore'
 import { markRaw } from 'vue'
+import { pascalCase } from '@/helpers/common'
+import axios from 'axios'
 
 export function convertToSendForm(form, fields) {
   let out = {}
   let hasOneField = false
-  for (let fieldName in form.value) {
+  for (let fieldName in form) {
     let field = getField(fieldName, fields)
     if (!field) continue
     hasOneField = true
     let key = getSendKey(field)
-    out[key] = form.value[fieldName]
+    out[key] = form[fieldName]
   }
   if (!hasOneField) return form
   return out
@@ -119,6 +121,27 @@ const getRegisterField = (field) => {
   return markRaw(comp)
 }
 
-export function defineFields(fn) {
-  return fn(getRegisterField)
+const get =
+  ({ url, key } = { url: false, key: false }) =>
+  async (search) => {
+    const getModelKey = (route) => {
+      let key = route.substr(route.lastIndexOf('/') + 1)
+      return pascalCase(key)
+    }
+
+    if ((!key, typeof route === 'string')) {
+      key = getModelKey(url)
+    }
+
+    const res = await axios.get(url + '?search=' + (search || ''))
+
+    // todo
+    // store.setPagination(key, res)
+    // store.setData(key, res.data)
+
+    return getSafe(res, 'data.data', [])
+  }
+
+export const defineFields = (fn) => {
+  return fn({ getRegisterField, axios, get, getSafe })
 }

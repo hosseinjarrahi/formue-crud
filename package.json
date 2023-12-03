@@ -1,6 +1,6 @@
 {
   "name": "formue-crud",
-  "version": "0.0.17",
+  "version": "0.0.19",
   "private": false,
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vueform/vueform": "^1.5.3",
     "@vueuse/core": "^10.4.0",
+    "axios": "^1.6.2",
     "formue": "^0.0.13",
     "lodash": "^4.17.21",
     "pinia": "^2.1.6",

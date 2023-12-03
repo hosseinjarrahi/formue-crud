@@ -8,7 +8,7 @@
           <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
         <div
-          class="inline-block max-h-full align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+          class="inline-block max-h-full align-bottom bg-white rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
         >
           <div
             class="bg-card-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4 dark:bg-muted-700 dark:text-muted-200"
@@ -21,7 +21,13 @@
               </h1>
 
               <div class="mb-5 flex flex-row flex-wrap">
-                <MForm :fields="store.fields" v-model="form" :form-data="editItem" />
+                <Vueform
+                  v-model="form"
+                  sync
+                  :schema="store.formFields"
+                  :columns="{ label: 12 }"
+                  v-bind="store.structure"
+                />
               </div>
 
               <div class="flex justify-end">
@@ -49,9 +55,9 @@
 </template>
 
 <script setup>
-import MForm from 'formue'
 import { ref, inject } from 'vue'
 import { emitter } from 'formue'
+import normalizer from '@/helpers/normalizer'
 
 const { event, listen } = emitter
 
@@ -59,19 +65,29 @@ const store = inject('store')
 
 const form = ref({})
 let dialog = ref(false)
-let editItem = ref({})
+let editItem = {}
+
+const normalize = (data) => {
+  let out = {}
+  for (const field of store.flatFieldsWithoutActions) {
+    out[field.field] = normalizer(field, data)
+  }
+  return out
+}
 
 const defineListeners = () => {
   listen('createBtn', () => {
-    editItem.value = {}
+    editItem = {}
     store.isEditing = false
     dialog.value = true
+    form.value = {}
   })
 
   listen('editBtn', (data) => {
-    editItem.value = { ...data }
+    editItem = data
     store.isEditing = true
     dialog.value = true
+    form.value = normalize(data)
   })
 
   listen('handleDialogForm', (dialogParam) => {
@@ -80,7 +96,9 @@ const defineListeners = () => {
 
   listen('saveForm', () => {
     const save = () => {
-      store.isEditing ? store.editItem(form) : store.addItem(form)
+      store.isEditing
+        ? store.editItem({ ...form.value, id: editItem?.id })
+        : store.addItem({ ...form.value })
     }
 
     return save()
@@ -101,6 +119,7 @@ const defineListeners = () => {
 
 defineListeners()
 </script>
+
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
