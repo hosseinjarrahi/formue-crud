@@ -87,7 +87,7 @@
           </button>
         </template>
       </v-tooltip>
-      <!-- button and menu for custome column -->
+      <!-- button and menu for custom column -->
       <v-menu :close-on-content-click="false" :location="dir === 'rtl' ? 'end' : 'start'">
         <template v-slot:activator="{ props: menu }">
           <v-tooltip color="#ec4899" location="bottom">

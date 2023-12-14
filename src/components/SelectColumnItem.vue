@@ -8,12 +8,13 @@
     >
       <input
         :modelValue="props.checked"
-        @click="$emit('toggle')"
         type="checkbox"
         class="peer cursor-pointer disabled:cursor-not-allowed"
         true-value="true"
         false-value="false"
-      /><label class="text-success-500 peer-disabled:opacity-75">
+        @click="$emit('toggle')"
+      />
+      <label class="text-success-500 peer-disabled:opacity-75">
         <div
           class="rtl:left-[auto] rtl:!right-0 ltr:right-[auto] ltr:left-0"
           :class="JSON.parse(props.checked) ? 'is-opaque' : ''"

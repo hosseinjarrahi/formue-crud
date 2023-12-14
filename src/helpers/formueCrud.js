@@ -13,9 +13,15 @@ export function convertToSendForm(form, fields) {
     if (!field) continue
     hasOneField = true
     let key = getSendKey(field)
-    out[key] = form[fieldName]
+
+    let formKey = fieldName
+    if (has(field, 'valueProp')) formKey += '.' + getSafe(field, 'valueProp', '')
+
+    out[key] = getSafe(form, formKey)
   }
+
   if (!hasOneField) return form
+
   return out
 }
 
@@ -82,7 +88,7 @@ export function initFields(fields) {
 }
 
 export function init({ fields, hiddenActions, options, route }) {
-  const store = useDynamicStore()
+  const store = useDynamicStore('Store-' + Math.random * 1000)
 
   store.fields = fields
 
@@ -95,8 +101,6 @@ export function init({ fields, hiddenActions, options, route }) {
   store.routes[key] = typeof route == 'string' ? route : route?.route
 
   store.loadItems()
-
-  // loadRelations(getSafe(payload, 'relations', []))
 
   store.options = options
 

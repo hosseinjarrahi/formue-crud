@@ -29,7 +29,7 @@
                 <button
                   :disabled="store.loadings.mainLoading"
                   class="border p-2 mx-1 px-8 rounded-md text-green-400 border-green-400"
-                  @click="store.remove({ deleteId, indexToRemove })"
+                  @click="store.remove(deleteId)"
                 >
                   <span v-if="!store.loadings.mainLoading"> {{ $fcTr('yes') }} </span>
                   <span v-else>loading</span>
@@ -51,7 +51,6 @@ const store = inject('store')
 
 const dialog = ref(false)
 let deleteId = ''
-let indexToRemove = ''
 
 emitter.listen('deleteBtn', (data) => {
   dialog.value = true

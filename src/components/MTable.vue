@@ -12,8 +12,12 @@
         class="w-full py-4 mx-auto border-b-1"
       >
         <div class="flex animate-pulse flex-row items-center h-full justify-center">
-          <div class="w-full flex flex-col items-start rtl:mr-8 ltr:ml-8">
-            <div class="w-[70%] bg-muted-300 dark:bg-muted-900 h-2.5 rounded-md"></div>
+          <div class="w-full flex flex-row items-start rtl:mr-8 ltr:ml-8">
+            <div
+              v-for="i in 9"
+              :key="i"
+              class="mx-1 w-[10%] bg-muted-300 dark:bg-muted-900 h-2.5 rounded-md"
+            ></div>
           </div>
         </div>
       </div>
@@ -21,7 +25,7 @@
   </div>
   <div
     class="padding: 100px; mt-[-20px] rounded-b-xl bg-white text-center p-[100px] dark:bg-muted-800"
-    v-if="hasItems"
+    v-if="hasNoItems"
   >
     <h2 class="dark:text-muted-200 text-muted-600">{{ $fcTr('not_load_or_existing_data') }}</h2>
   </div>
@@ -39,7 +43,7 @@ const table = ref(null)
 const store = inject('store')
 const dir = inject('dir')
 
-const hasItems = computed(() => {
+const hasNoItems = computed(() => {
   return store.mainItems.length === 0 && !store.loadings.mainLoading
 })
 
@@ -56,4 +60,3 @@ onMounted(() => {
   })
 })
 </script>
-<style scoped></style>

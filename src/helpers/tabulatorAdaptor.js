@@ -16,4 +16,12 @@ export function adaptor(store) {
     },
     { deep: true }
   )
+
+  watch(
+    () => store.loadings.mainLoading,
+    (loading) => {
+      if (loading) setData([])
+    },
+    { deep: true }
+  )
 }

@@ -54,8 +54,8 @@ function getAllFields(obj) {
 
 const { event } = emitter
 
-const defineDynamicStore = () => {
-  return defineStore('myStore', {
+const defineDynamicStore = (storeName = 'myStore') => {
+  return defineStore(storeName, {
     state: () => ({
       mainKey: '',
       items: {},
@@ -144,13 +144,13 @@ const defineDynamicStore = () => {
         if (!Array.isArray(this.items[this.mainKey])) {
           this.items[this.mainKey] = []
         }
-        this.items[this.mainKey].push(newItem)
+        this.items[this.mainKey] = [newItem, ...this.items[this.mainKey]]
       },
 
       editData(editItem) {
         let temp = this.items[this.mainKey]
         temp = temp.map((item) => {
-          if (item.id == editItem.id) return editItem
+          if (item.id == editItem.id) return { _index_: item['_index_'], ...editItem }
           return item
         })
         this.items[this.mainKey] = [...temp]
@@ -253,11 +253,12 @@ const defineDynamicStore = () => {
 
         this.loadings.filter = true
 
-        axios.post(`${filterURL}?page=${page}`, {
-          model: this.mainKey,
-          itemPerPage: itemPerPage,
-          filters: this.filters
-        })
+        axios
+          .post(`${filterURL}?page=${page}`, {
+            model: this.mainKey,
+            itemPerPage: itemPerPage,
+            filters: this.filters
+          })
           .then((response) => {
             response = getSafe(response, 'data', {})
 
@@ -284,11 +285,11 @@ const defineDynamicStore = () => {
 
         let sendForm = convertToSendForm(data, this.flatFields)
 
-        axios.post(route, sendForm)
+        axios
+          .post(route, sendForm)
           .then(async (response) => {
             response = getSafe(response, 'data', {})
-
-            let newItems = await response.json()
+            let newItems = getSafe(response, 'data')
             this.addData(newItems)
             event('alert', { text: 'با موفقیت ثبت شد', color: 'green' })
             event('handleDialogForm', false)
@@ -311,11 +312,11 @@ const defineDynamicStore = () => {
 
         this.loadings.mainLoading = true
 
-        axios.patch(route + '/' + data.id, sendForm)
+        axios
+          .patch(route + '/' + data.id, sendForm)
           .then(async (response) => {
             response = getSafe(response, 'data', {})
-
-            let editedItem = await response.json()
+            const editedItem = getSafe(response, 'data', {})
             this.editData(editedItem)
             event('alert', { text: 'با موفقیت ویرایش شد', color: 'green' })
             event('handleDialogForm', false)
@@ -339,7 +340,8 @@ const defineDynamicStore = () => {
         this.loadings.mainLoading = true
 
         deleteIds.forEach((item) => {
-          axios.delete(route + '/' + item)
+          axios
+            .delete(route + '/' + item)
             .then(() => {
               event('alert', {
                 text: 'با موفقیت حذف شد',

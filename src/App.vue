@@ -22,6 +22,7 @@ const fields = defineFields(({ get, getSafe }) => ({
   req_main_cat: {
     title: 'سرفصل',
     search: true,
+    sendKey: "req_main_cat_id",
     clearOnSearch: true,
     trackBy: ['req_cat'],
     items: get({ url: 'http://192.168.190.69:9090/api/content-req-main-cat' }),
