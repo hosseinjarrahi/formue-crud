@@ -88,7 +88,7 @@ export function initFields(fields) {
 }
 
 export function init({ fields, hiddenActions, options, route }) {
-  const store = useDynamicStore('Store-' + Math.random * 1000)
+  const store = useDynamicStore('Store-' + parseInt(Math.random() * 10000000))
 
   store.fields = fields
 

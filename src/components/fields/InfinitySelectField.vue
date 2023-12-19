@@ -58,7 +58,7 @@ function getKey(get) {
     return store.getModelKey(get)
   }
 
-  return 'model-' + parseInt(Math.random(10000) * Math.random(10000) * 1000)
+  return 'model-' + parseInt(Math.random() * Math.random() * 1000)
 }
 
 const initialLoad = (key, get, page) => {
