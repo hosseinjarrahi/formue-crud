@@ -5,6 +5,9 @@ import { markRaw } from 'vue'
 import { pascalCase } from '@/helpers/common'
 import axios from 'axios'
 
+let registeredFields = {}
+let storeInstance
+
 export function convertToSendForm(form, fields) {
   let out = {}
   let hasOneField = false
@@ -31,10 +34,6 @@ export function getSendKey(field) {
 
 export function getField(key, fields) {
   return fields.find((schema) => schema.field == key)
-}
-
-export function hasChild(field) {
-  return has(field, 'rel.child.model')
 }
 
 export function filterFieldsByShow(fields, mode = 'create') {
@@ -87,10 +86,60 @@ export function initFields(fields) {
   }
 }
 
+const getRegisterField = (field) => {
+  const comp = getSafe(registeredFields, field)
+
+  if (!comp) return ''
+
+  return markRaw(comp)
+}
+
+const get =
+  ({ url, key } = { url: false, key: false }) =>
+  async (...args) => {
+    let search = args[0]
+    
+    let urlFetch = url
+
+    const getModelKey = (route) => {
+      let key = route.substr(route.lastIndexOf('/') + 1)
+      return pascalCase(key)
+    }
+
+    if ((!key, typeof route === 'string')) {
+      key = getModelKey(urlFetch)
+    }
+
+    const matches = urlFetch.match(/\{(.*?)\}/g) || []
+
+    matches.forEach((placeholder) => {
+      const field = placeholder.replace(/[{}]/g, '')
+      urlFetch = urlFetch.replace(placeholder, getSafe(storeInstance.form, field, ''))
+    })
+
+    const sign = urlFetch.includes('?') ? '&' : '?'
+
+    const res = await axios.get(urlFetch + sign + 'search=' + (search || ''))
+
+    // todo
+    // store.setPagination(key, res)
+    // store.setData(key, res.data)
+
+    return getSafe(res, 'data.data', [])
+  }
+
+export const defineFields = (fn) => {
+  return fn({ getRegisterField, axios, get, getSafe })
+}
+
+export const registerFields = (fields) => {
+  registeredFields = fields
+}
+
 export function init({ fields, hiddenActions, options, route }) {
   const store = useDynamicStore('Store-' + parseInt(Math.random() * 10000000))
 
-  store.fields = fields
+  store.fields = defineFields(fields)
 
   // clearEventListeners()
 
@@ -108,44 +157,7 @@ export function init({ fields, hiddenActions, options, route }) {
 
   initFields(store.flatFields)
 
+  storeInstance = store
+
   return store
-}
-
-let registeredFields = {}
-
-export const registerFields = (fields) => {
-  registeredFields = fields
-}
-
-const getRegisterField = (field) => {
-  const comp = getSafe(registeredFields, field)
-
-  if (!comp) return ''
-
-  return markRaw(comp)
-}
-
-const get =
-  ({ url, key } = { url: false, key: false }) =>
-  async (search) => {
-    const getModelKey = (route) => {
-      let key = route.substr(route.lastIndexOf('/') + 1)
-      return pascalCase(key)
-    }
-
-    if ((!key, typeof route === 'string')) {
-      key = getModelKey(url)
-    }
-
-    const res = await axios.get(url + '?search=' + (search || ''))
-
-    // todo
-    // store.setPagination(key, res)
-    // store.setData(key, res.data)
-
-    return getSafe(res, 'data.data', [])
-  }
-
-export const defineFields = (fn) => {
-  return fn({ getRegisterField, axios, get, getSafe })
 }

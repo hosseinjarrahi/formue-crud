@@ -22,11 +22,11 @@
 
               <div class="mb-5 flex flex-row flex-wrap">
                 <Vueform
-                  v-model="form"
-                  sync
+                  v-model="store.form"
                   :schema="store.formFields"
                   :columns="{ label: 12 }"
                   v-bind="store.structure"
+                  sync
                 />
               </div>
 
@@ -63,7 +63,6 @@ const { event, listen } = emitter
 
 const store = inject('store')
 
-const form = ref({})
 let dialog = ref(false)
 let editItem = {}
 
@@ -80,14 +79,14 @@ const defineListeners = () => {
     editItem = {}
     store.isEditing = false
     dialog.value = true
-    form.value = {}
+    store.form = {}
   })
 
   listen('editBtn', (data) => {
     editItem = data
     store.isEditing = true
     dialog.value = true
-    form.value = normalize(data)
+    store.form = normalize(data)
   })
 
   listen('handleDialogForm', (dialogParam) => {
@@ -97,15 +96,15 @@ const defineListeners = () => {
   listen('saveForm', () => {
     const save = () => {
       store.isEditing
-        ? store.editItem({ ...form.value, id: editItem?.id })
-        : store.addItem({ ...form.value })
+        ? store.editItem({ ...store.form, id: editItem?.id })
+        : store.addItem({ ...store.form })
     }
 
     return save()
   })
 
   listen(['createBtn'], () => {
-    Object.assign(form, {})
+    store.form = {}
   })
 
   listen('editTheItem', (item) => {

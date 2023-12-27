@@ -58,6 +58,7 @@ const defineDynamicStore = (storeName = 'myStore') => {
   return defineStore(storeName, {
     state: () => ({
       mainKey: '',
+      form: {},
       items: {},
       routes: {},
       fields: [],
