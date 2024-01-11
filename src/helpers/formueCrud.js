@@ -98,7 +98,7 @@ const get =
   ({ url, key } = { url: false, key: false }) =>
   async (...args) => {
     let search = args[0]
-    
+
     let urlFetch = url
 
     const getModelKey = (route) => {

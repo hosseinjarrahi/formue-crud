@@ -47,16 +47,15 @@ const hasNoItems = computed(() => {
   return store.mainItems.length === 0 && !store.loadings.mainLoading
 })
 
-adaptor(store)
-
 onMounted(() => {
-  initTable({
+  const tableInstance = initTable({
     options: {
       textDirection: dir
     },
     element: table.value,
-    headers: store.headers,
-    data: store.mainItems
+    headers: store.headers
   })
+
+  adaptor(store, tableInstance)
 })
 </script>

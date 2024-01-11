@@ -6,10 +6,9 @@ import SelectColumn from '@/components/SelectColumn.vue'
 export let tableInstance
 
 export const initTable = (
-  { element, headers, data, options } = {
+  { element, headers, options } = {
     element: null,
     headers: [],
-    data: [],
     options: {}
   }
 ) => {
@@ -18,8 +17,9 @@ export const initTable = (
     pagination: false,
     paginationMode: 'remote',
     layout: 'fitDataStretch',
+    // sortMode:"remote",
     resizableColumnFit: true,
-    // ajaxURL: mainRoute,
+    // ajaxURL: "mainRoute",
     // ajaxParams: { token: 'ABC123' },
     paginationSize: 5,
     paginationInitialPage: 1,
@@ -27,13 +27,8 @@ export const initTable = (
     paginationCounter: 'rows',
     ajaxLoaderLoading:
       "<div style='display:inline-block; border:4px solid #333; border-radius:10px; background:#fff; font-weight:bold; font-size:16px; color:#000; padding:10px 20px;'>Loading Data</div>",
-    data,
-    columns: makeHeaders(headers),
+    columns: makeHeaders(headers).map((i) => ({ ...i, headerSort: false })),
     ...options
-  })
-
-  setTimeout(() => {
-    tableInstance.setData()
   })
 
   return tableInstance

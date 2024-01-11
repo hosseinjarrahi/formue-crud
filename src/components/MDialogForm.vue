@@ -20,7 +20,7 @@
                 <i class="text-primerr-700 fal fa-times cursor-pointer" @click="dialog = false"></i>
               </h1>
 
-              <div class="mb-5 flex flex-row flex-wrap">
+              <div class="mb-5">
                 <Vueform
                   v-model="store.form"
                   :schema="store.formFields"

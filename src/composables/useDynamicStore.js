@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 import { get as getSafe, has } from 'lodash'
-import { useFetch } from './useFetch'
 import { makeHeaders, convertToSendForm } from '@/helpers/formueCrud'
 import { emitter } from 'formue'
 import { pascalCase } from '@/helpers/common'
 import axios from 'axios'
+import qs from 'qs'
 
 function getAllFields(obj) {
   let fields = []
@@ -64,6 +64,7 @@ const defineDynamicStore = (storeName = 'myStore') => {
       fields: [],
       options: [],
       filters: [],
+      sorts: ['id:desc'],
       selected: [],
       loadings: {},
       structure: {},
@@ -213,13 +214,28 @@ const defineDynamicStore = (storeName = 'myStore') => {
           })
       },
 
+      convertToFilterForm() {
+        let out = {}
+
+        for (const filter of this.filters) {
+          if (!filter?.field?.field) continue
+
+          out[filter.field.field] = {
+            [filter.op]: filter.value
+          }
+        }
+
+        return qs.stringify({ filters: out, sort: this.sorts }, { encodeValuesOnly: true })
+      },
+
       loadItems(key = this.mainKey, page = 1) {
         let pageQuery = getSafe(this.routes, key, '').indexOf('?') > -1 ? '&page=' : '?page=' // to do : change routes structure
 
         this.loadings[key] = true
         this.loadings.mainLoading = key === this.mainKey
 
-        const route = getSafe(this.routes, key, '') + pageQuery + page
+        const route =
+          getSafe(this.routes, key, '') + pageQuery + page + '&' + this.convertToFilterForm()
 
         axios
           .get(route)

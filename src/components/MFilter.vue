@@ -56,7 +56,8 @@
           <Vueform
             v-model="form"
             :schema="fields"
-            class="w-[75%] justify-between"
+            :sync="true"
+            class="w-[100%] justify-between"
             :columns="{ label: 12 }"
           />
 
@@ -120,12 +121,12 @@
           <template v-for="(filter, index) in store.filters" :key="index">
             <div class="flex">
               <span
-                class="flex px-3 font-sans transition-shadow duration-300 py-1 text-[0.75rem] rounded-full bg-primary-100 text-primary-500 border-primary-100 dark:border-primary-500 dark:text-primary-500 border dark:bg-transparent"
+                class="flex px-3 font-sans transition-shadow duration-300 py-1 text-[0.75rem] cursor-pointer rounded-full bg-primary-100 text-primary-500 border-primary-100 dark:border-primary-500 dark:text-primary-500 border dark:bg-transparent"
                 @click="fillForm(filter, index)"
               >
                 <span class="mt-[0px]"> {{ getSafe(filter, 'field.title') }} </span>
                 <button
-                  class="text-white font-bold rounded px-1"
+                  class="text-white font-bold rounded px-1 hover:bg-primary-500 hover:text-black-500"
                   @click.stop="removeFilter(filter)"
                 >
                   <svg aria-hidden="true" viewBox="0 0 24 24" class="h-4 w-4 text-primary-500">
@@ -222,39 +223,37 @@
 </template>
 
 <script setup>
-import { get as getSafe, capitalize } from 'lodash'
+import { get as getSafe, cloneDeep } from 'lodash'
 import { inject, ref, watch, nextTick } from 'vue'
 import filterComps from './filters/index.js'
 import { useStorage } from '@vueuse/core'
 import { VMenu } from 'vuetify/components/VMenu'
+
 const store = inject('store')
 
 let indexToEdit = -1
 const isEditing = ref(false)
-const form = ref({})
+const form = ref({ field: '' })
 const showSaveFilter = ref(false)
 const filterName = ref('')
 const localFilters = getLocalFilters()
 const filterNameInp = ref(null)
 
 function getFilterFields(name) {
-  let component
+  const map = {
+    text: 'TextFilter',
+    select: 'TextFilter'
+  }
 
-  const filter = capitalize(name)
+  const filter = getSafe(map, name)
 
-  const fn = getSafe(filterComps, filter + 'Filter')
+  const fn = getSafe(filterComps, filter)
 
   const field = store.flatFields.find((field) => field.filter === name)
 
-  if (typeof fn === 'function') return getSafe(filterComps, filter + 'Filter')(field)
+  if (typeof fn === 'function') return fn(field)
 
   return false
-
-  // if (typeof selectedFilter.value.filter == 'string')
-  //   component = getSafe(components, filter + 'Filter')
-  // else component = filter
-
-  // return component
 }
 
 const initialField = {
@@ -263,28 +262,25 @@ const initialField = {
     type: 'select',
     native: false,
     items: store.headersWithoutActions,
-    'label-prop': 'name',
-    'value-prop': 'filter',
+    'label-prop': 'title',
+    'value-prop': 'field',
+    object: true,
     search: true,
-    columns: 4
+    trackBy: ['title'],
+    columns: 4,
+    onChange(schema) {
+      const filterFields = getFilterFields(schema?.type) || []
+      for (const key in form.value) {
+        if (key !== 'field') delete form.value[key]
+      }
+      fields.value = { ...initialField, ...filterFields }
+    }
   }
 }
 
 const fields = ref({
   ...initialField
 })
-
-watch(
-  () => form.value.field,
-  (filter) => {
-    fields.value = { ...initialField }
-    const filterFields = getFilterFields(filter) || []
-    for (const key in form.value) {
-      if (key !== 'field') form.value[key] = ''
-    }
-    fields.value = { ...fields.value, ...filterFields }
-  }
-)
 
 function getLocalFilters() {
   const storeName = window.location.pathname.replace(/^\/|\/$/g, '') + '-filters'
@@ -293,7 +289,7 @@ function getLocalFilters() {
 }
 
 function addFilter() {
-  store.filters.push(form.value)
+  store.filters.push(cloneDeep(form.value))
   form.value = {}
 }
 
@@ -306,11 +302,12 @@ function editFilter() {
 }
 
 function fillForm(filter, index) {
-  form.value.field = filter.field
   isEditing.value = true
   indexToEdit = index
+  form.value = filter
   nextTick(() => {
-    form.value = { ...filter }
+    form.value.op = filter.op
+    form.value.value = filter.value
   })
 }
 
@@ -337,8 +334,7 @@ function saveFilter() {
 }
 
 function makeFilters() {
-  store.isFiltering = true
-  store.getWithFilter()
+  store.loadItems()
 }
 </script>
 

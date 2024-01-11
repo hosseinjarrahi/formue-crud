@@ -1,29 +1,22 @@
-import { markRaw } from 'vue'
-import SelectField from './../fields/SelectField.vue'
-import TextField from './../fields/TextField.vue'
-
-export default () => [
-  {
+export default () => ({
+  op: {
     title: 'operator',
-    field: 'op',
-    groupAttr: { class: 'w-[32.5%]' },
-    rel: {
-      get: [
-        { value: '=', text: 'equal_to' },
-        { value: '!=', text: 'not_equal_to' },
-        { value: '>', text: 'greater_than' },
-        { value: '<', text: 'less_than' },
-        { value: 'LIKE', text: 'look_like' }
-      ],
-      textKey: 'text',
-      valueKey: 'value'
-    },
-    component: markRaw(SelectField)
+    columns: 4,
+    items: [
+      { value: '$eq', text: 'equal_to' },
+      { value: '$ne', text: 'not_equal_to' },
+      { value: '$gt', text: 'greater_than' },
+      { value: '$lt', text: 'less_than' },
+      { value: '$contains', text: 'look_like' }
+    ],
+    'label-prop': 'text',
+    'value-prop': 'value',
+    type: 'select'
   },
-  {
+  value: {
     title: 'search',
-    field: 'value',
     groupAttr: { class: 'w-[32.5%]' },
-    component: markRaw(TextField)
+    type: 'text',
+    columns: 4,
   }
-]
+})

@@ -1,6 +1,6 @@
 <template>
   <div class="w-1/2 mx-auto pt-10">
-    <MCrud :fields="fields" route="http://192.168.190.69:9090/api/content-project-title" />
+    <MCrud :fields="fields" route="http://192.168.190.69:9090/api/content-project-title" dir="rtl" />
     <AppAlert />
   </div>
 </template>
@@ -26,7 +26,8 @@ const fields = ({ get }) => ({
     onChange: (...args) => {
       const project = args[2].form$.el$('project')
       console.log('*******************')
-      console.log(project.updateItems())
+      project.clear()
+      project.updateItems()
     },
     isHeader: true,
     labelProp: 'title',
@@ -36,7 +37,9 @@ const fields = ({ get }) => ({
   }),
   project: select({
     title: 'روند',
-    items: get({ url: 'http://192.168.190.69:9090/api/content-project?main_project={main_project.id}' }),
+    items: get({
+      url: 'http://192.168.190.69:9090/api/content-project?filters[main_project][$eq]={main_project.id}'
+    }),
     type: 'select',
     isHeader: true,
     labelProp: 'project',
