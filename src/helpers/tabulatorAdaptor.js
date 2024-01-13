@@ -33,6 +33,8 @@ export function adaptor(store, table) {
   table.on('headerClick', (e, column) => {
     const field = column.getField()
 
+    if (['_index_', '_select_'].includes(field)) return
+
     if (sorters.includes(field + ':asc')) {
       let pos = sorters.indexOf(field + ':asc')
       sorters[pos] = field + ':desc'

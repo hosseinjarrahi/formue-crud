@@ -6,9 +6,16 @@
 
 <script setup>
 import MTable from './MTable.vue'
-// import { inject } from 'vue'
+import { inject } from 'vue'
+import { emitter } from 'formue'
 
-// const store = inject('store')
+const store = inject('store')
+
+emitter.listen('toggle.select', (id) => {
+  if (store.selected.has(id)) return store.selected.delete(id)
+
+  store.selected.add(id)
+})
 
 // function getField(field) {
 //   return 'item.' + field

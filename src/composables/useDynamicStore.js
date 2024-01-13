@@ -5,6 +5,7 @@ import { emitter } from 'formue'
 import { pascalCase } from '@/helpers/common'
 import axios from 'axios'
 import qs from 'qs'
+import { reactive } from 'vue'
 
 function getAllFields(obj) {
   let fields = []
@@ -17,7 +18,8 @@ function getAllFields(obj) {
           !has(obj[key], 'schema') &&
           getSafe(obj[key], 'type') != 'group'
         ) {
-          fields.push({ field: key, ...obj[key] })
+          obj[key].field = key
+          fields.push(obj[key])
         } else {
           traverse(obj[key])
         }
@@ -26,6 +28,7 @@ function getAllFields(obj) {
   }
 
   traverse(obj)
+
   return fields
 }
 
@@ -65,7 +68,7 @@ const defineDynamicStore = (storeName = 'myStore') => {
       options: [],
       filters: [],
       sorts: ['id:desc'],
-      selected: [],
+      selected: new Set([]),
       loadings: {},
       structure: {},
       paginations: {},
@@ -98,14 +101,17 @@ const defineDynamicStore = (storeName = 'myStore') => {
 
       flatFields(state) {
         let fields = getAllFields(state.fields)
-        fields.unshift({
-          title: '',
-          type: 'hidden',
-          value: '_select_',
-          field: '_select_',
-          align: 'center',
-          headerSort: false
-        })
+        fields.unshift(
+          reactive({
+            title: '',
+            type: 'hidden',
+            value: '_select_',
+            field: '_select_',
+            align: 'center',
+            headerSort: false
+          })
+        )
+        console.log(fields)
         return fields
       },
 

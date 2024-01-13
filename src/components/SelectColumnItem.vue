@@ -4,10 +4,10 @@
   >
     <div
       class="nui-focus block focus-within:outline-current rounded-full"
-      :class="JSON.parse(props.checked) ? 'is-checked' : 'is-unchecked'"
+      :class="JSON.parse(checked) ? 'is-checked' : 'is-unchecked'"
     >
       <input
-        :modelValue="props.checked"
+        :modelValue="checked"
         type="checkbox"
         class="peer cursor-pointer disabled:cursor-not-allowed"
         true-value="true"
@@ -17,7 +17,7 @@
       <label class="text-success-500 peer-disabled:opacity-75">
         <div
           class="rtl:left-[auto] rtl:!right-0 ltr:right-[auto] ltr:left-0"
-          :class="JSON.parse(props.checked) ? 'is-opaque' : ''"
+          :class="JSON.parse(checked) ? 'is-opaque' : ''"
         ></div>
         <svg aria-hidden="true" viewBox="0 0 52 52" data-v-3e8a7b5f="">
           <circle cx="26" cy="26" r="25" fill="none" stroke="currentColor"></circle>
@@ -37,7 +37,7 @@
 <script setup>
 import { defineProps } from 'vue'
 
-const props = defineProps({
+defineProps({
   checked: { default: false },
   columnName: { default: '' }
 })

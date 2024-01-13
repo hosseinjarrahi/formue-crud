@@ -212,20 +212,19 @@ onMounted(() => {
   dir.value = document.body.getAttribute('dir')
 })
 
-const setClass = computed(() => {
-  return author.books.length > 0 ? 'Yes' : 'No'
-})
-
 const selectField = computed(() => {
   return store.flatFields.find((item) => item.field === '_select_')
 })
 
 const isSelectActive = computed(() => {
-  return !!selectField?.value?.isHeader
+  return !!selectField.value.isHeader
 })
 
 function toggleSelect() {
   selectField.value.isHeader = !selectField.value.isHeader
+  if (!selectField.value.isHeader) {
+    store.selected.clear()
+  }
 }
 </script>
 

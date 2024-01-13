@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { TabulatorFull as Tabulator } from 'tabulator-tables' //import Tabulator library
 import ActionButton from '@/components/ActionButton.vue'
-import SelectColumn from '@/components/SelectColumn.vue'
+import SelectColumnComponent from '@/components/SelectColumn.vue'
 
 export let tableInstance
 
@@ -39,8 +39,9 @@ export function makeHeaders(headers) {
     _select_: {
       formatter: selectColumn,
       formatterParams: {
-        component: SelectColumn
-      }
+        component: SelectColumnComponent
+      },
+      titleFormatter: selectAllColumn
     },
     _actions_: {
       formatter: actions,
@@ -79,6 +80,13 @@ export function selectColumn(cell, formatterParams) {
   const el = document.createElement('div')
   const Component = formatterParams.component
   const app = createApp(Component, { data, index })
+  app.mount(el)
+  return el
+}
+
+export function selectAllColumn() {
+  const el = document.createElement('div')
+  const app = createApp(SelectColumnComponent, { all: true })
   app.mount(el)
   return el
 }
