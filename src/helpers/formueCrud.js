@@ -6,7 +6,6 @@ import { pascalCase } from '@/helpers/common'
 import axios from 'axios'
 
 let registeredFields = {}
-let storeInstance
 
 export function convertToSendForm(form, fields) {
   let out = {}
@@ -95,11 +94,24 @@ const getRegisterField = (field) => {
 }
 
 const get =
-  ({ url, key } = { url: false, key: false }) =>
+  (store) =>
+  (
+    { url, key, foreignKey, dataKey } = {
+      url: false,
+      key: false,
+      foreignKey: false,
+      dataKey: false
+    }
+  ) =>
   async (...args) => {
     let search = args[0]
 
     let urlFetch = url
+
+    if (foreignKey && dataKey) {
+      urlFetch += urlFetch.includes('?') ? '&' : '?'
+      urlFetch += `filters[${foreignKey}][$eq]={${dataKey}}`
+    }
 
     const getModelKey = (route) => {
       let key = route.substr(route.lastIndexOf('/') + 1)
@@ -114,14 +126,13 @@ const get =
 
     matches.forEach((placeholder) => {
       const field = placeholder.replace(/[{}]/g, '')
-      urlFetch = urlFetch.replace(placeholder, getSafe(storeInstance.form, field, ''))
+      urlFetch = urlFetch.replace(placeholder, getSafe(store.form, field, ''))
     })
 
     const sign = urlFetch.includes('?') ? '&' : '?'
 
     const res = await axios.get(urlFetch + sign + 'search=' + (search || ''))
 
-    // todo
     // store.setPagination(key, res)
     // store.setData(key, res.data)
 
@@ -139,7 +150,7 @@ export const registerFields = (fields) => {
 export function init({ fields, hiddenActions, options, route }) {
   const store = useDynamicStore('Store-' + parseInt(Math.random() * 10000000))
 
-  store.fields = defineFields(fields)
+  store.fields = defineFields(fields, get(store))
 
   // clearEventListeners()
 
@@ -156,8 +167,6 @@ export function init({ fields, hiddenActions, options, route }) {
   store.hiddenActions = hiddenActions
 
   initFields(store.flatFields)
-
-  storeInstance = store
 
   return store
 }

@@ -27,7 +27,7 @@ export const initTable = (
     paginationCounter: 'rows',
     ajaxLoaderLoading:
       "<div style='display:inline-block; border:4px solid #333; border-radius:10px; background:#fff; font-weight:bold; font-size:16px; color:#000; padding:10px 20px;'>Loading Data</div>",
-    columns: makeHeaders(headers).map((i) => ({ ...i, headerSort: false })),
+    columns: makeHeaders(headers),
     ...options
   })
 
@@ -54,7 +54,9 @@ export function makeHeaders(headers) {
     // }
   }
 
-  return headers.map((h) => (h.field in mapHeader ? { ...h, ...mapHeader[h.field] } : h))
+  return headers
+    .map((h) => (h.field in mapHeader ? { ...h, ...mapHeader[h.field] } : h))
+    .map((h) => ({ ...h, headerSort: false }))
 }
 
 // export function updateRowNumber(cell) {
