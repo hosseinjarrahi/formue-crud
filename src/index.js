@@ -3,6 +3,7 @@ import './assets/main.css'
 import './assets/vuetifyForm.css'
 import './assets/tabulator.css'
 import install from './install'
-import { registerFields, defineFields } from './helpers/formueCrud'
+import { registerFields } from './helpers/formueCrud'
+import fields from './helpers/fields'
 
-export { MCrud, registerFields, install, defineFields }
+export { MCrud, registerFields, install, fields }

@@ -67,15 +67,16 @@ const defineDynamicStore = (storeName = 'myStore') => {
       fields: [],
       options: [],
       filters: [],
-      sorts: ['id:desc'],
-      selected: new Set([]),
       loadings: {},
       structure: {},
       paginations: {},
+      searchParam: '',
       isEditing: false,
       panelName: false,
       hiddenActions: [],
-      isFiltering: false
+      isFiltering: false,
+      sorts: ['id:desc'],
+      selected: new Set([])
     }),
 
     getters: {
@@ -111,7 +112,6 @@ const defineDynamicStore = (storeName = 'myStore') => {
             headerSort: false
           })
         )
-        console.log(fields)
         return fields
       },
 
@@ -234,16 +234,18 @@ const defineDynamicStore = (storeName = 'myStore') => {
         return qs.stringify({ filters: out, sort: this.sorts }, { encodeValuesOnly: true })
       },
 
-      loadItems(key = this.mainKey, page = 1) {
+      async loadItems(key = this.mainKey, page = 1) {
         let pageQuery = getSafe(this.routes, key, '').indexOf('?') > -1 ? '&page=' : '?page=' // to do : change routes structure
-
+        pageQuery += page
+        if (this.searchParam) {
+          pageQuery += '&search=' + this.searchParam
+        }
         this.loadings[key] = true
         this.loadings.mainLoading = key === this.mainKey
 
-        const route =
-          getSafe(this.routes, key, '') + pageQuery + page + '&' + this.convertToFilterForm()
+        const route = getSafe(this.routes, key, '') + pageQuery + '&' + this.convertToFilterForm()
 
-        axios
+        return axios
           .get(route)
           .then((response) => {
             response = getSafe(response, 'data', {})

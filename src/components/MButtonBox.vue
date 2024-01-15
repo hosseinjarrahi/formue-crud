@@ -166,14 +166,22 @@
       <!-- search input -->
       <div class="group/nui-input relative rtl:">
         <input
+          v-model="store.searchParam"
           type="text"
           class="nui-focus !pl-4 border-muted-300 text-muted-600 placeholder:text-muted-300 dark:border-muted-700 dark:bg-muted-900/75 dark:text-muted-200 dark:placeholder:text-muted-500 dark:focus:border-muted-700 peer w-full border bg-white font-sans transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-75 px-2 h-10 py-2 text-sm leading-5 pe-4 ps-9 rounded-full"
           :placeholder="$fcTr('search')"
+          @keyup="searchWithDebounce"
         />
         <div
           class="ltr:left-0 text-muted-400 group-focus-within/nui-input:text-primary-500 absolute end-0 rtl:start-0 top-0 flex items-center justify-center transition-colors duration-300 peer-disabled:cursor-not-allowed peer-disabled:opacity-75 h-10 w-10"
         >
-          <svg class="icon h-[1.15rem] w-[1.15rem]" width="1em" height="1em" viewBox="0 0 24 24">
+          <svg
+            v-if="!searchLoading"
+            class="icon h-[1.15rem] w-[1.15rem]"
+            width="1em"
+            height="1em"
+            viewBox="0 0 24 24"
+          >
             <g
               fill="none"
               stroke="currentColor"
@@ -184,6 +192,18 @@
               <circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21l-4.35-4.35"></path>
             </g>
+          </svg>
+          <svg
+            v-else
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            viewBox="0 0 512 512"
+            class="icon animate-spin"
+          >
+            <path
+              d="M457 372c11.5 6.6 26.3 2.7 31.8-9.3C503.7 330.2 512 294.1 512 256C512 122.7 410.1 13.2 280 1.1C266.8-.1 256 10.7 256 24v0c0 13.3 10.8 23.9 24 25.4C383.5 61.2 464 149.2 464 256c0 29.3-6.1 57.3-17 82.6c-5.3 12.2-1.5 26.8 10 33.5v0z"
+            />
           </svg>
         </div>
       </div>
@@ -197,11 +217,14 @@ import { VMenu } from 'vuetify/components/VMenu'
 
 import { inject, ref, onMounted, computed } from 'vue'
 import { emitter } from 'formue'
+import { debounce } from 'lodash'
 
 import SelectColumnItem from '@/components/SelectColumnItem.vue'
 
 const { event } = emitter
+
 const store = inject('store')
+
 function choose(panel) {
   if (panel === store.panel) store.panel = ''
   else store.panel = panel
@@ -226,6 +249,14 @@ function toggleSelect() {
     store.selected.clear()
   }
 }
+
+const searchLoading = ref(false)
+function search() {
+  searchLoading.value = true
+  store.loadItems().finally(() => (searchLoading.value = false))
+}
+
+const searchWithDebounce = debounce(search, 600)
 </script>
 
 <style scoped>

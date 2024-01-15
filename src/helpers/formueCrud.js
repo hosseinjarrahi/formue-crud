@@ -139,8 +139,8 @@ const get =
     return getSafe(res, 'data.data', [])
   }
 
-export const defineFields = (fn) => {
-  return fn({ getRegisterField, axios, get, getSafe })
+export const defineFields = (fn, store) => {
+  return fn({ getRegisterField, axios, get: get(store), getSafe })
 }
 
 export const registerFields = (fields) => {
@@ -150,7 +150,7 @@ export const registerFields = (fields) => {
 export function init({ fields, hiddenActions, options, route }) {
   const store = useDynamicStore('Store-' + parseInt(Math.random() * 10000000))
 
-  store.fields = defineFields(fields, get(store))
+  store.fields = defineFields(fields, store)
 
   // clearEventListeners()
 
