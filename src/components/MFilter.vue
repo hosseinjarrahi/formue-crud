@@ -1,7 +1,11 @@
 <template>
-  <div :class="store.panel === 'filters' ? 'accordion-content' : 'x'">
+  <div
+    v-show="store.panel === 'filters'"
+    class="accordion-content"
+    :class="{ hide: store.panel !== 'filters' }"
+  >
     <div
-      class="border-muted-200 dark:border-muted-700 dark:bg-muted-800 relative mb-4 w-full rounded-md border bg-white p-6 transition-all duration-300"
+      class="border-muted-200 dark:border-muted-700 dark:bg-muted-800 relative mb-4 w-full rounded-lg border bg-white p-6 transition-all duration-300"
     >
       <div class="flex flex-col ml-1 border-[rgba(0,0,0,.1)] pb-4">
         <div class="flex flex-row justify-between mb-4 items-center">
@@ -52,26 +56,26 @@
             </v-menu>
           </div>
         </div>
-        <div class="flex w-full justify-between">
+        <div class="flex w-full justify-between align-start">
           <Vueform
             v-model="form"
             :schema="fields"
             :sync="true"
-            class="w-[100%] justify-between"
+            class="w-[100%] justify-between ml-4"
             :columns="{ label: 12 }"
           />
 
-          <div class="w-[23%] flex justify-center items-center">
+          <div class="w-[12%] flex justify-center items-center">
             <button
               :disabled="!form.field"
               v-if="!isEditing"
               class="disabled:cursor-not-allowed disabled:hover:bg-transparent !border-dashed !h-[86%] is-button-default is-button w-full rounded font-bold py-1 px-2 !border-green-400 !text-green-400 dark:active:hover:bg-muted-600 active:hover:!bg-green-50"
               @click="addFilter"
             >
-              {{ $fcTr('add_filter') }}
-              <svg class="icon h-4 w-4" viewBox="0 0 24 24">
+              <svg class="icon h-4 ml-1 w-4" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-width="2" d="M5 12h14m-7-7v14"></path>
               </svg>
+              {{ $fcTr('add_filter') }}
             </button>
             <button
               v-else
@@ -239,19 +243,20 @@ const filterName = ref('')
 const localFilters = getLocalFilters()
 const filterNameInp = ref(null)
 
-function getFilterFields(name) {
+function getFilterFields(schema) {
+  if (!schema) return false
+
   const map = {
     text: 'TextFilter',
-    select: 'TextFilter'
+    date: 'DateFilter',
+    select: 'SelectFilter'
   }
 
-  const filter = getSafe(map, name)
+  const filter = getSafe(map, schema.type)
 
   const fn = getSafe(filterComps, filter)
 
-  const field = store.flatFields.find((field) => field.filter === name)
-
-  if (typeof fn === 'function') return fn(field)
+  if (typeof fn === 'function') return fn(schema)
 
   return false
 }
@@ -267,13 +272,18 @@ const initialField = {
     object: true,
     search: true,
     trackBy: ['title'],
-    columns: 4,
-    onChange(schema) {
-      const filterFields = getFilterFields(schema?.type) || []
+    columns: 2,
+    onChange(schema, _, $) {
+      const filterFields = getFilterFields(schema) || []
       for (const key in form.value) {
         if (key !== 'field') delete form.value[key]
       }
       fields.value = { ...initialField, ...filterFields }
+      nextTick(() => {
+        const items = $.form$.el$('value')
+        'clear' in items && items.clear()
+        'updateItems' in items && items.updateItems()
+      })
     }
   }
 }
@@ -317,6 +327,7 @@ function removeFilter(filter) {
 
 function clearFilters() {
   store.filters = []
+  store.loadItems()
 }
 
 function saveFilter() {
@@ -341,13 +352,10 @@ function makeFilters() {
 <style scoped>
 .accordion-content {
   max-height: 600px;
-  overflow: hidden;
-
   transition: max-height 1s;
 }
-.x {
+.accordion-content.hide {
   max-height: 0;
-  overflow: hidden;
   transition: max-height 1s;
 }
 .show-active-filter {

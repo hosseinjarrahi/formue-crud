@@ -10,7 +10,7 @@ import TextField from '@/components/fields/TextField.vue'
 import Vueform from '@vueform/vueform'
 import vueformConfig from './../vueform.config'
 
-window.logger = function (args,name = '*') {
+window.logger = function (args, name = '*') {
   console.log(`**********Start__${name}**************`)
   console.info(args)
   console.log(`***********End__${name}*************`)

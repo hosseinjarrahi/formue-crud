@@ -12867,7 +12867,7 @@ html body {
   color: currentColor;
   background-color: transparent;
   background-color: white;
-  border-radius: 20px 20px 0px 0px;
+  border-radius: 10px 10px 0px 0px;
   padding: 2px;
 }
 #paginate {

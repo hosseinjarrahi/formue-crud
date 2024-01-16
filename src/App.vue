@@ -18,14 +18,12 @@ import { select, hasRel } from '@/helpers/fields'
 const fields = ({ get }) => ({
   title: {
     title: 'عنوان',
-    name: 'title',
     type: 'text',
     isHeader: true,
     rules: 'required'
   },
   main_project: select({
     title: 'کلان روند',
-    name: 'main_project',
     items: get({ url: 'http://192.168.190.69:9090/api/content-main-project' }),
     extendOptions: {
       limit: 15,
@@ -48,6 +46,9 @@ const fields = ({ get }) => ({
       foreignKey: 'main_project',
       dataKey: 'main_project.id'
     }),
+    filterItems: get({
+      url: 'http://192.168.190.69:9090/api/content-project'
+    }),
     type: 'select',
     isHeader: true,
     labelProp: 'project',
@@ -57,7 +58,7 @@ const fields = ({ get }) => ({
   status: {
     title: 'وضعیت',
     rel: false,
-    type: 'switcher',
+    type: 'date',
     default: 1,
     isHeader: true,
     values: [
