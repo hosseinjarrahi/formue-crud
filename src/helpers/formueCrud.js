@@ -3,6 +3,7 @@ import { emitter } from 'formue'
 import { useDynamicStore } from '@/composables/useDynamicStore'
 import { markRaw } from 'vue'
 import { pascalCase } from '@/helpers/common'
+import useFields from '@/helpers/fields'
 import axios from 'axios'
 
 let registeredFields = {}
@@ -140,7 +141,7 @@ const get =
   }
 
 export const defineFields = (fn, store) => {
-  return fn({ getRegisterField, axios, get: get(store), getSafe })
+  return fn({ getRegisterField, axios, get: get(store), getSafe, useFields })
 }
 
 export const registerFields = (fields) => {

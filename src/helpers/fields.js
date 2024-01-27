@@ -57,3 +57,11 @@ export const date = (items = {}) => ({
   type: 'date',
   ...items
 })
+
+export default {
+  hasRel,
+  select,
+  multiSelect,
+  tags,
+  date
+}

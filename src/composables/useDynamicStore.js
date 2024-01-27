@@ -278,7 +278,7 @@ const defineDynamicStore = (storeName = 'myStore') => {
 
         this.loadings.filter = true
 
-        axios
+        return axios
           .post(`${filterURL}?page=${page}`, {
             model: this.mainKey,
             itemPerPage: itemPerPage,
@@ -310,12 +310,13 @@ const defineDynamicStore = (storeName = 'myStore') => {
 
         let sendForm = convertToSendForm(data, this.flatFields)
 
-        axios
+        return axios
           .post(route, sendForm)
-          .then(async (response) => {
-            response = getSafe(response, 'data', {})
-            let newItems = getSafe(response, 'data')
-            this.addData(newItems)
+          .then(async () => {
+            // response = getSafe(response, 'data', {})
+            // let newItems = getSafe(response, 'data')
+            // this.addData(newItems)
+            this.reloadData()
             event('alert', { text: 'با موفقیت ثبت شد', color: 'green' })
             event('handleDialogForm', false)
           })
@@ -337,12 +338,13 @@ const defineDynamicStore = (storeName = 'myStore') => {
 
         this.loadings.mainLoading = true
 
-        axios
+        return axios
           .patch(route + '/' + data.id, sendForm)
-          .then(async (response) => {
-            response = getSafe(response, 'data', {})
-            const editedItem = getSafe(response, 'data', {})
-            this.editData(editedItem)
+          .then(async () => {
+            // response = getSafe(response, 'data', {})
+            // const editedItem = getSafe(response, 'data', {})
+            // this.editData(editedItem)
+            this.reloadData()
             event('alert', { text: 'با موفقیت ویرایش شد', color: 'green' })
             event('handleDialogForm', false)
           })
@@ -374,6 +376,7 @@ const defineDynamicStore = (storeName = 'myStore') => {
               })
               event('handleDeleteDialog', false)
               this.removeData(deleteId)
+              this.reloadData()
             })
             .catch((error) => {
               event('alert', {
