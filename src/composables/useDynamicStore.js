@@ -18,6 +18,10 @@ function getAllFields(obj) {
           !has(obj[key], 'schema') &&
           getSafe(obj[key], 'type') != 'group'
         ) {
+          if (!has(obj[key], 'placeholder')) {
+            obj[key].placeholder = getSafe(obj[key], 'title')
+          }
+
           obj[key].field = key
           fields.push(obj[key])
         } else {

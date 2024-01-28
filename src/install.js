@@ -17,6 +17,7 @@ export default (
       }
     }
   })
+  
   app.use(vuetify)
 
   const store = useLangsStore()
