@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, defineProps, provide, defineEmits } from 'vue'
 import { init } from '@/helpers/formueCrud'
+import { useLangsStore } from '@/stores/langStore'
 import MList from './MList.vue'
 import MButtonBox from './MButtonBox.vue'
 import MFilter from './MFilter.vue'
@@ -13,7 +14,12 @@ const props = defineProps({
   options: { default: () => ({}) },
   hiddenActions: { default: () => [] },
   fields: { default: () => [] },
-  dir: { default: 'ltr' },
+  dir: {
+    default: () => {
+      const langStore = useLangsStore()
+      return langStore.dir
+    }
+  },
   route: { default: 'route' }
 })
 

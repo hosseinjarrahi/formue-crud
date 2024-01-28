@@ -3,7 +3,6 @@
     <MCrud
       :fields="fields"
       route="http://192.168.190.69:9090/api/content-project-title"
-      dir="rtl"
     />
     <AppAlert />
   </div>
