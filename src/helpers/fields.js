@@ -24,6 +24,18 @@ export const select = (items = {}) => ({
   ...items
 })
 
+export const normalSelect = (items = {}) => ({
+  search: true,
+  clearOnSearch: true,
+  type: 'select',
+  object: true,
+  native: false,
+  formatter: (cell) => {
+    return getSafe(cell.getValue(), getSafe(items, 'labelProp'), cell.getValue())
+  },
+  ...items
+})
+
 export const multiSelect = (items = {}) => ({
   search: true,
   clearOnSearch: true,
@@ -59,6 +71,7 @@ export const date = (items = {}) => ({
 })
 
 export default {
+  normalSelect,
   hasRel,
   select,
   multiSelect,

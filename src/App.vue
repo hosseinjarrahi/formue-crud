@@ -1,9 +1,6 @@
 <template>
   <div class="w-1/2 mx-auto pt-10">
-    <MCrud
-      :fields="fields"
-      route="http://192.168.190.69:9090/api/content-project-title"
-    />
+    <MCrud :fields="fields" route="http://192.168.190.69:9090/api/content-project-title" />
     <AppAlert />
   </div>
 </template>
@@ -12,7 +9,7 @@
 import './../node_modules/formue/dist/style.css'
 import AppAlert from '@/components/AppAlert.vue'
 import MCrud from './components/MCrud.vue'
-import { select, hasRel } from '@/helpers/fields'
+import { select, hasRel, normalSelect } from '@/helpers/fields'
 
 const fields = ({ get }) => ({
   title: {
@@ -21,9 +18,9 @@ const fields = ({ get }) => ({
     isHeader: true,
     rules: 'required'
   },
-  main_project: select({
+  main_project: normalSelect({
     title: 'کلان روند',
-    items: get({ url: 'http://192.168.190.69:9090/api/content-main-project' }),
+    items: ['1', '2'],
     extendOptions: {
       limit: 15,
       infinite: true,
@@ -33,10 +30,8 @@ const fields = ({ get }) => ({
       }
     },
     isHeader: true,
-    labelProp: 'title',
-    valueProp: 'id',
     rules: 'required',
-    ...hasRel('project')
+    // ...hasRel('project')
   }),
   project: select({
     title: 'روند',
