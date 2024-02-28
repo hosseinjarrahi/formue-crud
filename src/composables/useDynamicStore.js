@@ -21,7 +21,6 @@ function getAllFields(obj) {
           if (!has(obj[key], 'placeholder')) {
             obj[key].placeholder = getSafe(obj[key], 'title')
           }
-
           obj[key].field = key
           fields.push(obj[key])
         } else {

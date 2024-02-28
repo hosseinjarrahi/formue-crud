@@ -26,6 +26,7 @@
                   :schema="store.formFields"
                   :columns="{ label: 12 }"
                   v-bind="store.structure"
+                  ref="form$"
                   sync
                 />
               </div>
@@ -63,7 +64,8 @@ const { event, listen } = emitter
 
 const store = inject('store')
 
-let dialog = ref(false)
+const dialog = ref(false)
+const form$ = ref(null)
 let editItem = {}
 
 const normalize = (data) => {
@@ -94,6 +96,12 @@ const defineListeners = () => {
   })
 
   listen('saveForm', () => {
+    form$.value.validate()
+
+    if (form$.value.invalid) {
+      return
+    }
+
     const save = () => {
       store.isEditing
         ? store.editItem({ ...store.form, id: editItem?.id })
