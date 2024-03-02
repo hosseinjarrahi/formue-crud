@@ -39,7 +39,6 @@ provide('dir', props.dir)
 document.body.setAttribute('dir', props.dir)
 
 onMounted(() => {
-  document.getElementsByClassName('v-overlay-container')[0].setAttribute('dir', 'ltr')
   emit('mounted')
 })
 </script>
