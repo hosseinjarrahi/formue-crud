@@ -227,8 +227,8 @@
 </template>
 
 <script setup>
-import { get as getSafe, cloneDeep } from 'lodash'
-import { inject, ref, watch, nextTick } from 'vue'
+import { get as getSafe, cloneDeep, has } from 'lodash'
+import { inject, ref, nextTick } from 'vue'
 import filterComps from './filters/index.js'
 import { useStorage } from '@vueuse/core'
 // import { VMenu } from 'vuetify/components/VMenu'
@@ -281,8 +281,8 @@ const initialField = {
       fields.value = { ...initialField, ...filterFields }
       nextTick(() => {
         const items = $.form$.el$('value')
-        'clear' in items && items.clear()
-        'updateItems' in items && items.updateItems()
+        if (has(items, 'clear')) items.clear()
+        if (has(items, 'updateItems')) items.updateItems()
       })
     }
   }
