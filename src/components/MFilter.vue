@@ -227,7 +227,7 @@
 </template>
 
 <script setup>
-import { get as getSafe, cloneDeep, has } from 'lodash'
+import { get as getSafe, cloneDeep } from 'lodash'
 import { inject, ref, nextTick } from 'vue'
 import filterComps from './filters/index.js'
 import { useStorage } from '@vueuse/core'
@@ -281,8 +281,8 @@ const initialField = {
       fields.value = { ...initialField, ...filterFields }
       nextTick(() => {
         const items = $.form$.el$('value')
-        if (has(items, 'clear')) items.clear()
-        if (has(items, 'updateItems')) items.updateItems()
+        'clear' in items && items.clear()
+        'updateItems' in items && items.updateItems()
       })
     }
   }
