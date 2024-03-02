@@ -1,6 +1,6 @@
 {
   "name": "formue-crud",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "private": false,
   "scripts": {
     "dev": "vite",
@@ -21,8 +21,7 @@
     "qs": "^6.11.2",
     "tabulator-tables": "^5.5.0",
     "vue": "^3.3.4",
-    "vue3-persian-datetime-picker": "^1.2.2",
-    "vuetify": "^3.3.14"
+    "vue3-persian-datetime-picker": "^1.2.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",

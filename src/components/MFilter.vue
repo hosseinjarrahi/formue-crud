@@ -231,7 +231,7 @@ import { get as getSafe, cloneDeep } from 'lodash'
 import { inject, ref, watch, nextTick } from 'vue'
 import filterComps from './filters/index.js'
 import { useStorage } from '@vueuse/core'
-import { VMenu } from 'vuetify/components/VMenu'
+// import { VMenu } from 'vuetify/components/VMenu'
 
 const store = inject('store')
 

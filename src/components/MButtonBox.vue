@@ -4,27 +4,24 @@
     <!-- left sid  -->
     <div class="fc-header-left-sid">
       <!-- add boutton -->
-      <v-tooltip color="#ec4899" location="bottom" :text="$fcTr('add')">
-        <template v-slot:activator="{ props }">
-          <button v-bind="props" class="fc-plus-btn" @click="event('createBtn')">
-            <svg viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-width="2" d="M5 12h14m-7-7v14" />
-            </svg>
-          </button>
-        </template>
-      </v-tooltip>
+      <button v-bind="props" class="fc-plus-btn" @click="event('createBtn')">
+        <svg viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-width="2" d="M5 12h14m-7-7v14" />
+        </svg>
+      </button>
       <!-- export menu (excel, pdf, print) -->
-      <v-menu>
-        <template v-slot:activator="{ props }">
+      <MMenu>
+        <template v-slot:activator="{ on, props }">
           <button
-            :class="!JSON.parse(props['aria-expanded']) ? 'before:hidden' : 'before:block'"
+            :class="!props.isOpen ? 'before:hidden' : 'before:block'"
             v-bind="props"
+            v-on="on"
             class="fc-header-icon-btn fc-drop-down-btn min-w-[130px]"
           >
             <span class="z-[1]">{{ $fcTr('export') }}</span>
           </button>
         </template>
-        <div class="bg-muted-200 dark:bg-muted-800 cursor-pointer rounded-b-xl fm-light-shadow">
+        <div class="bg-muted-200 dark:bg-muted-800 cursor-pointer rounded-xl fm-light-shadow">
           <a
             class="group flex w-full items-center py-3 text-sm duration-300 text-muted-500 hover:bg-muted-300 dark:hover:bg-muted-700 rounded-xl justify-end flex-row-reverse"
           >
@@ -56,66 +53,50 @@
             </svg>
           </a>
         </div>
-      </v-menu>
+      </MMenu>
 
       <!-- reload data of table button -->
-      <v-tooltip color="#ec4899" location="bottom" :text="$fcTr('reload')">
-        <template v-slot:activator="{ props }">
-          <button v-bind="props" class="fc-header-icon-btn" @click="store.reloadData">
-            <svg :class="{ spin: store.loadings.mainLoading }" viewBox="0 0 512 512">
-              <path
-                d="M371.2 122.9C340.3 96.2 300 80 256 80C158.8 80 80 158.8 80 256s78.8 176 176 176c39.7 0 76.2-13.1 105.6-35.2c10.6-8 25.6-5.8 33.6 4.8s5.8 25.6-4.8 33.6C353 463.3 306.4 480 256 480C132.3 480 32 379.7 32 256S132.3 32 256 32c57.3 0 109.6 21.5 149.2 56.9l30.5-30.5c6.6-6.6 15.6-10.3 25-10.3C480.2 48 496 63.8 496 83.3V200c0 13.3-10.7 24-24 24H355.3c-19.5 0-35.3-15.8-35.3-35.3c0-9.4 3.7-18.3 10.3-25l40.8-40.8zm76.8-9L385.9 176H448V113.9z"
-              />
-            </svg>
-          </button>
-        </template>
-      </v-tooltip>
+      <button v-bind="props" class="fc-header-icon-btn" @click="store.reloadData">
+        <svg :class="{ spin: store.loadings.mainLoading }" viewBox="0 0 512 512">
+          <path
+            d="M371.2 122.9C340.3 96.2 300 80 256 80C158.8 80 80 158.8 80 256s78.8 176 176 176c39.7 0 76.2-13.1 105.6-35.2c10.6-8 25.6-5.8 33.6 4.8s5.8 25.6-4.8 33.6C353 463.3 306.4 480 256 480C132.3 480 32 379.7 32 256S132.3 32 256 32c57.3 0 109.6 21.5 149.2 56.9l30.5-30.5c6.6-6.6 15.6-10.3 25-10.3C480.2 48 496 63.8 496 83.3V200c0 13.3-10.7 24-24 24H355.3c-19.5 0-35.3-15.8-35.3-35.3c0-9.4 3.7-18.3 10.3-25l40.8-40.8zm76.8-9L385.9 176H448V113.9z"
+          />
+        </svg>
+      </button>
+
       <!-- button for select rows -->
-      <v-tooltip color="#ec4899" location="bottom" :text="$fcTr('select_row')">
-        <template v-slot:activator="{ props }">
+      <button
+        v-bind="props"
+        class="fc-header-icon-btn"
+        :class="{ 'fm-active-btn': isSelectActive }"
+        @click="toggleSelect"
+      >
+        <svg viewBox="0 0 512 512">
+          <path
+            d="M384 48c8.8 0 16 7.2 16 16V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16H384zM64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM80 112v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H96c-8.8 0-16 7.2-16 16zM96 352c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H96zm80-224c0 13.3 10.7 24 24 24H344c13.3 0 24-10.7 24-24s-10.7-24-24-24H200c-13.3 0-24 10.7-24 24zm32 128c0 13.3 10.7 24 24 24H344c13.3 0 24-10.7 24-24s-10.7-24-24-24H232c-13.3 0-24 10.7-24 24zM176 384c0 13.3 10.7 24 24 24H344c13.3 0 24-10.7 24-24s-10.7-24-24-24H200c-13.3 0-24 10.7-24 24zm-4.7-140.7c6.2-6.2 6.2-16.4 0-22.6s-16.4-6.2-22.6 0L112 257.4 99.3 244.7c-6.2-6.2-16.4-6.2-22.6 0s-6.2 16.4 0 22.6l24 24c6.2 6.2 16.4 6.2 22.6 0l48-48z"
+          />
+        </svg>
+      </button>
+      <!-- button and menu for custom column -->
+      <MMenu :close-on-content-click="false" :location="dir === 'rtl' ? 'end' : 'start'">
+        <template v-slot:activator="{ props, on }">
           <button
-            v-bind="props"
+            v-on="on"
             class="fc-header-icon-btn"
-            :class="{ 'fm-active-btn': isSelectActive }"
-            @click="toggleSelect"
+            :class="[
+              props.isOpen ? 'light:!bg-white dark:bg-muted-800' : '',
+              props.isOpen ? (dir === 'rtl' ? 'expanded-rtl' : 'expanded2') : ''
+            ]"
           >
-            <svg viewBox="0 0 512 512">
+            <svg viewBox="0 0 448 512" class="z-[1]">
               <path
-                d="M384 48c8.8 0 16 7.2 16 16V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V64c0-8.8 7.2-16 16-16H384zM64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64H64zM80 112v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V112c0-8.8-7.2-16-16-16H96c-8.8 0-16 7.2-16 16zM96 352c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16V368c0-8.8-7.2-16-16-16H96zm80-224c0 13.3 10.7 24 24 24H344c13.3 0 24-10.7 24-24s-10.7-24-24-24H200c-13.3 0-24 10.7-24 24zm32 128c0 13.3 10.7 24 24 24H344c13.3 0 24-10.7 24-24s-10.7-24-24-24H232c-13.3 0-24 10.7-24 24zM176 384c0 13.3 10.7 24 24 24H344c13.3 0 24-10.7 24-24s-10.7-24-24-24H200c-13.3 0-24 10.7-24 24zm-4.7-140.7c6.2-6.2 6.2-16.4 0-22.6s-16.4-6.2-22.6 0L112 257.4 99.3 244.7c-6.2-6.2-16.4-6.2-22.6 0s-6.2 16.4 0 22.6l24 24c6.2 6.2 16.4 6.2 22.6 0l48-48z"
+                d="M64 448c-17.7 0-32-14.3-32-32V96c0-17.7 14.3-32 32-32H384c17.7 0 32 14.3 32 32V416c0 17.7-14.3 32-32 32H64zM0 416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64C28.7 32 0 60.7 0 96V416zM128 288c8.8 0 16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16V272c0 8.8 7.2 16 16 16zm176 48c0 8.8 7.2 16 16 16s16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16V336zm-80-80c8.8 0 16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16v96c0 8.8 7.2 16 16 16z"
               />
             </svg>
           </button>
-        </template>
-      </v-tooltip>
-      <!-- button and menu for custom column -->
-      <v-menu :close-on-content-click="false" :location="dir === 'rtl' ? 'end' : 'start'">
-        <template v-slot:activator="{ props: menu }">
-          <v-tooltip color="#ec4899" location="bottom">
-            <template v-slot:activator="{ props: tooltip }">
-              <button
-                v-bind="{ ...menu, ...tooltip }"
-                class="fc-header-icon-btn"
-                :class="[
-                  JSON.parse(menu['aria-expanded']) ? 'light:!bg-white dark:bg-muted-800' : '',
-                  JSON.parse(menu['aria-expanded'])
-                    ? dir === 'rtl'
-                      ? 'expanded-rtl'
-                      : 'expanded2'
-                    : ''
-                ]"
-              >
-                <svg viewBox="0 0 448 512" class="z-[1]">
-                  <path
-                    d="M64 448c-17.7 0-32-14.3-32-32V96c0-17.7 14.3-32 32-32H384c17.7 0 32 14.3 32 32V416c0 17.7-14.3 32-32 32H64zM0 416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64C28.7 32 0 60.7 0 96V416zM128 288c8.8 0 16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16V272c0 8.8 7.2 16 16 16zm176 48c0 8.8 7.2 16 16 16s16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16V336zm-80-80c8.8 0 16-7.2 16-16V144c0-8.8-7.2-16-16-16s-16 7.2-16 16v96c0 8.8 7.2 16 16 16z"
-                  />
-                </svg>
-              </button>
-            </template>
-            <span>{{ $fcTr('custom_column') }}</span>
-          </v-tooltip>
         </template>
         <div
-          class="bg-white dark:bg-muted-800 rounded-xl rtl:text-right ltr:text-left fm-light-shadow"
+          class="bg-white dark:bg-muted-800 rounded-xl pt-1 rtl:text-right ltr:text-left fm-light-shadow"
         >
           <div class="m-3 mt-2 text-muted-600 dark:text-muted-200">
             {{ $fcTr('custom_column') }}
@@ -131,38 +112,32 @@
             </template>
           </ul>
         </div>
-      </v-menu>
+      </MMenu>
     </div>
     <div
       class="fm-header-rigth-sid flex w-full sm:w-auto rtl:flex-row-reverse rtl:justify-end z-10"
     >
-      <v-tooltip color="#ec4899" location="bottom" :text="$fcTr('filter')">
-        <template v-slot:activator="{ props }">
-          <button
-            v-bind="props"
-            class="test fc-header-icon-btn transform transition-all"
-            :class="
-              store.panel === 'filters' ? '!bg-white dark:!bg-muted-800 !rounded-b-none ' : ''
-            "
-            @click="choose('filters')"
-          >
-            <transition name="scale">
-              <div v-if="store.panel === 'filters'">
-                <span></span>
-              </div>
-            </transition>
-            <svg
-              :class="store.panel === 'filters' ? 'light:!fill-primary-700' : ''"
-              stroke="currentColor"
-              viewBox="0 0 512 512"
-            >
-              <path
-                d="M0 73.7C0 50.7 18.7 32 41.7 32H470.3c23 0 41.7 18.7 41.7 41.7c0 9.6-3.3 18.9-9.4 26.3L336 304.5V447.7c0 17.8-14.5 32.3-32.3 32.3c-7.3 0-14.4-2.5-20.1-7l-92.5-73.4c-9.6-7.6-15.1-19.1-15.1-31.3V304.5L9.4 100C3.3 92.6 0 83.3 0 73.7zM55 80L218.6 280.8c3.5 4.3 5.4 9.6 5.4 15.2v68.4l64 50.8V296c0-5.5 1.9-10.9 5.4-15.2L457 80H55z"
-              />
-            </svg>
-          </button>
-        </template>
-      </v-tooltip>
+      <button
+        v-bind="props"
+        class="test fc-header-icon-btn transform transition-all"
+        :class="store.panel === 'filters' ? '!bg-white dark:!bg-muted-800 !rounded-b-none ' : ''"
+        @click="choose('filters')"
+      >
+        <transition name="scale">
+          <div v-if="store.panel === 'filters'">
+            <span></span>
+          </div>
+        </transition>
+        <svg
+          :class="store.panel === 'filters' ? 'light:!fill-primary-700' : ''"
+          stroke="currentColor"
+          viewBox="0 0 512 512"
+        >
+          <path
+            d="M0 73.7C0 50.7 18.7 32 41.7 32H470.3c23 0 41.7 18.7 41.7 41.7c0 9.6-3.3 18.9-9.4 26.3L336 304.5V447.7c0 17.8-14.5 32.3-32.3 32.3c-7.3 0-14.4-2.5-20.1-7l-92.5-73.4c-9.6-7.6-15.1-19.1-15.1-31.3V304.5L9.4 100C3.3 92.6 0 83.3 0 73.7zM55 80L218.6 280.8c3.5 4.3 5.4 9.6 5.4 15.2v68.4l64 50.8V296c0-5.5 1.9-10.9 5.4-15.2L457 80H55z"
+          />
+        </svg>
+      </button>
       <!-- search input -->
       <div class="group/nui-input relative rtl:">
         <input
@@ -212,14 +187,12 @@
 </template>
 
 <script setup>
-import { VTooltip } from 'vuetify/components/VTooltip'
-import { VMenu } from 'vuetify/components/VMenu'
-
 import { inject, ref, onMounted, computed } from 'vue'
 import { emitter } from 'formue'
 import { debounce } from 'lodash'
 
 import SelectColumnItem from '@/components/SelectColumnItem.vue'
+import MMenu from '@/components/MMenu.vue'
 
 const { event } = emitter
 

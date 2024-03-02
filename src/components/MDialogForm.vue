@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" appear>
-    <div class="fixed z-10 inset-0 overflow-y-auto" v-if="dialog">
+    <div class="fixed z-10 inset-0 overflow-y-auto backdrop-blur-3xl" v-if="dialog">
       <div
         class="flex items-center overflow-y justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
       >

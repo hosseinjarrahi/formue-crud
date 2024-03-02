@@ -168,8 +168,6 @@
 import { get as getSafe, capitalize } from 'lodash'
 import { inject, ref, markRaw } from 'vue'
 import { useStorage } from '@vueuse/core'
-import TextField from '@/components/fields/TextField.vue'
-import SelectField from '@/components/fields/SelectField.vue'
 
 const chooseFilter = ref(false)
 

@@ -1,6 +1,6 @@
 <template>
   <div class="w-1/2 mx-auto pt-10">
-    <MCrud :fields="fields" route="http://192.168.190.69:9090/api/content-project-title" />
+    <MCrud :fields="fields" route="http://192.168.190.69:9090/api/_/content/content-main-project" />
     <AppAlert />
   </div>
 </template>
@@ -30,18 +30,18 @@ const fields = ({ get }) => ({
       }
     },
     isHeader: true,
-    rules: 'required',
+    rules: 'required'
     // ...hasRel('project')
   }),
   project: select({
     title: 'روند',
     items: get({
-      url: 'http://192.168.190.69:9090/api/content-project',
+      url: 'http://192.168.190.69:9090/api/_/content/content-project',
       foreignKey: 'main_project',
       dataKey: 'main_project.id'
     }),
     filterItems: get({
-      url: 'http://192.168.190.69:9090/api/content-project'
+      url: 'http://192.168.190.69:9090/api/_/content/content-project'
     }),
     type: 'select',
     isHeader: true,
