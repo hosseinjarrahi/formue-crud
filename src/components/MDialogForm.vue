@@ -1,11 +1,11 @@
 <template>
   <transition name="fade" appear>
-    <div class="fixed z-10 inset-0 overflow-y-auto backdrop-blur-3xl" v-if="dialog">
+    <div class="fixed z-10 inset-0 overflow-y-auto backdrop-blur-[4px]" v-if="dialog">
       <div
         class="flex items-center overflow-y justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
       >
         <div class="fixed inset-0 transition-opacity">
-          <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+          <div class="absolute inset-0 bg-gray-500 opacity-50"></div>
         </div>
         <div
           class="inline-block max-h-full align-bottom bg-white rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
