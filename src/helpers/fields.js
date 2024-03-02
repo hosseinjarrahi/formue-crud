@@ -4,8 +4,8 @@ export const hasRel = (relWith) => {
   return {
     onChange: (...args) => {
       const project = args[2].form$.el$(relWith)
-      'clear' in project && project.clear()
-      'updateItems' in project && project.updateItems()
+      project && 'clear' in project && project.clear()
+      project && 'updateItems' in project && project.updateItems()
     }
   }
 }
