@@ -3,6 +3,8 @@ import { get as getSafe } from 'lodash'
 export const hasRel = (relWith) => {
   return {
     onChange: (...args) => {
+      // should delete
+      window.tester = args[2]
       const project = args[2].form$.el$(relWith)
       project && 'clear' in project && project.clear()
       project && 'updateItems' in project && project.updateItems()

@@ -148,7 +148,7 @@ export const registerFields = (fields) => {
   registeredFields = fields
 }
 
-export function init({ fields, hiddenActions, options, route }) {
+export function init({ fields, hiddenActions, options, route, structure }) {
   const store = useDynamicStore('Store-' + parseInt(Math.random() * 10000000))
 
   store.fields = defineFields(fields, store)
@@ -166,6 +166,8 @@ export function init({ fields, hiddenActions, options, route }) {
   store.options = options
 
   store.hiddenActions = hiddenActions
+
+  store.structure = structure
 
   initFields(store.flatFields)
 

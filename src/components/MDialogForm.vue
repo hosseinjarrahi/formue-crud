@@ -96,11 +96,13 @@ const defineListeners = () => {
   })
 
   listen('saveForm', () => {
-    form$.value.validate()
+    try {
+      form$.value.validate()
 
-    if (form$.value.invalid) {
-      return
-    }
+      if (form$.value.invalid) {
+        return
+      }
+    } catch (e) {}
 
     const save = () => {
       store.isEditing
