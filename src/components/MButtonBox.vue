@@ -4,7 +4,7 @@
     <!-- left sid  -->
     <div class="fc-header-left-sid">
       <!-- add boutton -->
-      <button v-bind="props" class="fc-plus-btn" @click="event('createBtn')">
+      <button class="fc-plus-btn" @click="event('createBtn')">
         <svg viewBox="0 0 24 24">
           <path stroke="currentColor" stroke-width="2" d="M5 12h14m-7-7v14" />
         </svg>
@@ -56,7 +56,7 @@
       </MMenu>
 
       <!-- reload data of table button -->
-      <button v-bind="props" class="fc-header-icon-btn" @click="store.reloadData">
+      <button class="fc-header-icon-btn" @click="store.reloadData">
         <svg :class="{ spin: store.loadings.mainLoading }" viewBox="0 0 512 512">
           <path
             d="M371.2 122.9C340.3 96.2 300 80 256 80C158.8 80 80 158.8 80 256s78.8 176 176 176c39.7 0 76.2-13.1 105.6-35.2c10.6-8 25.6-5.8 33.6 4.8s5.8 25.6-4.8 33.6C353 463.3 306.4 480 256 480C132.3 480 32 379.7 32 256S132.3 32 256 32c57.3 0 109.6 21.5 149.2 56.9l30.5-30.5c6.6-6.6 15.6-10.3 25-10.3C480.2 48 496 63.8 496 83.3V200c0 13.3-10.7 24-24 24H355.3c-19.5 0-35.3-15.8-35.3-35.3c0-9.4 3.7-18.3 10.3-25l40.8-40.8zm76.8-9L385.9 176H448V113.9z"
@@ -66,7 +66,6 @@
 
       <!-- button for select rows -->
       <button
-        v-bind="props"
         class="fc-header-icon-btn"
         :class="{ 'fm-active-btn': isSelectActive }"
         @click="toggleSelect"
@@ -78,7 +77,7 @@
         </svg>
       </button>
       <!-- button and menu for custom column -->
-      <MMenu :close-on-content-click="false" :location="dir === 'rtl' ? 'end' : 'start'">
+      <MMenu :close-on-content-click="true">
         <template v-slot:activator="{ props, on }">
           <button
             v-on="on"
@@ -118,7 +117,6 @@
       class="fm-header-rigth-sid flex w-full sm:w-auto rtl:flex-row-reverse rtl:justify-end z-10"
     >
       <button
-        v-bind="props"
         class="test fc-header-icon-btn transform transition-all"
         :class="store.panel === 'filters' ? '!bg-white dark:!bg-muted-800 !rounded-b-none ' : ''"
         @click="choose('filters')"
@@ -143,7 +141,7 @@
         <input
           v-model="store.searchParam"
           type="text"
-          class="nui-focus !pl-4 border-muted-300 text-muted-600 placeholder:text-muted-300 dark:border-muted-700 dark:bg-muted-900/75 dark:text-muted-200 dark:placeholder:text-muted-500 dark:focus:border-muted-700 peer w-full border bg-white font-sans transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-75 px-2 h-10 py-2 text-sm leading-5 pe-4 ps-9 rounded-full"
+          class="nui-focus px-4! border-muted-300 text-muted-600 placeholder:text-muted-300 dark:border-muted-700 dark:bg-muted-900/75 dark:text-muted-200 dark:placeholder:text-muted-500 dark:focus:border-muted-700 peer w-full border bg-white font-sans transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-75 h-10 py-2 text-sm leading-5 pe-4 ps-9 rounded-full"
           :placeholder="$fcTr('search')"
           @keyup="searchWithDebounce"
         />

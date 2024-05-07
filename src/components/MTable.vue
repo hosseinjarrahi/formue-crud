@@ -55,7 +55,6 @@ onMounted(() => {
     element: table.value,
     headers: store.headers
   })
-
   adaptor(store, tableInstance)
 })
 </script>

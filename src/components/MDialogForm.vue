@@ -47,6 +47,10 @@
                   <span v-else>loading</span>
                 </button>
               </div>
+
+              <div class="my-3">
+                {{ store.form }}
+              </div>
             </div>
           </div>
         </div>

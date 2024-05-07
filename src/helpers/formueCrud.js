@@ -8,17 +8,41 @@ import axios from 'axios'
 
 let registeredFields = {}
 
+function isFieldArrayOfObj({ form, fieldName, field }) {
+  return Array.isArray(getSafe(form, fieldName)) && has(field, 'valueProp')
+}
+
 export function convertToSendForm(form, fields) {
   let out = {}
+
   let hasOneField = false
+
   for (let fieldName in form) {
     let field = getField(fieldName, fields)
+
     if (!field) continue
+
     hasOneField = true
+
     let key = getSendKey(field)
 
     let formKey = fieldName
-    if (has(field, 'valueProp')) formKey += '.' + getSafe(field, 'valueProp', '')
+
+    const valueProp = getSafe(field, 'valueProp', false)
+
+    if (valueProp) formKey += '.' + valueProp
+
+    if (
+      isFieldArrayOfObj({
+        form,
+        fieldName,
+        field
+      })
+    ) {
+      out[key] = getSafe(form, fieldName).map((i) => getSafe(i, valueProp))
+      console.log(out)
+      continue
+    }
 
     out[key] = getSafe(form, formKey)
   }

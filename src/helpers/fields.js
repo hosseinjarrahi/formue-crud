@@ -3,8 +3,6 @@ import { get as getSafe } from 'lodash'
 export const hasRel = (relWith) => {
   return {
     onChange: (...args) => {
-      // should delete
-      window.tester = args[2]
       const project = args[2].form$.el$(relWith)
       project && 'clear' in project && project.clear()
       project && 'updateItems' in project && project.updateItems()
@@ -72,11 +70,36 @@ export const date = (items = {}) => ({
   ...items
 })
 
+export const group = (label, schema = {}) => ({
+  addClass: ['bg-gray-100', 'p-4', 'rounded-lg', ''],
+  type: 'group',
+  label,
+  schema
+})
+
+export const multiFile = (items = {}) => ({
+  type: 'multifile',
+  label: items?.title,
+  placeholder: items?.title,
+  drop: true,
+  filename: 'name',
+  url: 'http://192.168.190.69:9090/api/file/show',
+  uploadTempEndpoint: 'http://192.168.190.69:9090/api/file/upload',
+  accept: ['.jpg', '.png', '.gif', '.docx', '.txt', '.zip', '.rar'],
+  sort: true,
+  clickable: true,
+  object: true,
+  storeFile: 'hash',
+  ...items
+})
+
 export default {
   normalSelect,
+  multiSelect,
+  multiFile,
   hasRel,
   select,
-  multiSelect,
+  group,
   tags,
   date
 }

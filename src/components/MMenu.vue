@@ -32,7 +32,7 @@ import { onClickOutside } from '@vueuse/core'
 
 const target = ref(null)
 
-onClickOutside(target, (event) => console.log(event))
+onClickOutside(target, (event) => (isOpen.value = false))
 
 const isOpen = ref(false)
 

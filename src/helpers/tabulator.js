@@ -35,6 +35,17 @@ export const initTable = (
 }
 
 export function makeHeaders(headers) {
+  const shouldRemove = [
+    'type',
+    'value',
+    'align',
+    'rules',
+    'isHeader',
+    'placeholder',
+    'text',
+    'columns'
+  ]
+
   const mapHeader = {
     _select_: {
       formatter: selectColumn,
@@ -56,7 +67,12 @@ export function makeHeaders(headers) {
 
   return headers
     .map((h) => (h.field in mapHeader ? { ...h, ...mapHeader[h.field] } : h))
-    .map((h) => ({ ...h, headerSort: false }))
+    .map((h) => {
+      for (const key of shouldRemove) {
+        if (key in h) delete h[key]
+      }
+      return { ...h, headerSort: false }
+    })
 }
 
 // export function updateRowNumber(cell) {

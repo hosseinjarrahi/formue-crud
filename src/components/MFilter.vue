@@ -15,11 +15,11 @@
             {{ $fcTr('filter_data') }}
           </h3>
           <div class="flex items-center">
-            <v-menu transition="scale-transition">
-              <template v-slot:activator="{ props }">
+            <MMenu>
+              <template v-slot:activator="{ props, on }">
                 <button
-                  :class="!JSON.parse(props['aria-expanded']) ? 'before:hidden' : 'before:block'"
-                  v-bind="props"
+                  v-on="on"
+                  :class="props.isOpen ? 'before:hidden' : 'before:block'"
                   class="fc-filter-choose is-button rounded is-button-default min-w-[130px]"
                 >
                   <span class="z-[1]"> {{ $fcTr('choose_filter') }}</span>
@@ -53,7 +53,7 @@
                   </svg>
                 </a>
               </div>
-            </v-menu>
+            </MMenu>
           </div>
         </div>
         <div class="flex w-full justify-between align-start">
@@ -231,7 +231,7 @@ import { get as getSafe, cloneDeep } from 'lodash'
 import { inject, ref, nextTick } from 'vue'
 import filterComps from './filters/index.js'
 import { useStorage } from '@vueuse/core'
-// import { VMenu } from 'vuetify/components/VMenu'
+import MMenu from './MMenu.vue'
 
 const store = inject('store')
 
@@ -281,8 +281,8 @@ const initialField = {
       fields.value = { ...initialField, ...filterFields }
       nextTick(() => {
         const items = $.form$.el$('value')
-        'clear' in items && items.clear()
-        'updateItems' in items && items.updateItems()
+        items && 'clear' in items && items.clear()
+        items && 'updateItems' in items && items.updateItems()
       })
     }
   }
