@@ -65,7 +65,9 @@ export function makeHeaders(headers) {
     // }
   }
 
-  return headers
+  const clonedHeaders = JSON.parse(JSON.stringify(headers))
+
+  return clonedHeaders
     .map((h) => (h.field in mapHeader ? { ...h, ...mapHeader[h.field] } : h))
     .map((h) => {
       for (const key of shouldRemove) {
