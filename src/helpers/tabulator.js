@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { TabulatorFull as Tabulator } from 'tabulator-tables' //import Tabulator library
+import { cloneDeep } from 'lodash'
 import ActionButton from '@/components/ActionButton.vue'
 import SelectColumnComponent from '@/components/SelectColumn.vue'
 
@@ -65,7 +66,7 @@ export function makeHeaders(headers) {
     // }
   }
 
-  const clonedHeaders = JSON.parse(JSON.stringify(headers))
+  const clonedHeaders = cloneDeep(headers)
 
   return clonedHeaders
     .map((h) => (h.field in mapHeader ? { ...h, ...mapHeader[h.field] } : h))

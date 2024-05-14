@@ -3,9 +3,9 @@ import { get as getSafe } from 'lodash'
 export const hasRel = (relWith) => {
   return {
     onChange: (...args) => {
-      const project = args[2].form$.el$(relWith)
-      project && 'clear' in project && project.clear()
-      project && 'updateItems' in project && project.updateItems()
+      const el = args[2].form$.el$(relWith)
+      el && 'clear' in el && el.clear()
+      el && 'updateItems' in el && el.updateItems()
     }
   }
 }

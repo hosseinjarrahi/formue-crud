@@ -40,11 +40,11 @@ export function convertToSendForm(form, fields) {
       })
     ) {
       out[key] = getSafe(form, fieldName).map((i) => getSafe(i, valueProp))
-      console.log(out)
+
       continue
     }
 
-    out[key] = getSafe(form, formKey)
+    out[key] = getSafe(form, formKey, getSafe(form, fieldName))
   }
 
   if (!hasOneField) return form
