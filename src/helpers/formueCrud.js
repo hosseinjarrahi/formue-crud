@@ -135,7 +135,10 @@ const get =
 
     if (foreignKey && dataKey) {
       urlFetch += urlFetch.includes('?') ? '&' : '?'
-      urlFetch += `filters[${foreignKey}][$eq]={${dataKey}}`
+      const splitForeignKey = foreignKey.split('.')
+      let filters = 'filters'
+      for (const key of splitForeignKey) filters += `[${key}]`
+      urlFetch += `${filters}[$eq]={${dataKey}}`
     }
 
     const getModelKey = (route) => {
