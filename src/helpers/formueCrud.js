@@ -121,11 +121,12 @@ const getRegisterField = (field) => {
 const get =
   (store) =>
   (
-    { url, key, foreignKey, dataKey } = {
+    { url, key, foreignKey, dataKey, change } = {
       url: false,
       key: false,
       foreignKey: false,
-      dataKey: false
+      dataKey: false,
+      change: (items) => items
     }
   ) =>
   async (...args) => {
@@ -163,8 +164,9 @@ const get =
 
     // store.setPagination(key, res)
     // store.setData(key, res.data)
+    if (!change) change = (items) => items
 
-    return getSafe(res, 'data.data', [])
+    return change(getSafe(res, 'data.data', []))
   }
 
 export const defineFields = (fn, store) => {
