@@ -27,15 +27,11 @@
         <span v-else>loading</span>
       </button>
     </div>
-
-    <div class="my-3">
-      {{ store.form }}
-    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, inject } from 'vue'
+import { ref, inject, watch } from 'vue'
 import { emitter } from 'formue'
 import normalizer from '@/helpers/normalizer'
 
@@ -99,4 +95,8 @@ const defineListeners = () => {
 }
 
 defineListeners()
+
+watch(store.form, (value) => {
+  console.log(value)
+})
 </script>
