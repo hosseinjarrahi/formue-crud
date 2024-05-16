@@ -13009,3 +13009,9 @@ body {
   white-space: normal !important;
   font-size: 0.91rem !important;
 }
+
+/* vueform */
+
+.vf-tab {
+  cursor: pointer;
+}

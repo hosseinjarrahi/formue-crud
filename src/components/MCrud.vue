@@ -6,7 +6,6 @@ import MList from './MList.vue'
 import MFilter from './MFilter.vue'
 import MHeaderBox from './MHeaderBox.vue'
 import MButtonBox from './MButtonBox.vue'
-import MDialogForm from './MDialogForm.vue'
 import MShowDialog from './MShowDialog.vue'
 import MDeleteDialog from './MDeleteDialog.vue'
 
@@ -53,8 +52,6 @@ onMounted(() => {
   <MHeaderBox />
 
   <MList />
-
-  <MDialogForm />
 
   <MShowDialog />
 

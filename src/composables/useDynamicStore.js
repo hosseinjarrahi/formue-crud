@@ -71,6 +71,7 @@ const defineDynamicStore = (storeName = 'myStore') => {
       options: [],
       filters: [],
       loadings: {},
+      dialog: false,
       structure: {},
       paginations: {},
       searchParam: '',
