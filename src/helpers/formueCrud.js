@@ -147,7 +147,7 @@ const get =
       return pascalCase(key)
     }
 
-    if ((!key, typeof route === 'string')) {
+    if (!key && typeof route === 'string') {
       key = getModelKey(urlFetch)
     }
 
