@@ -136,7 +136,7 @@ const get =
 
     if (foreignKey && dataKey) {
       urlFetch += urlFetch.includes('?') ? '&' : '?'
-      const splitForeignKey = foreignKey.split('.')
+      const splitForeignKey = foreignKey.split('.', 1)
       let filters = 'filters'
       for (const key of splitForeignKey) filters += `[${key}]`
       urlFetch += `${filters}[$eq]={${dataKey}}`
@@ -147,7 +147,7 @@ const get =
       return pascalCase(key)
     }
 
-    if (!key && typeof route === 'string') {
+    if (!key && typeof urlFetch === 'string') {
       key = getModelKey(urlFetch)
     }
 
@@ -160,7 +160,9 @@ const get =
 
     const sign = urlFetch.includes('?') ? '&' : '?'
 
-    const res = await axios.get(urlFetch + sign + 'search=' + (search || ''))
+    search = typeof search === 'string' ? search : ''
+
+    const res = await axios.get(urlFetch + sign + 'search=' + search)
 
     // store.setPagination(key, res)
     // store.setData(key, res.data)
