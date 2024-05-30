@@ -136,9 +136,9 @@ const get =
 
     if (foreignKey && dataKey) {
       urlFetch += urlFetch.includes('?') ? '&' : '?'
-      const splitForeignKey = foreignKey.split('.', 1)
+      const splitForeignKey = foreignKey.split('.')
       let filters = 'filters'
-      for (const key of splitForeignKey) filters += `[${key}]`
+      for (const key of splitForeignKey) filters += `[${key.replace('|', '.')}]`
       urlFetch += `${filters}[$eq]={${dataKey}}`
     }
 
