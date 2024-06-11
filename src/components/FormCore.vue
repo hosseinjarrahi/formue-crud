@@ -70,7 +70,9 @@ const defineListeners = () => {
       if (form$.value.invalid) {
         return
       }
-    } catch (e) {}
+    } catch (e) {
+      return
+    }
 
     const save = () => {
       store.isEditing
@@ -95,8 +97,4 @@ const defineListeners = () => {
 }
 
 defineListeners()
-
-watch(store.form, (value) => {
-  console.log(value)
-})
 </script>

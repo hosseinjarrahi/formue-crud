@@ -143,7 +143,12 @@ const get =
     }
 
     const getModelKey = (route) => {
-      let key = route.substr(route.lastIndexOf('/') + 1)
+      const lastSlashIndex = route.lastIndexOf('/')
+      let key
+
+      if (route.includes('?')) key = route.substring(lastSlashIndex + 1, route.indexOf('?'))
+      else key = route.substring(lastSlashIndex + 1)
+
       return pascalCase(key)
     }
 
