@@ -14,6 +14,7 @@ const props = defineProps({
   structure: { default: () => ({}) },
   hiddenActions: { default: () => [] },
   fields: { default: () => [] },
+  tableOptions: { default: () => ({}) },
   dir: {
     default: () => {
       const langStore = useLangsStore()
@@ -35,7 +36,10 @@ const store = init({
 
 provide('store', store)
 
-provide('dir', props.dir)
+provide('tableOptions', {
+  dir: props.dir,
+  ...props.tableOptions
+})
 
 document.body.setAttribute('dir', props.dir)
 

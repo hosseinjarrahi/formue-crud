@@ -29,7 +29,11 @@
             >
               {{ n }}
             </p>
-            <p class="text-sm font-medium leading-none text-gray-600 pt-3 mr-4 px-2" v-else>
+            <p
+              class="text-sm font-medium leading-none text-gray-600 pt-3 px-2"
+              :class="{ 'mr-4': showNum() > 1 }"
+              v-else
+            >
               {{ n }}
             </p>
           </template>

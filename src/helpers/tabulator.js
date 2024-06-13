@@ -44,7 +44,15 @@ export function makeHeaders(headers) {
     'isHeader',
     'placeholder',
     'text',
-    'columns'
+    'columns',
+    'clearOnSearch',
+    'valueProp',
+    'labelProp',
+    'normalizer',
+    'onChange',
+    'items',
+    'filterResults',
+    'label'
   ]
 
   const mapHeader = {

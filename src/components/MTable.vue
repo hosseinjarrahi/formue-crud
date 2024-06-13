@@ -41,17 +41,16 @@ import MTablePagination from './MTablePagination.vue'
 const table = ref(null)
 
 const store = inject('store')
-const dir = inject('dir')
-
+const tableOptions = inject('tableOptions')
+console.log('tableOptions');
+console.log(tableOptions);
 const hasNoItems = computed(() => {
   return store.mainItems.length === 0 && !store.loadings.mainLoading
 })
 
 onMounted(() => {
   const tableInstance = initTable({
-    options: {
-      textDirection: dir
-    },
+    options: tableOptions,
     element: table.value,
     headers: store.headers
   })
