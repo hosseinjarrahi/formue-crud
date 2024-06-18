@@ -30,6 +30,32 @@ const deleteArrow = (column) => {
 export function adaptor(store, table) {
   let sorters = []
 
+  table.on('tableBuilt', function () {
+    watch(
+      () => store.mainItems,
+      (newItems) => {
+        setData(newItems)
+      },
+      { immediate: true }
+    )
+
+    watch(
+      () => store.flatFields,
+      () => {
+        setColumns(makeHeaders(store.headers))
+      },
+      { deep: true }
+    )
+
+    watch(
+      () => store.loadings.mainLoading,
+      (loading) => {
+        if (loading) setData([])
+      },
+      { deep: true }
+    )
+  })
+
   table.on('headerClick', (e, column) => {
     const field = column.getField()
 
@@ -53,28 +79,4 @@ export function adaptor(store, table) {
 
     store.loadItems()
   })
-
-  watch(
-    () => store.mainItems,
-    (newItems) => {
-      setData(newItems)
-    },
-    { immediate: true }
-  )
-
-  watch(
-    () => store.flatFields,
-    () => {
-      setColumns(makeHeaders(store.headers))
-    },
-    { deep: true }
-  )
-
-  watch(
-    () => store.loadings.mainLoading,
-    (loading) => {
-      if (loading) setData([])
-    },
-    { deep: true }
-  )
 }
