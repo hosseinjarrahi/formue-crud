@@ -37,8 +37,13 @@
 <script setup>
 import { inject } from 'vue'
 import timesSVG from '@/assets/times.svg'
+import { emitter } from 'formue'
 
 const store = inject('store')
+
+emitter.listen('formue.dialog', (dialogValue) => {
+  store.dialog = dialogValue
+})
 </script>
 
 <style scoped>
