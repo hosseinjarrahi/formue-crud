@@ -1,13 +1,15 @@
 <script setup>
-import { onMounted, defineProps, provide, defineEmits } from 'vue'
+import { onMounted, provide } from 'vue'
 import { init } from '@/helpers/formueCrud'
 import { useLangsStore } from '@/stores/langStore'
+import { emitter } from 'formue'
 import MList from './MList.vue'
 import MFilter from './MFilter.vue'
 import MHeaderBox from './MHeaderBox.vue'
 import MButtonBox from './MButtonBox.vue'
 import MShowDialog from './MShowDialog.vue'
 import MDeleteDialog from './MDeleteDialog.vue'
+import storeListeners from '@/helpers/storeListeners'
 
 const props = defineProps({
   options: { default: () => ({}) },
@@ -46,6 +48,8 @@ document.body.setAttribute('dir', props.dir)
 onMounted(() => {
   emit('mounted')
 })
+
+storeListeners({ listen: emitter.listen, store })
 </script>
 
 <template>

@@ -1,7 +1,7 @@
 <template>
   <transition name="fade" appear>
     <div
-      v-if="store.dialog"
+      v-show="store.dialog"
       class="w-full rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark"
     >
       <div

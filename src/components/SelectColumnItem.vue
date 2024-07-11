@@ -35,8 +35,6 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
-
 defineProps({
   checked: { default: false },
   columnName: { default: '' }

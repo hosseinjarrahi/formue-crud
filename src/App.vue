@@ -178,7 +178,6 @@ const props = {
     <MCrud
       :fields="fields"
       :structure="props"
-      :options="{ formMode: 'tab' }"
       route="http://192.168.190.69:9090/api/_/track/ship|ship-class?_with=shipMission,missiles,guns,ecms,airplanes,radars,ships,helicopters,country"
     />
   </div>

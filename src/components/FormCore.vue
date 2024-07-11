@@ -11,7 +11,7 @@
       />
     </div>
 
-    <div class="flex justify-end">
+    <div class="flex justify-end pb-3">
       <button
         @click="store.dialog = false"
         class="border p-2 px-8 rounded-md text-red-400 border-red-400"
@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref, inject, watch } from 'vue'
+import { ref, inject, nextTick } from 'vue'
 import { emitter } from 'formue'
 import normalizer from '@/helpers/normalizer'
 
@@ -40,26 +40,38 @@ const { event, listen } = emitter
 const store = inject('store')
 
 const form$ = ref(null)
-let editItem = {}
+
+let editItemId = ''
 
 const normalize = (data) => {
-  let out = {}
+  let out = { ...data }
+
   for (const field of store.flatFieldsWithoutActions) {
     out[field.field] = normalizer(field, data)
   }
+
   return out
+}
+
+const save = () => {
+  store.isEditing
+    ? store.editItem({ ...store.form, id: editItemId })
+    : store.addItem({ ...store.form })
 }
 
 const defineListeners = () => {
   listen('createBtn', () => {
-    editItem = {}
+    editItemId = false
     store.isEditing = false
     store.form = {}
   })
 
   listen('editBtn', (data) => {
-    editItem = data
+    // todo
+    editItemId = data.id
+
     store.isEditing = true
+
     store.form = normalize(data)
   })
 
@@ -74,17 +86,7 @@ const defineListeners = () => {
       return
     }
 
-    const save = () => {
-      store.isEditing
-        ? store.editItem({ ...store.form, id: editItem?.id })
-        : store.addItem({ ...store.form })
-    }
-
     return save()
-  })
-
-  listen(['createBtn'], () => {
-    store.form = {}
   })
 
   listen('editTheItem', (item) => {
