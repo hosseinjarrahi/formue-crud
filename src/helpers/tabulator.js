@@ -77,7 +77,7 @@ export function makeHeaders(headers) {
   const clonedHeaders = cloneDeep(headers)
 
   return clonedHeaders
-    .map((h) => (h.field in mapHeader ? { ...h, ...mapHeader[h.field] } : h))
+    .map((h) => (h.field in mapHeader ? { ...mapHeader[h.field], ...h } : h))
     .map((h) => {
       for (const key of shouldRemove) {
         if (key in h) delete h[key]

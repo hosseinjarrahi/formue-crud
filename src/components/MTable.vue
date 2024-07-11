@@ -41,9 +41,9 @@ import MTablePagination from './MTablePagination.vue'
 const table = ref(null)
 
 const store = inject('store')
+
 const tableOptions = inject('tableOptions')
-console.log('tableOptions');
-console.log(tableOptions);
+
 const hasNoItems = computed(() => {
   return store.mainItems.length === 0 && !store.loadings.mainLoading
 })

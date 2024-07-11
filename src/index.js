@@ -4,5 +4,6 @@ import '@/assets/tabulator.css'
 import install from './install'
 import { registerFields } from '@/helpers/formueCrud'
 import fields from '@/helpers/fields'
+import ActionButton from '@/components/ActionButton.vue'
 
-export { MCrud, registerFields, install, fields }
+export { MCrud, registerFields, install, fields, ActionButton }

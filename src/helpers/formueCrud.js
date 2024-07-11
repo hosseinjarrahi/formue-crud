@@ -70,9 +70,11 @@ export function filterFieldsByShow(fields, mode = 'create') {
 }
 
 export function makeHeaders(flatFields) {
-  let activeHeaders = flatFields.filter((schema) => schema.isHeader)
+  let activeHeaders = flatFields.filter((schema) => schema.isHeader && schema.field !== '_actions_')
 
-  activeHeaders.push({
+  const hasAction = flatFields.find((f) => f.field === '_actions_')
+
+  let actionField = {
     title: '',
     value: '_actions_',
     field: '_actions_',
@@ -81,7 +83,13 @@ export function makeHeaders(flatFields) {
     headerSort: false,
     hozAlign: 'left',
     headerHozAlign: 'left'
-  })
+  }
+
+  if (hasAction) {
+    actionField = { ...actionField, ...hasAction }
+  }
+
+  activeHeaders.push(actionField)
 
   let indexToPush = 0
   if (flatFields.find((i) => i.field === '_select_' && i.isHeader)) indexToPush = 1
