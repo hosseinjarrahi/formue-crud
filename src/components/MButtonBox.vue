@@ -114,7 +114,7 @@
       </MMenu>
     </div>
     <div
-      class="fm-header-rigth-sid flex w-full sm:w-auto rtl:flex-row-reverse rtl:justify-end z-10"
+      class="fm-header-rigth-sid flex w-full sm:w-auto rtl:flex-row-reverse rtl:justify-end"
     >
       <button
         class="test fc-header-icon-btn transform transition-all"
