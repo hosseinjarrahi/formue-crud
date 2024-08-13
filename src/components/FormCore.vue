@@ -14,14 +14,14 @@
     <div class="flex justify-end pb-3">
       <button
         @click="store.dialog = false"
-        class="border p-2 px-8 rounded-md text-red-400 border-red-400"
+        className="px-4 py-2 ml-2 rounded-md border border-red-300 bg-red-100 text-red-500 text-sm hover:-translate-y-1 transform transition duration-200 hover:shadow-md"
       >
         {{ $fcTr('cancel') }}
       </button>
       <button
         :disabled="store.loadings.mainLoading"
         @click="event('saveForm')"
-        class="border p-2 mx-1 px-8 rounded-md text-green-400 border-green-400"
+        className="px-4 py-2 rounded-md border border-green-300 bg-green-100 text-green-500 text-sm hover:-translate-y-1 transform transition duration-200 hover:shadow-md"
       >
         <span v-if="!store.loadings.mainLoading"> {{ $fcTr('save') }} </span>
         <span v-else>loading</span>
@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref, inject, nextTick } from 'vue'
+import { ref, inject } from 'vue'
 import { emitter } from 'formue'
 import normalizer from '@/helpers/normalizer'
 

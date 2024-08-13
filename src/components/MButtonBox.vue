@@ -4,9 +4,21 @@
     <!-- left sid  -->
     <div class="fc-header-left-sid">
       <!-- add boutton -->
-      <button class="fc-plus-btn" @click="event('createBtn')">
-        <svg viewBox="0 0 24 24">
-          <path stroke="currentColor" stroke-width="2" d="M5 12h14m-7-7v14" />
+      <button v-if="can('create')" class="fc-plus-btn" @click="event('createBtn')">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-plus"
+        >
+          <path d="M5 12h14" />
+          <path d="M12 5v14" />
         </svg>
       </button>
       <!-- export menu (excel, pdf, print) -->
@@ -114,6 +126,7 @@
       </MMenu>
     </div>
     <div
+      v-if="can('filter')"
       class="fm-header-rigth-sid flex w-full sm:w-auto rtl:flex-row-reverse rtl:justify-end"
     >
       <button
@@ -188,9 +201,12 @@
 import { inject, ref, onMounted, computed } from 'vue'
 import { emitter } from 'formue'
 import { debounce } from 'lodash'
+import { usePermission } from '@/composables/usePermission'
 
 import SelectColumnItem from '@/components/SelectColumnItem.vue'
 import MMenu from '@/components/MMenu.vue'
+
+const { can } = usePermission()
 
 const { event } = emitter
 

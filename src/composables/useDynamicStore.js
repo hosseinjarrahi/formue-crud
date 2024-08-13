@@ -201,28 +201,28 @@ const defineDynamicStore = (storeName = 'myStore') => {
         this.isFiltering ? this.getWithFilter() : this.loadItems()
       },
 
-      loadItemsPlus(key = this.mainKey, page = 1, query = '', fn = () => {}, add = true) {
-        let pageQuery = getSafe(this.routes, key, '').indexOf('?') > -1 ? '&page=' : '?page=' // to do : change routes structure
+      // loadItemsPlus(key = this.mainKey, page = 1, query = '', fn = () => {}, add = true) {
+      //   let pageQuery = getSafe(this.routes, key, '').indexOf('?') > -1 ? '&page=' : '?page=' // to do : change routes structure
 
-        this.loadings[key] = true
+      //   this.loadings[key] = true
 
-        const route = getSafe(this.routes, key, '') + pageQuery + page + '&' + query
+      //   const route = getSafe(this.routes, key, '') + pageQuery + page + '&' + query
 
-        axios
-          .get(route)
-          .then((response) => {
-            response = getSafe(response, 'data', {})
+      //   axios
+      //     .get(route)
+      //     .then((response) => {
+      //       response = getSafe(response, 'data', {})
 
-            if (!Array.isArray(this.items[key])) this.items[key] = []
-            if (add) for (const item of response.data) this.items[key].push(item)
-            else this.items[key] = response.data
-            this.setPagination(response, key)
-          })
-          .finally(() => {
-            fn()
-            this.loadings[key] = false
-          })
-      },
+      //       if (!Array.isArray(this.items[key])) this.items[key] = []
+      //       if (add) for (const item of response.data) this.items[key].push(item)
+      //       else this.items[key] = response.data
+      //       this.setPagination(response, key)
+      //     })
+      //     .finally(() => {
+      //       fn()
+      //       this.loadings[key] = false
+      //     })
+      // },
 
       convertToFilterForm() {
         let out = {}
@@ -239,15 +239,21 @@ const defineDynamicStore = (storeName = 'myStore') => {
       },
 
       async loadItems(key = this.mainKey, page = 1) {
-        let pageQuery = getSafe(this.routes, key, '').indexOf('?') > -1 ? '&page=' : '?page=' // to do : change routes structure
+        let route = getSafe(this.routes, key + '.index', '')
+
+        let pageQuery = route.indexOf('?') > -1 ? '&page=' : '?page=' // to do : change routes structure
+
         pageQuery += page
+
         if (this.searchParam) {
           pageQuery += '&search=' + this.searchParam
         }
+
         this.loadings[key] = true
+
         this.loadings.mainLoading = key === this.mainKey
 
-        const route = getSafe(this.routes, key, '') + pageQuery + '&' + this.convertToFilterForm()
+        route = route + pageQuery + '&' + this.convertToFilterForm()
 
         return axios
           .get(route)
@@ -310,7 +316,7 @@ const defineDynamicStore = (storeName = 'myStore') => {
 
         this.loadings.mainLoading = true
 
-        let route = this.routes[this.mainKey]
+        let route = getSafe(this.routes, this.mainKey + '.create', '')
 
         let sendForm = convertToSendForm(data, this.flatFields)
 
@@ -336,7 +342,9 @@ const defineDynamicStore = (storeName = 'myStore') => {
       },
 
       editItem(data) {
-        let route = this.routes[this.mainKey].split('?')[0]
+        let route = getSafe(this.routes, this.mainKey + '.update', '')
+
+        route = route.split('?')[0]
 
         let sendForm = convertToSendForm(data, this.flatFields)
 
@@ -366,7 +374,9 @@ const defineDynamicStore = (storeName = 'myStore') => {
       remove(deleteId) {
         const deleteIds = Array.isArray(deleteId) ? deleteId : [deleteId]
 
-        let route = this.routes[this.mainKey].split('?')[0]
+        let route = getSafe(this.routes, this.mainKey + '.delete', '')
+
+        route = route.split('?')[0]
 
         this.loadings.mainLoading = true
 

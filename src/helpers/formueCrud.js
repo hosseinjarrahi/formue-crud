@@ -1,6 +1,7 @@
 import { has, get as getSafe } from 'lodash'
 import { emitter } from 'formue'
 import { useDynamicStore } from '@/composables/useDynamicStore'
+import { usePermission } from '@/composables/usePermission'
 import { markRaw } from 'vue'
 import { pascalCase } from '@/helpers/common'
 import useFields from '@/helpers/fields'
@@ -193,6 +194,8 @@ export const registerFields = (fields) => {
 }
 
 export function init({ fields, hiddenActions, options, route, structure }) {
+  const { setPermissions } = usePermission()
+
   const store = useDynamicStore('Store-' + parseInt(Math.random() * 10000000))
 
   store.fields = defineFields(fields, store)
@@ -203,13 +206,20 @@ export function init({ fields, hiddenActions, options, route, structure }) {
 
   const key = store.getModelKey(route)
 
-  store.routes[key] = typeof route == 'string' ? route : route?.route
+  const routes = {
+    create: typeof route == 'string' ? route : route.create,
+    update: typeof route == 'string' ? route : route.update,
+    delete: typeof route == 'string' ? route : route.delete,
+    index: typeof route == 'string' ? route : route.index
+  }
+
+  store.routes[key] = routes
 
   store.loadItems()
 
   store.options = options
 
-  store.hiddenActions = hiddenActions
+  setPermissions(hiddenActions)
 
   store.structure = structure
 
