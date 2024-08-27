@@ -1,6 +1,6 @@
 {
   "name": "formue-crud",
-  "version": "0.1.16",
+  "version": "0.1.19",
   "private": false,
   "scripts": {
     "dev": "vite",

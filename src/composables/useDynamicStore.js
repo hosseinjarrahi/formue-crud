@@ -77,6 +77,7 @@ const defineDynamicStore = (storeName = 'myStore') => {
       searchParam: '',
       isEditing: false,
       panelName: false,
+      editItemId: false,
       hiddenActions: [],
       isFiltering: false,
       sorts: ['id:desc'],
@@ -351,11 +352,8 @@ const defineDynamicStore = (storeName = 'myStore') => {
         this.loadings.mainLoading = true
 
         return axios
-          .patch(route + '/' + data.id, sendForm)
+          .patch(route + '/' + this.editItemId, sendForm)
           .then(async () => {
-            // response = getSafe(response, 'data', {})
-            // const editedItem = getSafe(response, 'data', {})
-            // this.editData(editedItem)
             this.reloadData()
             event('alert', { text: 'با موفقیت ویرایش شد', color: 'green' })
             event('handleDialogForm', false)

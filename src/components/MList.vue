@@ -13,6 +13,7 @@ import MTable from './MTable.vue'
 import { get as getSafe } from 'lodash'
 import { inject, computed } from 'vue'
 import { emitter } from 'formue'
+import normalizer from '@/helpers/normalizer'
 import MDialogForm from './MDialogForm.vue'
 import MTabForm from './MTabForm.vue'
 import FormCore from './FormCore.vue'
@@ -29,27 +30,55 @@ const formComponent = computed(() => {
   return getSafe(map, store.options.formMode) || MDialogForm
 })
 
-listen('toggle.select', (id) => {
-  if (store.selected.has(id)) return store.selected.delete(id)
-
-  store.selected.add(id)
-})
-
 function bind() {
   return {}
 }
 
+const normalize = (data) => {
+  let out = { ...data }
+
+  for (const field of store.flatFieldsWithoutActions) {
+    out[field.field] = normalizer(field, data)
+  }
+
+  return out
+}
+
 const defineListeners = () => {
-  listen('createBtn', () => {
-    store.dialog = true
+  emitter.listen('formue.dialog', (dialogValue) => {
+    store.dialog = dialogValue
   })
 
-  listen('editBtn', () => {
+  listen('toggle.select', (id) => {
+    if (store.selected.has(id)) return store.selected.delete(id)
+
+    store.selected.add(id)
+  })
+
+  listen('createBtn', () => {
     store.dialog = true
+    store.editItemId = false
+    store.isEditing = false
+    store.form = {}
+  })
+
+  listen('editBtn', (data) => {
+    store.dialog = true
+    store.editItemId = data.id
+    store.isEditing = true
+    store.form = normalize(data)
   })
 
   listen('handleDialogForm', (dialogParam) => {
     store.dialog = dialogParam
+  })
+
+  listen('editTheItem', (item) => {
+    edit(item)
+  })
+
+  listen('addTheItem', (item) => {
+    add(item)
   })
 }
 

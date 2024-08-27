@@ -1,7 +1,7 @@
 <template>
   <transition name="fade" appear>
     <div
-      v-show="store.dialog"
+      v-if="store.dialog"
       class="w-full rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark"
     >
       <div
@@ -25,10 +25,6 @@
 <script setup>
 import { inject } from 'vue'
 import timesSVG from '@/assets/times.svg'
-
-const props = defineProps({
-  dialog: { default: false }
-})
 
 const store = inject('store')
 </script>
