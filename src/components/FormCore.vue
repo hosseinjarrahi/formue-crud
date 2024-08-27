@@ -3,9 +3,9 @@
     <div class="mb-5">
       <Vueform
         v-model="store.form"
+        v-bind="store.structure"
         :schema="store.formFields"
         :columns="{ label: 12 }"
-        v-bind="store.structure"
         ref="form$"
         sync
       />

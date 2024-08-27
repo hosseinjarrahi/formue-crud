@@ -1,6 +1,6 @@
 <template>
   <transition name="fade" appear>
-    <div v-show="store.dialog" class="fixed z-10 inset-0 overflow-y-auto backdrop-blur-[4px]">
+    <div v-if="store.dialog" class="fixed z-10 inset-0 overflow-y-auto backdrop-blur-[4px]">
       <div
         class="flex items-center overflow-y justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
       >
