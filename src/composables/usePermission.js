@@ -1,19 +1,21 @@
 import { ref } from 'vue'
 
-export function usePermission() {
-  const permissions = ref([
-    'create',
-    'update',
-    'delete',
-    'show',
-    'print',
-    'importExcel',
-    'exportExcel',
-    'filter'
-  ])
+const allPermissions = [
+  'create',
+  'update',
+  'delete',
+  'show',
+  'print',
+  'importExcel',
+  'exportExcel',
+  'filter'
+]
 
+const permissions = ref([])
+
+export function usePermission() {
   function setPermissions(hiddenActions) {
-    permissions.value = permissions.value.filter((item) => !hiddenActions.includes(item))
+    permissions.value = allPermissions.value.filter((item) => !hiddenActions.includes(item))
   }
 
   function can(permission) {
