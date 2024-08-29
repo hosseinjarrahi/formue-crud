@@ -15,7 +15,7 @@ const permissions = ref([])
 
 export function usePermission() {
   function setPermissions(hiddenActions) {
-    permissions.value = allPermissions.value.filter((item) => !hiddenActions.includes(item))
+    permissions.value = allPermissions.filter((item) => !hiddenActions.includes(item))
   }
 
   function can(permission) {
