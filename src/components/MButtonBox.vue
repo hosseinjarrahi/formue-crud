@@ -116,6 +116,7 @@
           <ul class="p-2">
             <template v-for="field in store.flatFieldsWithoutActions" :key="field.field">
               <SelectColumnItem
+                v-if="field.title"
                 :column-name="field.title"
                 :checked="field.isHeader"
                 @toggle="field.isHeader = !field.isHeader"
