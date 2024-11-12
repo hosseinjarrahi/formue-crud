@@ -1,6 +1,24 @@
 <template>
   <component :is="formComponent">
     <FormCore />
+
+    <template #actions>
+      <button
+        :disabled="store.loadings.mainLoading"
+        @click="saveForm"
+        className="mt-1 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 !bg-green-500 text-base font-medium text-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+      >
+        <span v-if="!store.loadings.mainLoading"> {{ $fcTr('save') }} </span>
+        <span v-else>loading</span>
+      </button>
+
+      <button
+        @click="store.dialog = false"
+        className="mt-1 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+      >
+        {{ $fcTr('cancel') }}
+      </button>
+    </template>
   </component>
 
   <div class="w-full">

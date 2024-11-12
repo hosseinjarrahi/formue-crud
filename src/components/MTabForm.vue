@@ -7,16 +7,20 @@
       <div
         class="border-b-2 flex justify-between border--100 px-6 py-3 text-surface dark:border-white/10 dark:text-white"
       >
-          <b class="text-primerr-700" v-if="store.isEditing"> {{ $fcTr('edit') }} </b>
-          <b class="text-primerr-700" v-else> {{ $fcTr('add') }} </b>
-          <img
-            style="max-width: 18px; cursor: pointer"
-            :src="timesSVG"
-            @click="store.dialog = false"
-          />
+        <b class="text-primerr-700" v-if="store.isEditing"> {{ $fcTr('edit') }} </b>
+        <b class="text-primerr-700" v-else> {{ $fcTr('add') }} </b>
+        <img
+          style="max-width: 18px; cursor: pointer"
+          :src="timesSVG"
+          @click="store.dialog = false"
+        />
       </div>
       <div class="p-6">
         <slot></slot>
+
+        <div class="flex justify-end p-3 bg-gray-100 rounded-lg">
+          <slot name="actions"></slot>
+        </div>
       </div>
     </div>
   </transition>
