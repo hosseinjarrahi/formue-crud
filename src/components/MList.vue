@@ -5,11 +5,15 @@
     <template #actions>
       <button
         :disabled="store.loadings.mainLoading"
-        @click="saveForm"
-        className="mt-1 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 !bg-green-500 text-base font-medium text-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+        @click="event('saveForm')"
+        className="btn mt-1 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 !bg-green-500 text-base font-medium text-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
       >
         <span v-if="!store.loadings.mainLoading"> {{ $fcTr('save') }} </span>
-        <span v-else>loading</span>
+        <span v-else>
+          <b></b>
+          <b></b>
+          <b></b>
+        </span>
       </button>
 
       <button
@@ -37,7 +41,7 @@ import MTabForm from './MTabForm.vue'
 import FormCore from './FormCore.vue'
 
 const store = inject('store')
-const { listen } = emitter
+const { listen, event } = emitter
 
 const formComponent = computed(() => {
   const map = {
@@ -47,24 +51,6 @@ const formComponent = computed(() => {
 
   return getSafe(map, store.options.formMode) || MDialogForm
 })
-
-const save = () => {
-  store.isEditing ? store.editItem({ ...store.form }) : store.addItem({ ...store.form })
-}
-
-const saveForm = () => {
-  try {
-    form$.value.validate()
-
-    if (form$.value.invalid) {
-      return
-    }
-  } catch (e) {
-    return
-  }
-
-  return save()
-}
 
 function bind() {
   return {}
@@ -120,3 +106,47 @@ const defineListeners = () => {
 
 defineListeners()
 </script>
+
+<style>
+@keyframes stretch {
+  0% {
+    transform: scale(0.5);
+    background-color: #b5ddf0;
+  }
+  50% {
+    background-color: #cfe9f6;
+  }
+  100% {
+    transform: scale(1);
+    background-color: #ffffff;
+  }
+}
+
+.btn span b {
+  animation-direction: alternate;
+  animation-duration: 0.5s;
+  animation-fill-mode: none;
+  animation-iteration-count: infinite;
+  animation-name: stretch;
+  animation-play-state: running;
+  animation-timing-function: ease-out;
+  border-radius: 100%;
+  display: block;
+  height: 10px;
+  margin: 0 1px;
+  width: 10px;
+  animation-delay: 0.1s;
+  margin: 0 5px;
+}
+.btn span b:first-child {
+  animation-delay: 0s;
+  margin: 0;
+}
+.btn span b:last-child {
+  animation-delay: 0.2s;
+  margin: 0;
+}
+.btn b {
+  font-weight: normal;
+}
+</style>
