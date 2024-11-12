@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col text-right">
+  <div class="flex flex-col text-right mt-4">
     <div class="mb-5">
       <Vueform
         v-model="store.form"
