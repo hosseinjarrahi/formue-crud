@@ -19,22 +19,4 @@ import { ref, inject } from 'vue'
 const store = inject('store')
 
 const form$ = ref(null)
-
-const save = () => {
-  store.isEditing ? store.editItem({ ...store.form }) : store.addItem({ ...store.form })
-}
-
-const saveForm = () => {
-  try {
-    form$.value.validate()
-
-    if (form$.value.invalid) {
-      return
-    }
-  } catch (e) {
-    return
-  }
-
-  return save()
-}
 </script>

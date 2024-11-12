@@ -48,6 +48,24 @@ const formComponent = computed(() => {
   return getSafe(map, store.options.formMode) || MDialogForm
 })
 
+const save = () => {
+  store.isEditing ? store.editItem({ ...store.form }) : store.addItem({ ...store.form })
+}
+
+const saveForm = () => {
+  try {
+    form$.value.validate()
+
+    if (form$.value.invalid) {
+      return
+    }
+  } catch (e) {
+    return
+  }
+
+  return save()
+}
+
 function bind() {
   return {}
 }
