@@ -57,9 +57,12 @@
 </template>
 
 <script setup>
+import { inject } from 'vue'
 import { defineEmits, defineProps } from 'vue'
 
 import timesSVG from '@/assets/times.svg'
+
+const store = inject('store')
 
 const emit = defineEmits(['update:modelValue'])
 
