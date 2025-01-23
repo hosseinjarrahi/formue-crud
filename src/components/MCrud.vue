@@ -1,8 +1,8 @@
 <script setup>
+import { emitter } from 'formue'
 import { onMounted, provide } from 'vue'
 import { init } from '@/helpers/formueCrud'
 import { useLangsStore } from '@/stores/langStore'
-import { emitter } from 'formue'
 import MList from './MList.vue'
 import MFilter from './MFilter.vue'
 import MHeaderBox from './MHeaderBox.vue'

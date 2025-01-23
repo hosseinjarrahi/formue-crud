@@ -84,6 +84,13 @@ const defineListeners = () => {
     store.form = {}
   })
 
+  listen('fillForm', (data) => {
+    store.dialog = true
+    store.editItemId = false
+    store.isEditing = false
+    store.form = data
+  })
+
   listen('editBtn', (data) => {
     store.dialog = true
     store.editItemId = data.id
