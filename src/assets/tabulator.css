@@ -1657,3 +1657,15 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
 }
 
 /*# sourceMappingURL=tabulator_site.css.map */
+.tabulator .tabulator-tableholder .tabulator-table {
+  background-color: transparent !important;
+}
+
+.tabulator-row {
+  height: 40px;
+}
+
+.tabulator-cell {
+  height: auto !important;
+  border-left-color: transparent !important;
+}

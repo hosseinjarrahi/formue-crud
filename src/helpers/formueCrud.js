@@ -100,6 +100,7 @@ export function makeHeaders(flatFields) {
     type: 'text',
     value: '_index_',
     field: '_index_',
+    maxWidth: '100px',
     align: 'center',
     headerSort: false
   })
