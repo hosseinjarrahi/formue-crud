@@ -1,5 +1,5 @@
 <template>
-  <div ref="table" class="mt-2"></div>
+  <div ref="table" class="mt-2 w-full overflow-x-auto"></div>
   <div v-if="store.loadings.mainLoading" class="mt-[-20px]">
     <template v-for="n in 10" :key="n">
       <div

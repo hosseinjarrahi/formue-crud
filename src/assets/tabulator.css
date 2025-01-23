@@ -1519,8 +1519,11 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
 }
 
 .tabulator .tabulator-tableholder {
-  /* overflow-x: auto; */
-  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  overflow: auto;
+  position: relative;
+  white-space: nowrap;
+  width: 100%;
 }
 
 .tabulator .tabulator-tableholder .tabulator-placeholder {
@@ -1609,4 +1612,11 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
 
 .dark .tabulator .tabulator-alert .tabulator-alert-msg.tabulator-alert-state-msg {
   color: #e2e8f0;
+}
+
+
+/*  */
+.tabulator .tabulator-footer .tabulator-spreadsheet-tabs {
+  margin-top: -5px;
+  overflow-x: auto;
 }
