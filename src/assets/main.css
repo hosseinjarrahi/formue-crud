@@ -12859,20 +12859,11 @@ html body {
 .fm-header-rigth-sid {
   @apply flex w-full items-center gap-4 sm:w-auto;
 }
-.dark .tabulator .tabulator-header {
-  @apply bg-muted-800 text-muted-200;
-}
-.tabulator .tabulator-header {
-  font-weight: 500;
-  color: currentColor;
-  background-color: transparent;
-  background-color: white;
-  border-radius: 10px 10px 0px 0px;
-  padding: 2px;
-}
+
 #paginate {
   @apply mb-6;
 }
+
 #paginate div {
   @apply dark:border-[#ffffff36];
 }
