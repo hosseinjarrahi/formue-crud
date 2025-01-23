@@ -333,7 +333,7 @@ const defineDynamicStore = (storeName = 'myStore') => {
           })
           .catch((error) => {
             event('alert', {
-              text: getSafe(error, 'response.message'),
+              text: getSafe(error, 'response.data.message'),
               color: 'red'
             })
           })
@@ -360,7 +360,7 @@ const defineDynamicStore = (storeName = 'myStore') => {
           })
           .catch((error) => {
             event('alert', {
-              text: getSafe(error, 'response.message'),
+              text: getSafe(error, 'response.data.message'),
               color: 'red'
             })
           })
