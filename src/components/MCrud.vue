@@ -5,6 +5,7 @@ import { init } from '@/helpers/formueCrud'
 import { useLangsStore } from '@/stores/langStore'
 import MList from './MList.vue'
 import MFilter from './MFilter.vue'
+import MTooltip from './MTooltip.vue'
 import MHeaderBox from './MHeaderBox.vue'
 import MButtonBox from './MButtonBox.vue'
 import MShowDialog from './MShowDialog.vue'
@@ -65,5 +66,8 @@ storeListeners({ listen: emitter.listen, store })
 
   <MDeleteDialog />
 
+  <MTooltip/>
+
   <slot name="extra"></slot>
 </template>
+

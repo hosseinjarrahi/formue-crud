@@ -2,6 +2,7 @@
   <button
     v-if="can('delete')"
     class="mx-2 inline-flex items-center justify-center w-5 h-5 rounded-full text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+    data-tooltip="حذف"
     @click="emitter.event('deleteBtn', props.data)"
   >
     <svg
@@ -27,6 +28,7 @@
   <button
     v-if="can('update')"
     class="mx-2 inline-flex items-center justify-center w-5 h-5 rounded-full text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+    data-tooltip="ویرایش"
     @click="emitter.event('editBtn', props.data)"
   >
     <svg

@@ -4,7 +4,7 @@
     <!-- left sid  -->
     <div class="fc-header-left-sid">
       <!-- add boutton -->
-      <button v-if="can('create')" class="fc-plus-btn" @click="event('createBtn')">
+      <button v-if="can('create')" class="fc-plus-btn" data-tooltip="افزودن" @click="event('createBtn')">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -22,7 +22,7 @@
         </svg>
       </button>
       <!-- export menu (excel, pdf, print) -->
-      <MMenu>
+      <!-- <MMenu>
         <template v-slot:activator="{ on, props }">
           <button
             :class="!props.isOpen ? 'before:hidden' : 'before:block'"
@@ -65,10 +65,10 @@
             </svg>
           </a>
         </div>
-      </MMenu>
+      </MMenu> -->
 
       <!-- reload data of table button -->
-      <button class="fc-header-icon-btn" @click="store.reloadData">
+      <button class="fc-header-icon-btn" data-tooltip="رفرش" @click="store.reloadData">
         <svg :class="{ spin: store.loadings.mainLoading }" viewBox="0 0 512 512">
           <path
             d="M371.2 122.9C340.3 96.2 300 80 256 80C158.8 80 80 158.8 80 256s78.8 176 176 176c39.7 0 76.2-13.1 105.6-35.2c10.6-8 25.6-5.8 33.6 4.8s5.8 25.6-4.8 33.6C353 463.3 306.4 480 256 480C132.3 480 32 379.7 32 256S132.3 32 256 32c57.3 0 109.6 21.5 149.2 56.9l30.5-30.5c6.6-6.6 15.6-10.3 25-10.3C480.2 48 496 63.8 496 83.3V200c0 13.3-10.7 24-24 24H355.3c-19.5 0-35.3-15.8-35.3-35.3c0-9.4 3.7-18.3 10.3-25l40.8-40.8zm76.8-9L385.9 176H448V113.9z"
@@ -80,6 +80,7 @@
       <button
         class="fc-header-icon-btn"
         :class="{ 'fm-active-btn': isSelectActive }"
+        data-tooltip="انتخاب گروهی"
         @click="toggleSelect"
       >
         <svg viewBox="0 0 512 512">
@@ -94,6 +95,7 @@
           <button
             v-on="on"
             class="fc-header-icon-btn"
+            data-tooltip="انتخاب هدر"
             :class="[
               props.isOpen ? 'light:!bg-white dark:bg-muted-800' : '',
               props.isOpen ? (dir === 'rtl' ? 'expanded-rtl' : 'expanded2') : ''
@@ -128,6 +130,7 @@
     </div>
     <div
       v-if="can('filter')"
+      data-tooltip="فیلتر"
       class="fm-header-rigth-sid flex w-full sm:w-auto rtl:flex-row-reverse rtl:justify-end"
     >
       <button

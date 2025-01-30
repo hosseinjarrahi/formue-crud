@@ -1,56 +1,47 @@
 <template>
-  <div class="relative inline-block">
-    <!-- Trigger element (can be customized) -->
-    <slot name="trigger">
-      <button
-        @mouseenter="showTooltip = true"
-        @mouseleave="showTooltip = false"
-        class="text-blue-500 hover:underline"
-      >
-        Hover me for a tooltip
-      </button>
-    </slot>
-
-    <!-- Tooltip (customizable content) -->
-    <div v-if="showTooltip" :class="tooltipClasses" :style="tooltipStyles">
-      <slot name="content"> This is your tooltip content! </slot>
-    </div>
-  </div>
+  <div id="tooltip" class="tooltip"></div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      showTooltip: false
-    }
-  },
-  props: {
-    // Customize tooltip position (default: bottom-center)
-    position: {
-      type: String,
-      default: 'bottom-center'
-    }
-  },
-  computed: {
-    tooltipClasses() {
-      // Add custom classes based on position
-      return `absolute bg-gray-800 text-white p-2 rounded-md shadow-md z-10 ${this.position}`
-    },
-    tooltipStyles() {
-      // Add custom styles for positioning
-      return {
-        top: this.position.includes('top') ? '100%' : '',
-        bottom: this.position.includes('bottom') ? '100%' : '',
-        left: this.position.includes('left') ? '0' : '',
-        right: this.position.includes('right') ? '0' : '',
-        transform: this.position.includes('center') ? 'translateX(-50%)' : ''
+<script setup>
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  document.addEventListener('DOMContentLoaded', function () {
+    const tooltip = document.getElementById('tooltip')
+
+    // Function to show the tooltip
+    function showTooltip(event) {
+      const parentWithTooltip = event.target.closest('[data-tooltip]')
+      if (parentWithTooltip) {
+        const tooltipText = parentWithTooltip.getAttribute('data-tooltip')
+        tooltip.textContent = tooltipText
+        tooltip.style.display = 'block'
+        tooltip.style.left = `${event.pageX + 10}px`
+        tooltip.style.top = `${event.pageY + 10}px`
       }
     }
-  }
-}
+
+    // Function to hide the tooltip
+    function hideTooltip() {
+      tooltip.style.display = 'none'
+    }
+
+    // Event listeners for mouseover and mouseout
+    document.addEventListener('mouseover', showTooltip)
+    document.addEventListener('mouseout', hideTooltip)
+  })
+})
 </script>
 
 <style scoped>
-/* Add any custom styling for your tooltip here */
+.tooltip {
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 14px;
+  display: none;
+  z-index: 1000;
+}
 </style>
