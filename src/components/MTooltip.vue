@@ -6,31 +6,29 @@
 import { onMounted } from 'vue'
 
 onMounted(() => {
-  document.addEventListener('DOMContentLoaded', function () {
-    const tooltip = document.getElementById('tooltip')
+  const tooltip = document.getElementById('tooltip')
 
-    // Function to show the tooltip
-    function showTooltip(event) {
-      // Find the closest parent with the `data-tooltip` attribute
-      const parentWithTooltip = event.target.closest('[data-tooltip]')
-      if (parentWithTooltip) {
-        const tooltipText = parentWithTooltip.getAttribute('data-tooltip')
-        tooltip.textContent = tooltipText
-        tooltip.style.left = `${event.pageX + 10}px`
-        tooltip.style.top = `${event.pageY + 10}px`
-        tooltip.classList.add('visible') // Add the visible class
-      }
+  // Function to show the tooltip
+  function showTooltip(event) {
+    // Find the closest parent with the `data-tooltip` attribute
+    const parentWithTooltip = event.target.closest('[data-tooltip]')
+    if (parentWithTooltip) {
+      const tooltipText = parentWithTooltip.getAttribute('data-tooltip')
+      tooltip.textContent = tooltipText
+      tooltip.style.left = `${event.pageX + 10}px`
+      tooltip.style.top = `${event.pageY + 10}px`
+      tooltip.classList.add('visible') // Add the visible class
     }
+  }
 
-    // Function to hide the tooltip
-    function hideTooltip() {
-      tooltip.classList.remove('visible') // Remove the visible class
-    }
+  // Function to hide the tooltip
+  function hideTooltip() {
+    tooltip.classList.remove('visible') // Remove the visible class
+  }
 
-    // Event listeners for mouseover and mouseout
-    document.addEventListener('mouseover', showTooltip)
-    document.addEventListener('mouseout', hideTooltip)
-  })
+  // Event listeners for mouseover and mouseout
+  document.addEventListener('mouseover', showTooltip)
+  document.addEventListener('mouseout', hideTooltip)
 })
 </script>
 

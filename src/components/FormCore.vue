@@ -25,18 +25,17 @@ const save = () => {
   store.isEditing ? store.editItem({ ...store.form }) : store.addItem({ ...store.form })
 }
 
-const saveForm = () => {
+const saveForm = async () => {
   try {
-    form$.value.validate()
-
-    if (form$.value.invalid) {
-      return
-    }
+    form$.value.validate().then(() => {
+      if (form$.value.invalid) {
+        return
+      }
+      return save()
+    })
   } catch (e) {
     return
   }
-
-  return save()
 }
 
 emitter.listen('saveForm', () => {
