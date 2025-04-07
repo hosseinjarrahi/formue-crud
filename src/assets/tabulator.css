@@ -1661,9 +1661,9 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
   background-color: transparent !important;
 }
 
-.tabulator-row {
+/* .tabulator-row {
   height: 40px;
-}
+} */
 
 .tabulator-cell {
   height: auto !important;
