@@ -208,13 +208,13 @@
 </template>
 
 <script setup>
-import { inject, ref, onMounted, computed } from 'vue'
+import axios from 'axios'
 import { emitter } from 'formue'
 import { debounce } from 'lodash'
-import { usePermission } from '@/composables/usePermission'
-
-import SelectColumnItem from '@/components/SelectColumnItem.vue'
 import MMenu from '@/components/MMenu.vue'
+import { inject, ref, onMounted, computed } from 'vue'
+import { usePermission } from '@/composables/usePermission'
+import SelectColumnItem from '@/components/SelectColumnItem.vue'
 
 const { can } = usePermission()
 
@@ -256,7 +256,7 @@ function search() {
 const searchWithDebounce = debounce(search, 600)
 
 function exportAsExcel() {
-  window.open(store.generateQuery())
+  window.open(axios.defaults.baseURL + store.generateQuery())
 }
 </script>
 
