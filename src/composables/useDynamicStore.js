@@ -239,7 +239,15 @@ const defineDynamicStore = (storeName = 'myStore') => {
         return qs.stringify({ filters: out, sort: this.sorts }, { encodeValuesOnly: true })
       },
 
-      async loadItems(key = this.mainKey, page = 1) {
+      generateQuery(key = this.mainKey) {
+        let route = getSafe(this.routes, key + '.index', '')
+
+        const [mainRoute, query] = route.split('?')
+
+        return mainRoute + '/export?' + (query ? query + '&' : '') + this.convertToFilterForm()
+      },
+
+      generateRoute(key = this.mainKey, page = false) {
         let route = getSafe(this.routes, key + '.index', '')
 
         let pageQuery = route.indexOf('?') > -1 ? '&page=' : '?page=' // to do : change routes structure
@@ -250,11 +258,15 @@ const defineDynamicStore = (storeName = 'myStore') => {
           pageQuery += '&search=' + this.searchParam
         }
 
+        return route + pageQuery + '&' + this.convertToFilterForm()
+      },
+
+      async loadItems(key = this.mainKey, page = 1) {
         this.loadings[key] = true
 
         this.loadings.mainLoading = key === this.mainKey
 
-        route = route + pageQuery + '&' + this.convertToFilterForm()
+        const route = this.generateRoute(key, page)
 
         return axios
           .get(route)

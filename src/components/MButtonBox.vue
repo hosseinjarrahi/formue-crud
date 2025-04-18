@@ -4,7 +4,12 @@
     <!-- left sid  -->
     <div class="fc-header-left-sid">
       <!-- add boutton -->
-      <button v-if="can('create')" class="fc-plus-btn" data-tooltip="افزودن" @click="event('createBtn')">
+      <button
+        v-if="can('create')"
+        class="fc-plus-btn"
+        data-tooltip="افزودن"
+        @click="event('createBtn')"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -22,7 +27,7 @@
         </svg>
       </button>
       <!-- export menu (excel, pdf, print) -->
-      <!-- <MMenu>
+      <MMenu>
         <template v-slot:activator="{ on, props }">
           <button
             :class="!props.isOpen ? 'before:hidden' : 'before:block'"
@@ -34,7 +39,7 @@
           </button>
         </template>
         <div class="bg-muted-200 dark:bg-muted-800 cursor-pointer rounded-xl fm-light-shadow">
-          <a
+          <!-- <a
             class="group flex w-full items-center py-3 text-sm duration-300 text-muted-500 hover:bg-muted-300 dark:hover:bg-muted-700 rounded-xl justify-end flex-row-reverse"
           >
             <p class="text-muted-400 font-sans text-xs">{{ $fcTr('export_as_pdf') }}</p>
@@ -43,9 +48,10 @@
                 d="M64 464H96v48H64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H229.5c17 0 33.3 6.7 45.3 18.7l90.5 90.5c12 12 18.7 28.3 18.7 45.3V288H336V160H256c-17.7 0-32-14.3-32-32V48H64c-8.8 0-16 7.2-16 16V448c0 8.8 7.2 16 16 16zM176 352h32c30.9 0 56 25.1 56 56s-25.1 56-56 56H192v32c0 8.8-7.2 16-16 16s-16-7.2-16-16V448 368c0-8.8 7.2-16 16-16zm32 80c13.3 0 24-10.7 24-24s-10.7-24-24-24H192v48h16zm96-80h32c26.5 0 48 21.5 48 48v64c0 26.5-21.5 48-48 48H304c-8.8 0-16-7.2-16-16V368c0-8.8 7.2-16 16-16zm32 128c8.8 0 16-7.2 16-16V400c0-8.8-7.2-16-16-16H320v96h16zm80-112c0-8.8 7.2-16 16-16h48c8.8 0 16 7.2 16 16s-7.2 16-16 16H448v32h32c8.8 0 16 7.2 16 16s-7.2 16-16 16H448v48c0 8.8-7.2 16-16 16s-16-7.2-16-16V432 368z"
               />
             </svg>
-          </a>
+          </a> -->
           <a
             class="group flex w-full items-center py-3 text-sm duration-300 text-muted-500 hover:bg-muted-300 dark:hover:bg-muted-700 rounded-xl justify-end flex-row-reverse"
+            @click="exportAsExcel"
           >
             <p class="text-muted-400 font-sans text-xs">{{ $fcTr('export_as_excel') }}</p>
             <svg class="fill-muted-400 w-3.5 mx-2" viewBox="0 0 512 512">
@@ -54,7 +60,7 @@
               />
             </svg>
           </a>
-          <a
+          <!-- <a
             class="group flex w-full items-center py-3 text-sm duration-300 text-muted-500 hover:bg-muted-300 dark:hover:bg-muted-700 rounded-xl justify-end flex-row-reverse"
           >
             <p class="text-muted-400 font-sans text-xs">{{ $fcTr('print') }}</p>
@@ -63,9 +69,9 @@
                 d="M112 160V64c0-8.8 7.2-16 16-16H357.5c4.2 0 8.3 1.7 11.3 4.7l26.5 26.5c3 3 4.7 7.1 4.7 11.3V160h48V90.5c0-17-6.7-33.3-18.7-45.3L402.7 18.7C390.7 6.7 374.5 0 357.5 0H128C92.7 0 64 28.7 64 64v96h48zm16 208H384v96H128V368zm-16-48c-17.7 0-32 14.3-32 32H48V256c0-8.8 7.2-16 16-16H448c8.8 0 16 7.2 16 16v96H432c0-17.7-14.3-32-32-32H112zm320 80h48c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64V368c0 17.7 14.3 32 32 32H80v80c0 17.7 14.3 32 32 32H400c17.7 0 32-14.3 32-32V400z"
               />
             </svg>
-          </a>
+          </a> -->
         </div>
-      </MMenu> -->
+      </MMenu>
 
       <!-- reload data of table button -->
       <button class="fc-header-icon-btn" data-tooltip="رفرش" @click="store.reloadData">
@@ -248,6 +254,10 @@ function search() {
 }
 
 const searchWithDebounce = debounce(search, 600)
+
+function exportAsExcel() {
+  window.open(store.generateQuery())
+}
 </script>
 
 <style scoped>
