@@ -2,7 +2,7 @@
   <transition name="fade" appear>
     <div
       v-if="store.dialog"
-      class="w-full rounded-lg bg-white shadow-secondary-1 dark:bg-surface-dark"
+      class="w-full rounded-lg bg-white shadow-secondary-1 shadow-lg border border-muted-300 dark:bg-surface-dark"
     >
       <div
         class="border-b-2 flex justify-between border--100 px-6 py-3 text-surface dark:border-white/10 dark:text-white"
