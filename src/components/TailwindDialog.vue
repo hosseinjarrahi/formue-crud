@@ -10,7 +10,7 @@
           <div
             class="relative bg-white rounded-lg shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full"
           >
-            <div class="bg-white px-4 pt-3 pb-4 sm:pb-4">
+            <div class="bg-white rounded-lg px-4 pt-3 pb-4 sm:pb-4">
               <div class="flex items-start">
                 <div class="w-full">
                   <h3
