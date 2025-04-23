@@ -8,7 +8,7 @@
       <div class="fixed z-10 inset-0 overflow-y-auto">
         <div class="flex items-center justify-center min-h-full p-4 sm:p-0">
           <div
-            class="relative bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full"
+            class="relative bg-white rounded-lg shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full"
           >
             <div class="bg-white px-4 pt-3 pb-4 sm:pb-4">
               <div class="flex items-start">
