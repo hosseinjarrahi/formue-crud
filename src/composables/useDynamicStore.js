@@ -3,7 +3,7 @@ import axios from 'axios'
 import { reactive } from 'vue'
 import { emitter } from 'formue'
 import { defineStore } from 'pinia'
-import { get as getSafe, has } from 'lodash'
+import { get as getSafe, has, merge } from 'lodash'
 import { pascalCase } from '@/helpers/common'
 import { makeHeaders, convertToSendForm } from '@/helpers/formueCrud'
 
@@ -230,6 +230,12 @@ const defineDynamicStore = (storeName = 'myStore') => {
 
         for (const filter of this.filters) {
           if (!filter?.field?.field) continue
+
+          if (filter?.field?.query) {
+            const result = filter?.field?.query(filter)
+            out = merge(out, result)
+            continue
+          }
 
           out[filter.field.field] = {
             [filter.op]: filter.value

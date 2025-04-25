@@ -249,7 +249,8 @@ function getFilterFields(schema) {
   const map = {
     text: 'TextFilter',
     date: 'DateFilter',
-    select: 'SelectFilter'
+    select: 'SelectFilter',
+    map: 'NullFilter'
   }
 
   const filter = getSafe(map, schema.type)
@@ -280,9 +281,11 @@ const initialField = {
       }
       fields.value = { ...initialField, ...filterFields }
       nextTick(() => {
-        const items = $.form$.el$('value')
-        items && 'clear' in items && items.clear()
-        items && 'updateItems' in items && items.updateItems()
+        try {
+          const items = $.form$.el$('value')
+          items && 'clear' in items && items.clear()
+          items && 'updateItems' in items && items.updateItems()
+        } catch (e) {}
       })
     }
   }
