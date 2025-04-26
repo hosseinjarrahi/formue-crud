@@ -21,15 +21,6 @@ const fields = ({ get, useFields: _ }) => ({
       justOneMarker: true
     },
     isHeader: true
-    // query(value) {
-    //   console.log(value)
-
-    //   return {
-    //     coordinates: {
-    //       $notNull: true
-    //     }
-    //   }
-    // }
   }
 })
 </script>
@@ -39,7 +30,7 @@ const fields = ({ get, useFields: _ }) => ({
     <MCrud
       :hiddenActions="[]"
       :fields="fields"
-      route="http://localhost:9091/api/_/base/center?_with=tags"
+      route="http://localhost:9090/api/_/track/ship|ship"
     />
   </div>
 </template>

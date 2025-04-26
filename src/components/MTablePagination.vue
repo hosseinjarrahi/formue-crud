@@ -1,7 +1,9 @@
 <template>
   <div id="paginate" v-if="store.mainPagination.lastPage">
     <div class="flex items-center justify-center py-2 lg:px-0 sm:px-6 px-4">
-      <div class="lg:w-5/5 w-full flex items-center justify-between rounded-lg border pb-3">
+      <div
+        class="lg:w-5/5 bg-white w-full flex items-center justify-between rounded-lg border pb-3"
+      >
         <div class="sm:flex hidden mx-auto">
           <div
             @click="prevPage"
