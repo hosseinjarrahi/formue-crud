@@ -1,11 +1,11 @@
 <template>
   <div id="paginate" v-if="store.mainPagination.lastPage">
     <div class="flex items-center justify-center py-2 lg:px-0 sm:px-6 px-4">
-      <div class="lg:w-5/5 w-full flex items-center justify-between border-t border-gray-200">
-        <div class="sm:flex hidden">
+      <div class="lg:w-5/5 w-full flex items-center justify-between rounded-lg border pb-3">
+        <div class="sm:flex hidden mx-auto">
           <div
             @click="prevPage"
-            class="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer"
+            class="flex items-center px-2 pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer"
           >
             <svg
               class="rtl:rotate-180 w-[10px] fill-muted-600"
@@ -39,7 +39,7 @@
           </template>
           <div
             @click="nextPage"
-            class="flex items-center pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer"
+            class="flex items-center px-2 pt-3 text-gray-600 hover:text-indigo-700 cursor-pointer"
           >
             <svg
               class="ltr:rotate-180 w-[10px] fill-muted-600"
