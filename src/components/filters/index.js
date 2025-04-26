@@ -1,9 +1,11 @@
 import TextFilter from './TextFilter.js'
-import SelectFilter from './SelectFilter.js'
 import DateFilter from './DateFilter.js'
+import NullFilter from './NullFilter.js'
+import SelectFilter from './SelectFilter.js'
 
 export default {
   TextFilter,
-  SelectFilter,
-  DateFilter
+  DateFilter,
+  NullFilter,
+  SelectFilter
 }

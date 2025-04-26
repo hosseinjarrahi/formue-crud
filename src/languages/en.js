@@ -33,5 +33,7 @@ export default {
   select_row: 'Select row',
   custom_column: 'Custom column',
   filter_data: 'Filter data',
-  active_filter: 'Active filter'
+  active_filter: 'Active filter',
+  not_null: 'Not Null',
+  null: 'Null'
 }

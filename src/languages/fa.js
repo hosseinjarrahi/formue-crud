@@ -42,4 +42,6 @@ export default {
   not_in: 'نابرابر با مقادیر',
   value: 'مقدار',
   between: 'از میان',
+  not_null: 'دارای مقدار',
+  null: 'بدون مقدار'
 }
