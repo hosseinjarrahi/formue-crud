@@ -264,7 +264,9 @@ const defineDynamicStore = (storeName = 'myStore') => {
           pageQuery += '&search=' + this.searchParam
         }
 
-        return route + pageQuery + '&' + this.convertToFilterForm()
+        const query = inject('query') || false
+
+        return route + pageQuery + '&' + this.convertToFilterForm() + (query ? '&' + query : '')
       },
 
       async loadItems(key = this.mainKey, page = 1) {
