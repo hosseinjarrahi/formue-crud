@@ -1,5 +1,8 @@
 <script setup>
+import { provide } from 'vue'
 import MCrud from './components/MCrud.vue'
+
+provide('formue.query', 'filters[id][$eq]=01jta9a7tb52qtxfrfn3mnrw1b')
 
 const fields = ({ get, useFields: _ }) => ({
   city: _.select({

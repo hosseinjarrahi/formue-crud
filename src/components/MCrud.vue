@@ -1,7 +1,7 @@
 <script setup>
 import { emitter } from 'formue'
-import { onMounted, provide } from 'vue'
 import { init } from '@/helpers/formueCrud'
+import { inject, onMounted, provide } from 'vue'
 import { useLangsStore } from '@/stores/langStore'
 import MList from './MList.vue'
 import MFilter from './MFilter.vue'
@@ -34,7 +34,8 @@ const store = init({
   hiddenActions: props.hiddenActions,
   options: props.options,
   structure: props.structure,
-  route: props.route
+  route: props.route,
+  query: inject('formue.query') || false
 })
 
 provide('store', store)
@@ -66,8 +67,7 @@ storeListeners({ listen: emitter.listen, store })
 
   <MDeleteDialog />
 
-  <MTooltip/>
+  <MTooltip />
 
   <slot name="extra"></slot>
 </template>
-
