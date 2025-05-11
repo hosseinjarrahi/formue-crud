@@ -8,7 +8,7 @@
         @click="event('saveForm')"
         className="btn mt-1 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 !bg-green-500 text-base font-medium text-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
       >
-        <span v-if="!store.loadings.mainLoading"> {{ $fcTr('save') }} </span>
+        <span v-if="!store.loadings.mainLoading"> {{ saveKey || $fcTr('save') }} </span>
         <span v-else>
           <b></b>
           <b></b>
@@ -31,17 +31,19 @@
 </template>
 
 <script setup>
-import MTable from './MTable.vue'
-import { get as getSafe } from 'lodash'
-import { inject, computed } from 'vue'
 import { emitter } from 'formue'
-import normalizer from '@/helpers/normalizer'
-import MDialogForm from './MDialogForm.vue'
+import MTable from './MTable.vue'
 import MTabForm from './MTabForm.vue'
 import FormCore from './FormCore.vue'
+import { inject, computed } from 'vue'
+import { get as getSafe } from 'lodash'
+import MDialogForm from './MDialogForm.vue'
+import normalizer from '@/helpers/normalizer'
 
 const store = inject('store')
 const { listen, event } = emitter
+
+const saveKey = inject('form.save.key')
 
 const formComponent = computed(() => {
   const map = {
