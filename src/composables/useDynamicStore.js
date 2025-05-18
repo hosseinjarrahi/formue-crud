@@ -16,7 +16,7 @@ function getAllFields(obj) {
         if (
           !['schema', 'columns'].includes(key) &&
           !has(obj[key], 'schema') &&
-          getSafe(obj[key], 'type') != 'group'
+          ['group', 'list'].includes(getSafe(obj[key], 'type'))
         ) {
           if (!has(obj[key], 'placeholder')) {
             obj[key].placeholder = getSafe(obj[key], 'title')
