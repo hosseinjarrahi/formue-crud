@@ -27,10 +27,31 @@ const mapNormalizer = {
   text: defaultNormalizer
 }
 
+function findNormalizers(obj, path = '', result = {}) {
+  for (const key in obj) {
+    const value = obj[key]
+    const currentPath = path ? `${path}.${key}` : key
+
+    if (typeof value === 'object' && value !== null) {
+      if (typeof value.normalizer === 'function') {
+        result.value = value.normalizer
+      }
+      findNormalizers(value, currentPath, result)
+    }
+  }
+  return result
+}
+
 export default (field, data) => {
-  if (field.normalizer) {
+  if (typeof field.normalizer === 'function') {
     return field.normalizer(data)
   }
+
+  const normalizer = findNormalizers(field)
+  if (typeof normalizer.value === 'function') {
+    return normalizer.value(data)
+  }
+
   const normlizerFunction = mapNormalizer[field.type]
 
   if (!normlizerFunction) return defaultNormalizer(field, data)

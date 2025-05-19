@@ -1,8 +1,5 @@
 <script setup>
-import { provide } from 'vue'
 import MCrud from './components/MCrud.vue'
-
-provide('formue.query', 'filters[id][$eq]=01jta9a7tb52qtxfrfn3mnrw1b')
 
 const fields = ({ get, useFields: _ }) => ({
   city: _.select({
@@ -14,7 +11,10 @@ const fields = ({ get, useFields: _ }) => ({
     valueProp: 'id',
     isHeader: true,
     sendKey: 'city_id',
-    columns: 6
+    columns: 6,
+    test: {
+      normalizer() {}
+    }
   }),
 
   coordinates: {
@@ -30,10 +30,6 @@ const fields = ({ get, useFields: _ }) => ({
 
 <template>
   <div class="w-10/12 mx-auto pt-10">
-    <MCrud
-      :hiddenActions="[]"
-      :fields="fields"
-      route="http://localhost:9090/api/_/track/ship|ship"
-    />
+    <MCrud :hiddenActions="[]" :fields="fields" route="http://localhost:9090/api/_/map/city" />
   </div>
 </template>

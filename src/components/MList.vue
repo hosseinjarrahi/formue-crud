@@ -90,7 +90,7 @@ const defineListeners = () => {
     store.dialog = true
     store.editItemId = false
     store.isEditing = false
-    store.form = data
+    store.form = normalize(data)
   })
 
   listen('editBtn', (data) => {

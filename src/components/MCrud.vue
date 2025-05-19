@@ -1,8 +1,9 @@
 <script setup>
 import { emitter } from 'formue'
 import { init } from '@/helpers/formueCrud'
-import { inject, onMounted, provide } from 'vue'
 import { useLangsStore } from '@/stores/langStore'
+import { inject, onMounted, provide, onUnmounted } from 'vue'
+
 import MList from './MList.vue'
 import MFilter from './MFilter.vue'
 import MTooltip from './MTooltip.vue'
@@ -52,6 +53,10 @@ onMounted(() => {
 })
 
 storeListeners({ listen: emitter.listen, store })
+
+onUnmounted(() => {
+  store.$dispose()
+})
 </script>
 
 <template>
