@@ -8,12 +8,13 @@
         @click="event('saveForm')"
         className="btn mt-1 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 !bg-green-500 text-base font-medium text-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
       >
-        <span v-if="!store.loadings.mainLoading"> {{ saveKey || $fcTr('save') }} </span>
-        <span v-else>
+        <span v-if="store.loadings.mainLoading">
           <b></b>
           <b></b>
           <b></b>
         </span>
+        <span v-else-if="store.isEditing"> {{ $fcTr('edit') }} </span>
+        <span v-else> {{ saveKey || $fcTr('save') }} </span>
       </button>
 
       <button
