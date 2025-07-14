@@ -11,7 +11,10 @@ const fields = ({ get, useFields: _ }) => ({
     valueProp: 'id',
     isHeader: true,
     sendKey: 'city_id',
-    columns: 6
+    columns: 6,
+    test: {
+      normalizer() {}
+    }
   }),
 
   coordinates: {
@@ -21,25 +24,12 @@ const fields = ({ get, useFields: _ }) => ({
       justOneMarker: true
     },
     isHeader: true
-    // query(value) {
-    //   console.log(value)
-
-    //   return {
-    //     coordinates: {
-    //       $notNull: true
-    //     }
-    //   }
-    // }
   }
 })
 </script>
 
 <template>
   <div class="w-10/12 mx-auto pt-10">
-    <MCrud
-      :hiddenActions="[]"
-      :fields="fields"
-      route="http://localhost:9091/api/_/base/center?_with=tags"
-    />
+    <MCrud :hiddenActions="[]" :fields="fields" route="http://localhost:9090/api/_/map/city" />
   </div>
 </template>

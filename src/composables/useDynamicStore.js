@@ -1,10 +1,10 @@
 import qs from 'qs'
 import axios from 'axios'
-import { reactive } from 'vue'
+import { inject, reactive } from 'vue'
 import { emitter } from 'formue'
 import { defineStore } from 'pinia'
-import { get as getSafe, has, merge } from 'lodash'
 import { pascalCase } from '@/helpers/common'
+import { get as getSafe, has, merge } from 'lodash'
 import { makeHeaders, convertToSendForm } from '@/helpers/formueCrud'
 
 function getAllFields(obj) {
@@ -16,7 +16,7 @@ function getAllFields(obj) {
         if (
           !['schema', 'columns'].includes(key) &&
           !has(obj[key], 'schema') &&
-          getSafe(obj[key], 'type') != 'group'
+          !['group'].includes(getSafe(obj[key], 'type'))
         ) {
           if (!has(obj[key], 'placeholder')) {
             obj[key].placeholder = getSafe(obj[key], 'title')
@@ -66,6 +66,7 @@ const defineDynamicStore = (storeName = 'myStore') => {
       mainKey: '',
       form: {},
       items: {},
+      query: '',
       routes: {},
       fields: [],
       options: [],
@@ -264,7 +265,14 @@ const defineDynamicStore = (storeName = 'myStore') => {
           pageQuery += '&search=' + this.searchParam
         }
 
-        return route + pageQuery + '&' + this.convertToFilterForm()
+        route = route + pageQuery + '&' + this.convertToFilterForm()
+
+        if (this.query) {
+          const op = route.includes('?') ? '&' : '?'
+          route += op + this.query
+        }
+
+        return route
       },
 
       async loadItems(key = this.mainKey, page = 1) {

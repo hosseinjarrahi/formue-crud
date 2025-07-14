@@ -194,10 +194,12 @@ export const registerFields = (fields) => {
   registeredFields = fields
 }
 
-export function init({ fields, hiddenActions, options, route, structure }) {
+export function init({ fields, hiddenActions, options, route, structure, query }) {
   const { setPermissions } = usePermission()
 
   const store = useDynamicStore('Store-' + parseInt(Math.random() * 10000000))
+
+  store.query = query || ''
 
   store.fields = defineFields(fields, store)
 
