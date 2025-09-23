@@ -26,6 +26,7 @@
           <path d="M12 5v14" />
         </svg>
       </button>
+
       <!-- export menu (excel, pdf, print) -->
       <MMenu>
         <template v-slot:activator="{ on, props }">
@@ -96,6 +97,8 @@
         </svg>
       </button>
 
+      <BatchActions v-if="isSelectActive" />
+
       <!-- button and menu for custom column -->
       <MMenu :close-on-content-click="true">
         <template v-slot:activator="{ props, on }">
@@ -135,6 +138,7 @@
         </div>
       </MMenu>
     </div>
+
     <div
       v-if="can('filter')"
       data-tooltip="فیلتر"
@@ -160,6 +164,7 @@
           />
         </svg>
       </button>
+
       <!-- search input -->
       <div class="group/nui-input relative rtl:">
         <input
@@ -214,6 +219,7 @@ import { emitter } from 'formue'
 import { debounce } from 'lodash'
 import MMenu from '@/components/MMenu.vue'
 import { inject, ref, onMounted, computed } from 'vue'
+import BatchActions from '@/components/BatchActions.vue'
 import { usePermission } from '@/composables/usePermission'
 import SelectColumnItem from '@/components/SelectColumnItem.vue'
 

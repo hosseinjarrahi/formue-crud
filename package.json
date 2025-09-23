@@ -1,6 +1,6 @@
 {
   "name": "formue-crud",
-  "version": "0.1.73",
+  "version": "0.1.74",
   "private": false,
   "scripts": {
     "dev": "vite",
@@ -17,11 +17,9 @@
     "axios": "^1.6.2",
     "formue": "^0.1.0",
     "lodash": "^4.17.21",
-    "nouislider": "^15.8.1",
     "pinia": "^2.1.6",
     "qs": "^6.11.2",
     "tabulator-tables": "^6.2.1",
-    "trix": "^2.1.13",
     "vue": "^3.3.4",
     "vue3-persian-datetime-picker": "^1.2.2",
     "wnumb": "^1.2.0"
