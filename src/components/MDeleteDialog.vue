@@ -45,7 +45,7 @@
 
 <script setup>
 import { ref, inject } from 'vue'
-import { emitter } from 'formue'
+import { emitter } from '@/helpers/emitter'
 
 const store = inject('store')
 

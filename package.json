@@ -1,6 +1,6 @@
 {
   "name": "formue-crud",
-  "version": "0.1.74",
+  "version": "0.1.75",
   "private": false,
   "scripts": {
     "dev": "vite",
@@ -15,8 +15,8 @@
     "@vueform/vueform": "^1.5.3",
     "@vueuse/core": "^10.4.0",
     "axios": "^1.6.2",
-    "formue": "^0.1.0",
     "lodash": "^4.17.21",
+    "mitt": "^3.0.1",
     "pinia": "^2.1.6",
     "qs": "^6.11.2",
     "tabulator-tables": "^6.2.1",

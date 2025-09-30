@@ -215,7 +215,7 @@
 
 <script setup>
 import axios from 'axios'
-import { emitter } from 'formue'
+import { emitter } from '@/helpers/emitter'
 import { debounce } from 'lodash'
 import MMenu from '@/components/MMenu.vue'
 import { inject, ref, onMounted, computed } from 'vue'

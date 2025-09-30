@@ -1,5 +1,5 @@
 <script setup>
-import { emitter } from 'formue'
+import { emitter } from '@/helpers/emitter'
 import { init } from '@/helpers/formueCrud'
 import { useLangsStore } from '@/stores/langStore'
 import { inject, onMounted, provide, onUnmounted } from 'vue'

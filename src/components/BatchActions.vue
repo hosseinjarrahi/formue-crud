@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { emitter } from 'formue'
+import { emitter } from '@/helpers/emitter'
 import { ref, Transition } from 'vue'
 
 const list = ref([])

@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { emitter } from 'formue'
+import { emitter } from '@/helpers/emitter'
 import MTable from './MTable.vue'
 import MTabForm from './MTabForm.vue'
 import FormCore from './FormCore.vue'

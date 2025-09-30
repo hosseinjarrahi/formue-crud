@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import { emitter } from 'formue'
+import { emitter } from '@/helpers/emitter'
 import { usePermission } from '@/composables/usePermission'
 
 const { can } = usePermission()

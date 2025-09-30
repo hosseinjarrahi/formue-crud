@@ -1,7 +1,7 @@
 import qs from 'qs'
 import axios from 'axios'
 import { inject, reactive } from 'vue'
-import { emitter } from 'formue'
+import { emitter } from '@/helpers/emitter'
 import { defineStore } from 'pinia'
 import { pascalCase } from '@/helpers/common'
 import { get as getSafe, has, merge } from 'lodash'

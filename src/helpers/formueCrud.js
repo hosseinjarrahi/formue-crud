@@ -1,5 +1,5 @@
 import { has, get as getSafe } from 'lodash'
-import { emitter } from 'formue'
+import { emitter } from '@/helpers/emitter'
 import { useDynamicStore } from '@/composables/useDynamicStore'
 import { usePermission } from '@/composables/usePermission'
 import { markRaw } from 'vue'

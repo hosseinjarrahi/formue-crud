@@ -10,7 +10,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { emitter } from 'formue'
+import { emitter } from '@/helpers/emitter'
 
 const props = defineProps({
   data: { default: () => ({}) },
