@@ -1,18 +1,18 @@
 import mitt from 'mitt'
 
-export let emitter = mitt()
+export let emitt = mitt()
 const lockedListeners = []
 
 export const listen = (event, fn, lock = false) => {
   event = Array.isArray(event) ? event : [event]
   for (const e of event) {
-    emitter.on(e, fn)
+    emitt.on(e, fn)
     lock && lockedListeners.push([event, fn])
   }
 }
 
 export const event = (event, args) => {
-  emitter.emit(event, args)
+  emitt.emit(event, args)
 }
 
 let fns = []
@@ -31,7 +31,7 @@ export const runBeforeMajraInit = (fn) => {
 }
 
 export const clear = (callback) => {
-  emitter.all.clear()
+  emitt.all.clear()
   callback && callback()
   listen('beforeMajraInit', (args) => {
     fns3.forEach((fn) => fn(args))
@@ -46,4 +46,14 @@ export const clear = (callback) => {
     fns2 = []
   })
   for (let listener of lockedListeners) listen(listener[0], listener[1])
+}
+
+export const emitter = {
+  emitt,
+  listen,
+  event,
+  runAfterPageChanged,
+  runAfterPageLoaded,
+  runBeforeMajraInit,
+  clear
 }
