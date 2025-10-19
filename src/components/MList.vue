@@ -61,11 +61,9 @@ function bind() {
 
 const normalize = (data) => {
   let out = { ...data }
-
   for (const field of store.flatFieldsWithoutActions) {
     out[field.field] = normalizer(field, data)
   }
-
   return out
 }
 
