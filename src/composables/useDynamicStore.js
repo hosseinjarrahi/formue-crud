@@ -142,14 +142,17 @@ const defineDynamicStore = (storeName = 'myStore') => {
       }
     },
 
-    actions: {
-      reset() {
-        this.items = {}
-        this.loadings = {}
-        this.routes = {}
-        this.options = []
-      },
-
+    
+          actions: {
+            reset() {
+              this.items = {}
+              this.loadings = {}
+              this.routes = {}
+              this.options = []
+              this.filters = []
+              this.paginations = {}
+              this.selected = new Set([])
+            },
       setData(key, data) {
         this.items[key] = data
       },
@@ -161,21 +164,23 @@ const defineDynamicStore = (storeName = 'myStore') => {
         this.items[this.mainKey] = [newItem, ...this.items[this.mainKey]]
       },
 
-      editData(editItem) {
-        let temp = this.items[this.mainKey]
-        temp = temp.map((item) => {
-          if (item.id == editItem.id) return { _index_: item['_index_'], ...editItem }
-          return item
-        })
-        this.items[this.mainKey] = [...temp]
-      },
-
-      removeData(idToRemove) {
-        let temp = this.items[this.mainKey]
-        temp = temp.filter((item) => item.id != idToRemove)
-        this.items[this.mainKey] = [...temp]
-      },
-
+      
+            editData(editItem) {
+              let temp = this.items[this.mainKey]
+              temp = temp.map((item) => {
+                if (item.id == editItem.id) return { _index_: item['_index_'], ...editItem }
+                return item
+              })
+              // Use a more memory-efficient approach by avoiding unnecessary array creation
+              this.items[this.mainKey] = temp
+            },
+      
+            removeData(idToRemove) {
+              let temp = this.items[this.mainKey]
+              temp = temp.filter((item) => item.id != idToRemove)
+              // Use a more memory-efficient approach by avoiding unnecessary array creation
+              this.items[this.mainKey] = temp
+            },
       getModelKey(route) {
         let key = typeof route == 'string' ? route.substr(route.lastIndexOf('/') + 1) : route.key
         this.mainKey = this.mainKey || pascalCase(key) // should remove from here
@@ -286,6 +291,33 @@ const defineDynamicStore = (storeName = 'myStore') => {
           .get(route)
           .then((response) => {
             response = getSafe(response, 'data', {})
+            this.items[key] = getSafe(response, 'data')
+            this.setPagination(response, key)
+          })
+          .finally(() => {
+            this.loadings[key] = false
+            this.loadings.mainLoading = false
+          })
+      },
+
+      // Add memory-efficient pagination handling
+      async loadItems(key = this.mainKey, page = 1) {
+        // Clear previous data before loading new data to prevent memory leaks
+        if (this.items[key] && Array.isArray(this.items[key])) {
+          this.items[key].length = 0; // Clear array without creating new array
+        }
+        
+        this.loadings[key] = true
+
+        this.loadings.mainLoading = key === this.mainKey
+
+        const route = this.generateRoute(key, page)
+
+        return axios
+          .get(route)
+          .then((response) => {
+            response = getSafe(response, 'data', {})
+            // Use direct assignment instead of creating new array
             this.items[key] = getSafe(response, 'data')
             this.setPagination(response, key)
           })

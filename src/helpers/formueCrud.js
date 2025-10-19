@@ -27,72 +27,73 @@ function isFieldArrayOfObj({ form, fieldName, field }) {
 }
 
 export function convertToSendForm(form, fields) {
-  console.log('convertToSendForm START')
-  console.log('Input form:', JSON.stringify(form, null, 2))
-  console.log('Input fields:', JSON.stringify(fields, null, 2))
+  // Remove console logs for memory efficiency
+  // console.log('convertToSendForm START')
+  // console.log('Input form:', JSON.stringify(form, null, 2))
+  // console.log('Input fields:', JSON.stringify(fields, null, 2))
 
   let out = {}
-  console.log('Initialized output object:', out)
+  // console.log('Initialized output object:', out)
 
   let hasOneField = false
-  console.log('Initialized hasOneField:', hasOneField)
+  // console.log('Initialized hasOneField:', hasOneField)
 
   for (let fieldName in form) {
-    console.log('\n--- Processing field:', fieldName, '---')
+    // console.log('\n--- Processing field:', fieldName, '---')
     let field = getField(fieldName, fields)
-    console.log('Retrieved field definition:', field)
+    // console.log('Retrieved field definition:', field)
 
     if (!field) {
-      console.log('⚠️ Field not found, skipping:', fieldName)
+      // console.log('⚠️ Field not found, skipping:', fieldName)
       continue
     }
 
     hasOneField = true
-    console.log('Set hasOneField = true')
+    // console.log('Set hasOneField = true')
 
     let key = getSendKey(field)
-    console.log('Computed send key:', key)
+    // console.log('Computed send key:', key)
 
     let formKey = fieldName
-    console.log('Base formKey:', formKey)
+    // console.log('Base formKey:', formKey)
 
     const valueProp = getSafe(field, 'valueProp', false)
-    console.log('ValueProp:', valueProp)
+    // console.log('ValueProp:', valueProp)
 
     if (valueProp) {
       formKey += '.' + valueProp
-      console.log('Adjusted formKey with valueProp:', formKey)
+      // console.log('Adjusted formKey with valueProp:', formKey)
     }
 
     const isArrayOfObj = isFieldArrayOfObj({ form, fieldName, field })
-    console.log('Is field array of objects?', isArrayOfObj)
+    // console.log('Is field array of objects?', isArrayOfObj)
 
     if (isArrayOfObj) {
       out[key] = getSafe(form, fieldName).map((i, idx) => {
         const mappedValue = getSafe(i, valueProp)
-        console.log(`  Mapping array item [${idx}]:`, i, '→', mappedValue)
+        // console.log(`  Mapping array item [${idx}]:`, i, '→', mappedValue)
         return mappedValue
       })
 
-      console.log('Added array field to output:', key, out[key])
+      // console.log('Added array field to output:', key, out[key])
       continue
     }
 
     const safeValue = getSafe(form, formKey, getSafe(form, fieldName))
-    console.log('Resolved safe value:', safeValue)
+    // console.log('Resolved safe value:', safeValue)
 
     out[key] = safeValue
-    console.log('Added field to output:', key, safeValue)
+    // console.log('Added field to output:', key, safeValue)
   }
 
-  console.log('\nHas at least one field?', hasOneField)
+  // console.log('\nHas at least one field?', hasOneField)
   if (!hasOneField) {
-    console.log('Returning original form (no valid fields found).')
+    // console.log('Returning original form (no valid fields found).')
     return form
   }
 
-  console.log('Final output:', JSON.stringify(out, null, 2))
-  console.log('convertToSendForm END\n')
+  // console.log('Final output:', JSON.stringify(out, null, 2))
+  // console.log('convertToSendForm END\n')
   return out
 }
 

@@ -55,7 +55,10 @@ onMounted(() => {
 storeListeners({ listen: emitter.listen, store })
 
 onUnmounted(() => {
+  // Properly dispose of store and clean up resources
   store.$dispose()
+  // Clear any remaining references to prevent memory leaks
+  store.reset()
 })
 </script>
 

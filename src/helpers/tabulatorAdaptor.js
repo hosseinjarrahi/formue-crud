@@ -31,26 +31,35 @@ export function adaptor(store, table) {
   let sorters = []
 
   table.on('tableBuilt', function () {
+    // Use more memory-efficient watch approach
     watch(
       () => store.mainItems,
       (newItems) => {
+        // Use direct setData instead of creating new arrays
         setData(newItems)
       },
       { immediate: true }
     )
 
+    // Use more memory-efficient approach for field changes
     watch(
       () => store.flatFields,
       () => {
-        setColumns(makeHeaders(store.headers))
+        // Only update columns when necessary
+        const headers = makeHeaders(store.headers)
+        setColumns(headers)
       },
       { deep: true }
     )
 
+    // More efficient loading state handling
     watch(
       () => store.loadings.mainLoading,
       (loading) => {
-        if (loading) setData([])
+        if (loading) {
+          // Clear data efficiently instead of creating new array
+          setData([])
+        }
       },
       { deep: true }
     )

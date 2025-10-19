@@ -137,15 +137,21 @@ export function editData(item) {
   tableInstance.updateData([item])
 }
 
+
 export function removeData(itemIds) {
-  for (let i = 0; i < 10; i++) {
-    var row = tableInstance.getRow(i)
+  // Optimized removal - only delete specific rows instead of iterating through all
+  if (Array.isArray(itemIds)) {
+    // Delete multiple rows efficiently
+    itemIds.forEach(id => {
+      const row = tableInstance.getRow(id);
+      if (row) row.delete();
+    });
+  } else {
+    // Delete single row
+    const row = tableInstance.getRow(itemIds);
+    if (row) row.delete();
   }
-
-  // row.delete()
-  // tableInstance.deleteRow(itemIds)
 }
-
 export function setColumns(cols) {
   tableInstance.setColumns(cols)
 }
