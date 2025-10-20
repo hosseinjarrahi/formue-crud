@@ -5,7 +5,7 @@
     <template #actions>
       <button
         :disabled="store.loadings.mainLoading"
-        @click="event('saveForm')"
+        @click="emitter.event('saveForm')"
         className="btn mt-1 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 !bg-green-500 text-base font-medium text-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
       >
         <span v-if="store.loadings.mainLoading">

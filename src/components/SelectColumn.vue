@@ -1,11 +1,6 @@
 <template>
-  <input
-    v-model="isSelected"
-    class="rounded"
-    type="checkbox"
-    @change="toggle"
-    style="border: 1px dashed rgba(0, 0, 0, 0.2)"
-  />
+  <input v-model="isSelected" class="rounded" type="checkbox" @change="toggle"
+    style="border: 1px dashed rgba(0, 0, 0, 0.2)" />
 </template>
 
 <script setup>
@@ -19,6 +14,10 @@ const props = defineProps({
 })
 
 const isSelected = ref(false)
+
+emitter.listen('batch.removed', () => {
+  isSelected.value = false
+})
 
 emitter.listen('toggle.select.all', (show) => {
   if (props.all) return

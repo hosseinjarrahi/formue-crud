@@ -67,13 +67,7 @@ class EmitterSingleton {
 // create and export a single shared instance
 const emitter = new EmitterSingleton()
 
-// optional: allow replacement for testing or custom setups
 export const setEmitter = (inputEmitter) => {
-  if (!inputEmitter || typeof inputEmitter !== 'object') {
-    return
-  }
-  
-  // Replace the emitter instance with the new one
   Object.assign(emitter, inputEmitter)
 }
 

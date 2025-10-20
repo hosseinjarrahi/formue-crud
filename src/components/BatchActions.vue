@@ -26,11 +26,14 @@ emitter.listen('toggle.select', (id) => {
 
 function batchRemove() {
   emitter.event('dialog.confirm', {
-    description: ' آیا از حذف این ' + ids.length + ' آیتم ، مطمئن هستید؟ ',
+    description: ' آیا از حذف این ' + list.value.length + ' آیتم ، مطمئن هستید؟ ',
     title: 'حذف دسته جمعی',
     icon: 'fluent:delete-dismiss-24-regular',
-    confirmFunc: () => {
-      store.remove(list.value)
+    confirmFunc: async () => {
+      const respones = await store.remove(list.value)
+      list.value = []
+      emitter.event('batch.removed')
+      return respones;
     },
   })
 }
