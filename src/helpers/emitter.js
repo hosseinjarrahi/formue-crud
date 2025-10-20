@@ -48,7 +48,7 @@ export const clear = (callback) => {
   for (let listener of lockedListeners) listen(listener[0], listener[1])
 }
 
-export const emitter = {
+let emitter = {
   emitt,
   listen,
   event,
@@ -57,3 +57,9 @@ export const emitter = {
   runBeforeMajraInit,
   clear
 }
+
+export function setEmitter(inputEmitter) {
+  emitter = inputEmitter
+}
+
+export { emitter }

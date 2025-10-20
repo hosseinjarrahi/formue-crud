@@ -1,7 +1,7 @@
 <template>
   <Transition name="fade">
     <button class="fc-header-icon-btn !bg-red-100" data-tooltip="حذف دسته جمعی" :disabled="!list.length"
-      @click="emitter.event('batch.delete', { list, mainKey })">
+      @click="batchRemove">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
         <rect width="16" height="16" fill="none" />
         <path fill="#f00"
@@ -17,12 +17,21 @@ import { inject, ref, Transition } from 'vue'
 
 const store = inject('store')
 
-const mainKey = store.mainKey
-
 const list = ref([])
 
 emitter.listen('toggle.select', (id) => {
   if (list.value.includes(id)) list.value = list.value.filter((i) => i !== id)
   else list.value.push(id)
 })
+
+function batchRemove() {
+  emitter.event('dialog.confirm', {
+    description: ' آیا از حذف این ' + ids.length + ' آیتم ، مطمئن هستید؟ ',
+    title: 'حذف دسته جمعی',
+    icon: 'fluent:delete-dismiss-24-regular',
+    confirmFunc: () => {
+      store.remove(list.value)
+    },
+  })
+}
 </script>
