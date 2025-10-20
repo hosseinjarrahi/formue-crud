@@ -68,9 +68,13 @@ class EmitterSingleton {
 const emitter = new EmitterSingleton()
 
 // optional: allow replacement for testing or custom setups
-export function setEmitter(inputEmitter) {
+export const setEmitter = (inputEmitter) => {
+  if (!inputEmitter || typeof inputEmitter !== 'object') {
+    return
+  }
+  
+  // Replace the emitter instance with the new one
   Object.assign(emitter, inputEmitter)
 }
 
 export { emitter }
-export default emitter

@@ -1,26 +1,22 @@
+// src/install.ts
 import { setDefaults } from './helpers/axios'
 import { setEmitter } from './helpers/emitter'
 import { useLangsStore } from './stores/langStore'
 import { registerFields } from './helpers/formueCrud'
 
-export default (
-  app,
-  { fields = {}, axiosConfig = {}, dir = 'rtl', emitter = false } = {}
-) => {
-  setDefaults(axiosConfig)
+const FormueCrudPlugin = {
+  install(app, { fields = {}, axiosConfig = {}, dir = 'rtl', emitter } = {}) {
+    setDefaults(axiosConfig)
 
-  const store = useLangsStore()
+    const store = useLangsStore()
+    store.dir = dir
 
-  // `dir` already defaults to 'rtl', so `|| 'rtl'` is optional.
-  store.dir = dir
+    if (emitter) setEmitter(emitter)
 
-  if (emitter) {
-    setEmitter(emitter)
+    app.config.globalProperties.$fcTr = (key) => store.translate(key)
+
+    registerFields(fields)
   }
-
-  app.config.globalProperties.$fcTr = (key) => {
-    return store.translate(key)
-  }
-
-  registerFields(fields)
 }
+
+export default FormueCrudPlugin

@@ -2,19 +2,12 @@
 import MCrud from './components/MCrud.vue'
 
 const fields = ({ get, useFields: _ }) => ({
-  city: _.select({
+  name: ({
     title: 'شهر',
-    items: get({
-      url: '/_/map/city'
-    }),
-    labelProp: 'name',
-    valueProp: 'id',
+    type: 'text',
     isHeader: true,
     sendKey: 'city_id',
     columns: 6,
-    test: {
-      normalizer() {}
-    }
   }),
 
   coordinates: {
@@ -30,6 +23,7 @@ const fields = ({ get, useFields: _ }) => ({
 
 <template>
   <div class="w-10/12 mx-auto pt-10">
-    <MCrud :hiddenActions="[]" :fields="fields" route="http://localhost:9090/api/_/map/city" />
+    <MCrud :hiddenActions="[]" :fields="fields"
+      route="http://localhost:3000/proxy/api/_/world/city?page=1&sort[0]=id%3Adesc" />
   </div>
 </template>
