@@ -42,7 +42,6 @@ import MDialogForm from './MDialogForm.vue'
 import normalizer from '@/helpers/normalizer'
 
 const store = inject('store')
-const { listen, event } = emitter
 
 const saveKey = inject('form.save.key')
 
@@ -72,42 +71,42 @@ const defineListeners = () => {
     store.dialog = dialogValue
   })
 
-  listen('toggle.select', (id) => {
+  emitter.listen('toggle.select', (id) => {
     if (store.selected.has(id)) return store.selected.delete(id)
 
     store.selected.add(id)
   })
 
-  listen('createBtn', () => {
+  emitter.listen('createBtn', () => {
     store.dialog = true
     store.editItemId = false
     store.isEditing = false
     store.form = {}
   })
 
-  listen('fillForm', (data) => {
+  emitter.listen('fillForm', (data) => {
     store.dialog = true
     store.editItemId = false
     store.isEditing = false
     store.form = normalize(data)
   })
 
-  listen('editBtn', (data) => {
+  emitter.listen('editBtn', (data) => {
     store.dialog = true
     store.editItemId = data.id
     store.isEditing = true
     store.form = normalize(data)
   })
 
-  listen('handleDialogForm', (dialogParam) => {
+  emitter.listen('handleDialogForm', (dialogParam) => {
     store.dialog = dialogParam
   })
 
-  listen('editTheItem', (item) => {
+  emitter.listen('editTheItem', (item) => {
     edit(item)
   })
 
-  listen('addTheItem', (item) => {
+  emitter.listen('addTheItem', (item) => {
     add(item)
   })
 }

@@ -8,7 +8,7 @@
         v-if="can('create')"
         class="fc-plus-btn"
         data-tooltip="افزودن"
-        @click="event('createBtn')"
+        @click="emitter.event('createBtn')"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -224,8 +224,6 @@ import { usePermission } from '@/composables/usePermission'
 import SelectColumnItem from '@/components/SelectColumnItem.vue'
 
 const { can } = usePermission()
-
-const { event } = emitter
 
 const store = inject('store')
 

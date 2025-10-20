@@ -35,8 +35,6 @@ function getAllFields(obj) {
   return fields
 }
 
-const { event } = emitter
-
 const defineDynamicStore = (storeName = 'myStore') => {
   return defineStore(storeName, {
     state: () => ({
@@ -330,11 +328,11 @@ const defineDynamicStore = (storeName = 'myStore') => {
           .post(route, sendForm)
           .then(async () => {
             this.reloadData()
-            event('alert', { text: 'با موفقیت ثبت شد', color: 'green' })
-            event('handleDialogForm', false)
+            emitter.event('alert', { text: 'با موفقیت ثبت شد', color: 'green' })
+            emitter.event('handleDialogForm', false)
           })
           .catch((error) => {
-            event('alert', {
+            emitter.event('alert', {
               text: getSafe(error, 'response.data.message'),
               color: 'red'
             })
@@ -357,11 +355,11 @@ const defineDynamicStore = (storeName = 'myStore') => {
           .patch(route + '/' + this.editItemId, sendForm)
           .then(async () => {
             this.reloadData()
-            event('alert', { text: 'با موفقیت ویرایش شد', color: 'green' })
-            event('handleDialogForm', false)
+            emitter.event('alert', { text: 'با موفقیت ویرایش شد', color: 'green' })
+            emitter.event('handleDialogForm', false)
           })
           .catch((error) => {
-            event('alert', {
+            emitter.event('alert', {
               text: getSafe(error, 'response.data.message'),
               color: 'red'
             })
@@ -384,16 +382,16 @@ const defineDynamicStore = (storeName = 'myStore') => {
           axios
             .delete(route + '/' + item)
             .then(() => {
-              event('alert', {
+              emitter.event('alert', {
                 text: 'با موفقیت حذف شد',
                 color: 'green'
               })
-              event('handleDeleteDialog', false)
+              emitter.event('handleDeleteDialog', false)
               this.removeData(deleteId)
               this.reloadData()
             })
             .catch((error) => {
-              event('alert', {
+              emitter.event('alert', {
                 text: getSafe(error, 'response.data.message'),
                 color: 'red'
               })

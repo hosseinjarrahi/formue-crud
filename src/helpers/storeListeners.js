@@ -1,5 +1,7 @@
+import { emitter } from '@/helpers/emitter'
+
 export default ({ listen, store }) => {
-  listen('reloadData', () => {
+  emitter.listen('reloadData', () => {
     store.reloadData()
   })
 }

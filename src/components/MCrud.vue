@@ -52,7 +52,7 @@ onMounted(() => {
   emit('mounted')
 })
 
-storeListeners({ listen: emitter.listen, store })
+storeListeners({ store })
 
 onUnmounted(() => {
   // Properly dispose of store and clean up resources

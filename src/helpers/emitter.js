@@ -1,65 +1,76 @@
 import mitt from 'mitt'
 
-export let emitt = mitt()
-const lockedListeners = []
+class EmitterSingleton {
+  constructor() {
+    if (EmitterSingleton.instance) {
+      return EmitterSingleton.instance
+    }
 
-export const listen = (event, fn, lock = false) => {
-  event = Array.isArray(event) ? event : [event]
-  for (const e of event) {
-    emitt.on(e, fn)
-    lock && lockedListeners.push([event, fn])
+    this.emitt = mitt()
+    this.lockedListeners = []
+    this.fns = []
+    this.fns2 = []
+    this.fns3 = []
+
+    EmitterSingleton.instance = this
+  }
+
+  listen(event, fn, lock = false) {
+    event = Array.isArray(event) ? event : [event]
+    for (const e of event) {
+      this.emitt.on(e, fn)
+      if (lock) this.lockedListeners.push([event, fn])
+    }
+  }
+
+  event(event, args) {
+    this.emitt.emit(event, args)
+  }
+
+  runAfterPageChanged(fn) {
+    this.fns.push(fn)
+  }
+
+  runAfterPageLoaded(fn) {
+    this.fns2.push(fn)
+  }
+
+  runBeforeMajraInit(fn) {
+    this.fns3.push(fn)
+  }
+
+  clear(callback) {
+    this.emitt.all.clear()
+    if (callback) callback()
+
+    this.listen('beforeMajraInit', (args) => {
+      this.fns3.forEach((fn) => fn(args))
+      this.fns3 = []
+    })
+
+    this.listen('majraMounted', (args) => {
+      this.fns.forEach((fn) => fn(args))
+      this.fns = []
+    })
+
+    this.listen('majraDataLoaded', (args) => {
+      this.fns2.forEach((fn) => fn(args))
+      this.fns2 = []
+    })
+
+    for (let listener of this.lockedListeners) {
+      this.listen(listener[0], listener[1])
+    }
   }
 }
 
-export const event = (event, args) => {
-  emitt.emit(event, args)
-}
+// create and export a single shared instance
+const emitter = new EmitterSingleton()
 
-let fns = []
-export const runAfterPageChanged = (fn) => {
-  fns.push(fn)
-}
-
-let fns2 = []
-export const runAfterPageLoaded = (fn) => {
-  fns2.push(fn)
-}
-
-let fns3 = []
-export const runBeforeMajraInit = (fn) => {
-  fns3.push(fn)
-}
-
-export const clear = (callback) => {
-  emitt.all.clear()
-  callback && callback()
-  listen('beforeMajraInit', (args) => {
-    fns3.forEach((fn) => fn(args))
-    fns3 = []
-  })
-  listen('majraMounted', (args) => {
-    fns.forEach((fn) => fn(args))
-    fns = []
-  })
-  listen('majraDataLoaded', (args) => {
-    fns2.forEach((fn) => fn(args))
-    fns2 = []
-  })
-  for (let listener of lockedListeners) listen(listener[0], listener[1])
-}
-
-let emitter = {
-  emitt,
-  listen,
-  event,
-  runAfterPageChanged,
-  runAfterPageLoaded,
-  runBeforeMajraInit,
-  clear
-}
-
+// optional: allow replacement for testing or custom setups
 export function setEmitter(inputEmitter) {
-  emitter = inputEmitter
+  Object.assign(emitter, inputEmitter)
 }
 
 export { emitter }
+export default emitter
