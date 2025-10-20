@@ -1,8 +1,8 @@
 import qs from 'qs'
 import axios from 'axios'
+import { defineStore } from 'pinia'
 import { inject, reactive } from 'vue'
 import { emitter } from '@/helpers/emitter'
-import { defineStore } from 'pinia'
 import { pascalCase } from '@/helpers/common'
 import { get as getSafe, has, merge } from 'lodash'
 import { makeHeaders, convertToSendForm } from '@/helpers/formueCrud'
@@ -34,29 +34,6 @@ function getAllFields(obj) {
 
   return fields
 }
-
-// function addToAllFields(obj, objs) {
-//   let fields = []
-
-//   function traverse(obj) {
-//     for (let key in obj) {
-//       if (typeof obj[key] === 'object' && obj[key] !== null) {
-//         if (
-//           !['schema', 'columns'].includes(key) &&
-//           !has(obj[key], 'schema') &&
-//           getSafe(obj[key], 'type') != 'group'
-//         ) {
-//           fields.push({ field: key, ...obj[key], ...objs })
-//         } else {
-//           traverse(obj[key])
-//         }
-//       }
-//     }
-//   }
-
-//   traverse(obj)
-//   return fields
-// }
 
 const { event } = emitter
 
@@ -142,17 +119,17 @@ const defineDynamicStore = (storeName = 'myStore') => {
       }
     },
 
-    
-          actions: {
-            reset() {
-              this.items = {}
-              this.loadings = {}
-              this.routes = {}
-              this.options = []
-              this.filters = []
-              this.paginations = {}
-              this.selected = new Set([])
-            },
+    actions: {
+      reset() {
+        this.items = {}
+        this.loadings = {}
+        this.routes = {}
+        this.options = []
+        this.filters = []
+        this.paginations = {}
+        this.selected = new Set([])
+      },
+
       setData(key, data) {
         this.items[key] = data
       },
@@ -164,23 +141,24 @@ const defineDynamicStore = (storeName = 'myStore') => {
         this.items[this.mainKey] = [newItem, ...this.items[this.mainKey]]
       },
 
-      
-            editData(editItem) {
-              let temp = this.items[this.mainKey]
-              temp = temp.map((item) => {
-                if (item.id == editItem.id) return { _index_: item['_index_'], ...editItem }
-                return item
-              })
-              // Use a more memory-efficient approach by avoiding unnecessary array creation
-              this.items[this.mainKey] = temp
-            },
-      
-            removeData(idToRemove) {
-              let temp = this.items[this.mainKey]
-              temp = temp.filter((item) => item.id != idToRemove)
-              // Use a more memory-efficient approach by avoiding unnecessary array creation
-              this.items[this.mainKey] = temp
-            },
+      editData(editItem) {
+        // Use a more memory-efficient approach by avoiding unnecessary array creation
+        const index = this.items[this.mainKey].findIndex(item => item.id === editItem.id)
+        if (index !== -1) {
+          // Directly modify the existing item to prevent array recreation
+          this.items[this.mainKey][index] = { _index_: this.items[this.mainKey][index]['_index_'], ...editItem }
+        }
+      },
+
+      removeData(idToRemove) {
+        // Use a more memory-efficient approach by avoiding unnecessary array creation
+        const index = this.items[this.mainKey].findIndex(item => item.id === idToRemove)
+        if (index !== -1) {
+          // Directly remove item from existing array to prevent array recreation
+          this.items[this.mainKey].splice(index, 1)
+        }
+      },
+
       getModelKey(route) {
         let key = typeof route == 'string' ? route.substr(route.lastIndexOf('/') + 1) : route.key
         this.mainKey = this.mainKey || pascalCase(key) // should remove from here
@@ -207,29 +185,6 @@ const defineDynamicStore = (storeName = 'myStore') => {
       reloadData() {
         this.isFiltering ? this.getWithFilter() : this.loadItems()
       },
-
-      // loadItemsPlus(key = this.mainKey, page = 1, query = '', fn = () => {}, add = true) {
-      //   let pageQuery = getSafe(this.routes, key, '').indexOf('?') > -1 ? '&page=' : '?page=' // to do : change routes structure
-
-      //   this.loadings[key] = true
-
-      //   const route = getSafe(this.routes, key, '') + pageQuery + page + '&' + query
-
-      //   axios
-      //     .get(route)
-      //     .then((response) => {
-      //       response = getSafe(response, 'data', {})
-
-      //       if (!Array.isArray(this.items[key])) this.items[key] = []
-      //       if (add) for (const item of response.data) this.items[key].push(item)
-      //       else this.items[key] = response.data
-      //       this.setPagination(response, key)
-      //     })
-      //     .finally(() => {
-      //       fn()
-      //       this.loadings[key] = false
-      //     })
-      // },
 
       convertToFilterForm() {
         let out = {}
@@ -306,7 +261,7 @@ const defineDynamicStore = (storeName = 'myStore') => {
         if (this.items[key] && Array.isArray(this.items[key])) {
           this.items[key].length = 0; // Clear array without creating new array
         }
-        
+
         this.loadings[key] = true
 
         this.loadings.mainLoading = key === this.mainKey
@@ -334,7 +289,7 @@ const defineDynamicStore = (storeName = 'myStore') => {
             this.items[key] = response.data
             this.setPagination(response, key)
           },
-          () => {},
+          () => { },
           () => {
             this.loadings[key] = false
           },
@@ -365,14 +320,6 @@ const defineDynamicStore = (storeName = 'myStore') => {
       },
 
       addItem(data) {
-        // let route = { value: false }
-
-        // for (const field of flatFields.value) {
-        //   if ('onSave' in field) {
-        //     field.onSave(items[field.rel.model], payload, route)
-        //   }
-        // }
-
         this.loadings.mainLoading = true
 
         let route = getSafe(this.routes, this.mainKey + '.create', '')
@@ -382,9 +329,6 @@ const defineDynamicStore = (storeName = 'myStore') => {
         return axios
           .post(route, sendForm)
           .then(async () => {
-            // response = getSafe(response, 'data', {})
-            // let newItems = getSafe(response, 'data')
-            // this.addData(newItems)
             this.reloadData()
             event('alert', { text: 'با موفقیت ثبت شد', color: 'green' })
             event('handleDialogForm', false)
