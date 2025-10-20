@@ -13,7 +13,7 @@
 
 <script setup>
 import { emitter } from '@/helpers/emitter'
-import { ref, Transition } from 'vue'
+import { inject, ref, Transition } from 'vue'
 
 const store = inject('store')
 
