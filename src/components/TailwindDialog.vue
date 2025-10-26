@@ -201,12 +201,12 @@ const headerRef = ref(null)
 
 // State
 const position = ref({ x: 0, y: 0 })
-const size = ref({ width: 512, height: 400 })
+const size = ref({ width: 512, height: window.innerHeight > 1080 ? window.innerHeight * 0.5 : window.innerHeight - 100 })
 const isDragging = ref(false)
 const isResizing = ref(false)
 const isMinimized = ref(false)
 const isMaximized = ref(false)
-const originalState = ref({ position: { x: 0, y: 0 }, size: { width: 512, height: 400 } })
+const originalState = ref({ position: { x: 0, y: 0 }, size: { width: 512, height: window.innerHeight > 1080 ? window.innerHeight * 0.5 : window.innerHeight - 100 } })
 
 // Animation frame for smooth updates
 let animationFrame = null
@@ -268,7 +268,7 @@ function close() {
 
 function resetDialog() {
   position.value = { x: 0, y: 0 }
-  size.value = { width: 512, height: 400 }
+  size.value = { width: 512, height: window.innerHeight > 1080 ? window.innerHeight * 0.5 : window.innerHeight - 100 }
   isMinimized.value = false
   isMaximized.value = false
 }
@@ -335,11 +335,15 @@ function startDrag(event) {
         return
       }
 
-      // Smooth constraints for normal state
-      const maxX = window.innerWidth / 2 - 150
-      const minX = -(window.innerWidth / 2) + 150
-      const maxY = window.innerHeight / 2 - 100
-      const minY = -(window.innerHeight / 2) + 100
+      // Calculate constraints to keep dialog within window bounds
+      const dialogWidth = size.value.width
+      const dialogHeight = size.value.height
+      
+      // Calculate max position based on dialog dimensions
+      const maxX = (window.innerWidth / 2) - (dialogWidth / 2)
+      const minX = -(window.innerWidth / 2) + (dialogWidth / 2)
+      const maxY = (window.innerHeight / 2) - (dialogHeight / 2)
+      const minY = -(window.innerHeight / 2) + (dialogHeight / 2)
 
       position.value = {
         x: Math.max(minX, Math.min(maxX, newX)),
