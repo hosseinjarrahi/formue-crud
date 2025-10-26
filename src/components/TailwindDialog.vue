@@ -268,7 +268,12 @@ function close() {
 
 function resetDialog() {
   position.value = { x: 0, y: 0 }
-  size.value = { width: 512, height: window.innerHeight > 1080 ? window.innerHeight * 0.5 : window.innerHeight - 100 }
+  // Ensure the initial size is within window bounds
+  const maxHeight = Math.min(
+    window.innerHeight * 0.9,
+    window.innerHeight > 1080 ? window.innerHeight * 0.5 : window.innerHeight - 100
+  )
+  size.value = { width: 512, height: maxHeight }
   isMinimized.value = false
   isMaximized.value = false
 }
@@ -297,7 +302,23 @@ function toggleMaximize() {
       size: { ...size.value }
     }
   } else {
-    position.value = { ...originalState.value.position }
+    // Restore from maximized state, but ensure the dialog stays within bounds
+    const dialogWidth = originalState.value.size.width
+    const dialogHeight = originalState.value.size.height
+    
+    // Calculate constraints with a small margin (5% of window)
+    const marginX = window.innerWidth * 0.05
+    const marginY = window.innerHeight * 0.05
+    
+    const maxX = (window.innerWidth / 2) - (dialogWidth / 2) - marginX
+    const minX = -(window.innerWidth / 2) + (dialogWidth / 2) + marginX
+    const maxY = (window.innerHeight / 2) - (dialogHeight / 2) - marginY
+    const minY = -(window.innerHeight / 2) + (dialogHeight / 2) + marginY
+    
+    position.value = {
+      x: Math.max(minX, Math.min(maxX, originalState.value.position.x)),
+      y: Math.max(minY, Math.min(maxY, originalState.value.position.y))
+    }
     size.value = { ...originalState.value.size }
   }
   isMaximized.value = !isMaximized.value
@@ -339,11 +360,14 @@ function startDrag(event) {
       const dialogWidth = size.value.width
       const dialogHeight = size.value.height
       
-      // Calculate max position based on dialog dimensions
-      const maxX = (window.innerWidth / 2) - (dialogWidth / 2)
-      const minX = -(window.innerWidth / 2) + (dialogWidth / 2)
-      const maxY = (window.innerHeight / 2) - (dialogHeight / 2)
-      const minY = -(window.innerHeight / 2) + (dialogHeight / 2)
+      // Calculate max position based on dialog dimensions with a small margin (5% of window)
+      const marginX = window.innerWidth * 0.05
+      const marginY = window.innerHeight * 0.05
+      
+      const maxX = (window.innerWidth / 2) - (dialogWidth / 2) - marginX
+      const minX = -(window.innerWidth / 2) + (dialogWidth / 2) + marginX
+      const maxY = (window.innerHeight / 2) - (dialogHeight / 2) - marginY
+      const minY = -(window.innerHeight / 2) + (dialogHeight / 2) + marginY
 
       position.value = {
         x: Math.max(minX, Math.min(maxX, newX)),
@@ -387,8 +411,26 @@ function startResize(event) {
       const deltaX = event.clientX - startX
       const deltaY = event.clientY - startY
 
-      const newWidth = Math.max(300, Math.min(window.innerWidth * 0.9, startWidth + deltaX))
-      const newHeight = Math.max(200, Math.min(window.innerHeight * 0.9, startHeight + deltaY))
+      // Calculate the dialog's current position in absolute pixels
+      const dialogCenterX = window.innerWidth / 2 + position.value.x
+      const dialogCenterY = window.innerHeight / 2 + position.value.y
+      
+      // Calculate the maximum allowed width and height based on current position
+      // to ensure the dialog stays within window bounds
+      const maxAllowedWidth = Math.min(
+        window.innerWidth * 0.9, // Max 90% of window width
+        (dialogCenterX - (window.innerWidth * 0.05)) * 2, // Distance to left edge * 2
+        ((window.innerWidth * 0.95) - dialogCenterX) * 2 // Distance to right edge * 2
+      )
+      
+      const maxAllowedHeight = Math.min(
+        window.innerHeight * 0.9, // Max 90% of window height
+        (dialogCenterY - (window.innerHeight * 0.05)) * 2, // Distance to top edge * 2
+        ((window.innerHeight * 0.95) - dialogCenterY) * 2 // Distance to bottom edge * 2
+      )
+
+      const newWidth = Math.max(300, Math.min(maxAllowedWidth, startWidth + deltaX))
+      const newHeight = Math.max(200, Math.min(maxAllowedHeight, startHeight + deltaY))
 
       size.value = { width: newWidth, height: newHeight }
     })
