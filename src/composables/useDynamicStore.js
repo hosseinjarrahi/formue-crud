@@ -62,27 +62,27 @@ const defineDynamicStore = (storeName = 'myStore') => {
 
     getters: {
       getItems(state) {
-        return (key) => getSafe(state.items, key, [])
+        return (key) => getSafe(state?.items, key, [])
       },
 
       getPaginations(state) {
-        return (key) => getSafe(state.paginations, key, [])
+        return (key) => getSafe(state?.paginations, key, [])
       },
 
       mainItems(state) {
-        return getSafe(state.items, state.mainKey, [])
+        return getSafe(state?.items, state?.mainKey, [])
       },
 
       mainPagination(state) {
-        return this.getPaginations(state.mainKey)
+        return this.getPaginations(state?.mainKey)
       },
 
       mainRoute(state) {
-        return getSafe(state.routes, state.mainKey, '')
+        return getSafe(state?.routes, state?.mainKey, '')
       },
 
       flatFields(state) {
-        let fields = getAllFields(state.fields)
+        let fields = getAllFields(state?.fields)
         fields.unshift(
           reactive({
             title: '',
