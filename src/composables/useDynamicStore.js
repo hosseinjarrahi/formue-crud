@@ -70,7 +70,8 @@ const defineDynamicStore = (storeName = 'myStore') => {
       },
 
       mainItems(state) {
-        return getSafe(state?.items, state?.mainKey, [])
+        if (state)
+          return getSafe(state?.items, state?.mainKey, [])
       },
 
       mainPagination(state) {
