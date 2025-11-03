@@ -27,7 +27,7 @@
   </component>
 
   <div class="w-full">
-    <component :is="MTable" v-bind="bind()" />
+    <component :is="tableComponent || MTable" v-bind="bind()" />
   </div>
 </template>
 
@@ -42,6 +42,7 @@ import MDialogForm from './MDialogForm.vue'
 import normalizer from '@/helpers/normalizer'
 
 const store = inject('store')
+const tableComponent = inject('tableComponent')
 
 const saveKey = inject('form.save.key')
 
