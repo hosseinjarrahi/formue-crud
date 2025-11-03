@@ -28,18 +28,20 @@
 
   <div class="w-full">
     <component :is="tableComponent || MTable" v-bind="bind()" />
+    <MTablePagination />
   </div>
 </template>
 
 <script setup>
-import { emitter } from '@/helpers/emitter'
 import MTable from './MTable.vue'
 import MTabForm from './MTabForm.vue'
 import FormCore from './FormCore.vue'
 import { inject, computed } from 'vue'
 import { get as getSafe } from 'lodash'
+import { emitter } from '@/helpers/emitter'
 import MDialogForm from './MDialogForm.vue'
 import normalizer from '@/helpers/normalizer'
+import MTablePagination from './MTablePagination.vue'
 
 const store = inject('store')
 const tableComponent = inject('tableComponent')

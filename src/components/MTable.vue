@@ -29,14 +29,12 @@
   >
     <h2 class="dark:text-muted-200 text-muted-600">{{ $fcTr('not_load_or_existing_data') }}</h2>
   </div>
-  <MTablePagination />
 </template>
 
 <script setup>
 import { onMounted, inject, ref, computed } from 'vue'
 import { initTable } from '@/helpers/tabulator'
 import { adaptor } from '@/helpers/tabulatorAdaptor'
-import MTablePagination from './MTablePagination.vue'
 
 const table = ref(null)
 
