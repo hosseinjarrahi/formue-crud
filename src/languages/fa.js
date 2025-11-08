@@ -43,5 +43,12 @@ export default {
   value: 'مقدار',
   between: 'از میان',
   not_null: 'دارای مقدار',
-  null: 'بدون مقدار'
+  null: 'بدون مقدار',
+  showing: 'نمایش',
+  of: 'از',
+  results: 'نتیجه',
+  show: 'نمایش',
+  page: 'صفحه',
+  go_to_page: 'برو به صفحه',
+  loading: 'در حال بارگذاری...'
 }

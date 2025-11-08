@@ -35,5 +35,12 @@ export default {
   filter_data: 'Filter data',
   active_filter: 'Active filter',
   not_null: 'Not Null',
-  null: 'Null'
+  null: 'Null',
+  showing: 'Showing',
+  of: 'of',
+  results: 'results',
+  show: 'Show',
+  page: 'Page',
+  go_to_page: 'Go to page',
+  loading: 'Loading...'
 }

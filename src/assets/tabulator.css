@@ -1496,7 +1496,6 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
 
 .tabulator {
   border: none;
-  border-bottom: 5px solid var(--black-tab);
 }
 
 .tabulator[tabulator-layout='fitColumns'] .tabulator-row .tabulator-cell:last-of-type {
